@@ -102,8 +102,8 @@ if (this.tempDetails && typeof this.tempDetails.first_name === 'string') {
   if (this.tempDetails.first_name.toLowerCase() === 'guest') {
     // Assign first_name based on selected language
     switch (this.lang) {
-      case 'fr':
-        this.tempDetails.first_name = 'Invité';
+      case 'tu':
+        this.tempDetails.first_name = 'Misafir';
         break;
 
       default:
@@ -240,7 +240,7 @@ if (this.tempDetails && typeof this.tempDetails.first_name === 'string') {
    async errorMSGModal() {
        const modal = await this.modalController.create({
       component: VersionMOdalPage,
-      componentProps: { 'value1': this.translate.instant('version')+ " 1.2.7", 'value': this.translate.instant('VALIDATION_MSG_BUTTON') }
+      componentProps: { 'value1': this.translate.instant('version')+ " 1.1.0", 'value': this.translate.instant('VALIDATION_MSG_BUTTON') }
     });
 
     modal.onDidDismiss();

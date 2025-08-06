@@ -54,8 +54,8 @@ export class ProfilePage implements OnInit {
         if (this.tempDetails.first_name.toLowerCase() === 'guest') {
           // Assign first_name based on selected language
           switch (this.lang) {
-            case 'fr':
-              this.tempDetails.first_name = 'Invité';
+            case 'tu':
+              this.tempDetails.first_name = 'Misafir';
               break;
 
             default:

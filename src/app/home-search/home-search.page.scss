@@ -67,11 +67,14 @@ ion-content{
 }
 
 h3{
-  margin: 0px 0 0; font-size: 25px;
+  margin: 0px 0 0; font-size: 27px;
 }
 p{
-  margin: 15px 0; font-size: 14px; line-height: 18px;
+margin: 15px 0;
+  font-size: 15px;
+  line-height: 22px;
 }
+
 ion-select{    
   font-size: 17px;
   &::part(label){  }

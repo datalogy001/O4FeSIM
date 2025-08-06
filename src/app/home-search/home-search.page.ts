@@ -82,6 +82,8 @@ export class HomeSearchPage implements OnInit {
   ngOnInit() {
 
  this.langDefault = window.localStorage.getItem('Or4esim_language');
+
+ console.log( this.langDefault);
     this.allCountriesList = window.localStorage.getItem('Or4esim_countryBundles');
 this.destinations = window.localStorage.getItem('Or4esim_destinations');
     this.destinations = JSON.parse(this.destinations);

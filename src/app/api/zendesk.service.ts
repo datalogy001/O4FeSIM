@@ -14,7 +14,7 @@ export class ZendeskService {
     if (!document.getElementById(this.scriptId)) {
       const script = document.createElement('script');
       script.id = this.scriptId;
-      script.src = 'https://static.zdassets.com/ekr/snippet.js?key=ec4ccbd7-b1ee-4741-89dd-d44b57573a11';
+      script.src = 'https://static.zdassets.com/ekr/snippet.js?key=4a86a8b2-cd55-4aea-a92f-2135478f36f5';
       script.onload = () => {
         // Initialize Zendesk with locale
         if (window['zE']) {

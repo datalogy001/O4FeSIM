@@ -49,12 +49,12 @@
     <ion-segment value="active" [(ngModel)]="selectedSegment">
       <ion-segment-button value="credit">
         <ion-label>
-          {{ 'credit'  | translate}}
+          {{ 'balance'  | translate}}
         </ion-label>
       </ion-segment-button>
       <ion-segment-button value="referrals">
         <ion-label>
-          {{ 'Referrals'  | translate}}
+          {{ 'Rewards'  | translate}}
         </ion-label>
       </ion-segment-button>
       <ion-segment-button value="help">
@@ -129,7 +129,7 @@
           </ion-button>
         </div>
         <div class="referral-history">
-          <p class="title"><img src="assets/img/icons/referral-history-dark.png" alt=""> <span>  {{ 'referral_history'  | translate}}</span>
+          <p class="title"><img src="assets/img/icons/referral-history-dark.png" alt=""> <span>  {{ 'reward_history'  | translate}}</span>
           </p>
           <div class="autoscroll" *ngIf="isReferHistory">
             <p *ngFor="let referItem of referHistory">

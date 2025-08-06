@@ -226,12 +226,15 @@ export class AddCardFpayPage implements OnInit {
     this.creditCardObj.cvv.mount('#card-cvc-element');
   }
     this.createCardIntentService();
+    console.log("HIIi");
   }
 
   //Get Secret key 
   createCardIntentService() {
+    console.log("1");
     //Service Add Card to get client secret
     this.service.createAddCardIntent(this.token).then((res: any) => {
+      console.log(JSON.stringify(res));
       if (res.code == 200) {
         this.clientSecret = res.data.client_secret;
       } else {

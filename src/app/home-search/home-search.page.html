@@ -81,9 +81,12 @@
     <ion-item lines="none">
       <ion-select  (click)="onSelectClick()" interface="popover" [(ngModel)]="selectedDays"
         label-placement="floating">
-        <ion-select-option value="7plusdays">7+ Days</ion-select-option>
-        <ion-select-option value="3to6days">3-6 Days</ion-select-option>
-        <ion-select-option  value="1to2days">1-2 Day</ion-select-option>
+        <ion-select-option *ngIf="langDefault !='tu'" value="7plusdays">7+ days</ion-select-option>
+        <ion-select-option *ngIf="langDefault !='tu'" value="3to6days">3-6 days</ion-select-option>
+        <ion-select-option *ngIf="langDefault !='tu'"  value="1to2days">1-2 day</ion-select-option>
+        <ion-select-option *ngIf="langDefault =='tu'" value="7plusdays">7+ gün</ion-select-option>
+        <ion-select-option *ngIf="langDefault =='tu'" value="3to6days">3-6 gün</ion-select-option>
+        <ion-select-option *ngIf="langDefault =='tu'" value="1to2days">1-2 gün</ion-select-option>
       </ion-select>
     </ion-item> 
 

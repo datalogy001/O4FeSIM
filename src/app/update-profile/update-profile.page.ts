@@ -277,8 +277,8 @@ if (this.profileObj && typeof this.profileObj.first_name === 'string') {
   if (this.profileObj.first_name.toLowerCase() == 'guest') {
     // Assign first_name based on selected language
     switch (this.lang) {
-      case 'fr':
-        this.profileObj.first_name = 'Invité';
+      case 'tu':
+        this.profileObj.first_name = 'Misafir';
         break;
           default:
         this.profileObj.first_name = 'Guest';
