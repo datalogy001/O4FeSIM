@@ -69,7 +69,8 @@ ion-content {
       top: 0;
       bottom: 0;
       content: "";
-      background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+      // background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+      background: rgba(157,20,23,0.5);
   }
 
   .topboxbg{
@@ -212,14 +213,14 @@ ion-button {
 
   h5 {
       margin: 12px 0;
-      color:var(--theme-color-2);
+      color:#000;
       font-weight: 300;
   }
 }
 
 /**** new css updates ****/
 .plan-expire{
-  color: var(--theme-color-2);
+  color: #000;
   text-align: center;
   font-size: 14px;
   margin: 20px 0;
@@ -240,7 +241,7 @@ ion-button {
 }
 
 .progress .track {
-  stroke: rgba(0,0,0,0.2);
+  stroke: rgba(157,20,23,0.2);
 }
 
 .progress .fill {

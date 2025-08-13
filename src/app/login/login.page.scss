@@ -22,6 +22,7 @@ ion-header{
               &::part(native){
                   padding-inline-start: 10px;
                   padding-inline-end: 0px;
+                  color: var(--theme-color-2);
               }
               &.ios{ margin-top:-5px; }
               img{
@@ -43,17 +44,17 @@ ion-list{
       --inner-border-width:0 0 0 0;
       margin: 0 0 15px;
       --background:var(--input-bg);
-      // border: 1px solid var(--theme-color-2);
+      border: 1px solid var(--input-border);
       --min-height: 46px;
 
       &:last-child{
         margin: 0 0 0px;
       }
       ion-input{
-          color: var(--theme-color-2);
+          color: var(--input-text);
       }
       ion-icon{
-          color: var(--theme-color-2);
+          color: var(--text-black);
           font-size: 20px;
           cursor: pointer;
       }
@@ -89,7 +90,7 @@ ion-row{
   &.checkrow{
       margin: 20px 0 0px;
       ion-col{
-          border:1px solid rgba(17,32,66,0.2); border-radius: 8px; 
+          border:1px solid rgba(157,20,23,0.2); border-radius: 8px; 
 
           ion-checkbox{
               padding:6px 10px;
@@ -99,7 +100,7 @@ ion-row{
 }
 
 ion-checkbox{  
-  color: var(--theme-color-2);
+  color: var(--text-black);
   
   font-size: 15px;
 
@@ -109,13 +110,13 @@ ion-checkbox{
   --checkbox-background-checked:var(--theme-color-2);
   --border-color-checked:var(--theme-color-2);
 
-  --checkmark-color:var(--theme-color-1);
+  --checkmark-color:var(--theme-color-2);
   --checkmark-width: 4;
   --checkbox-background-checked: transparent;
   --border-color-checked: transparent;
 
   &::part(label){
-    margin-inline: 12px 0; white-space: normal; color: var(--theme-color-2);
+    margin-inline: 12px 0; white-space: normal; color: var(--text-black);
   }
   &::part(container){
     width: 22px; height: 22px;
@@ -124,10 +125,10 @@ ion-checkbox{
 }
 
 .orbox{
-  margin: 40px 0px 30px; border-bottom: 1px solid var(--theme-color-2); position: relative; font-family: 'Inter'; 
+  margin: 40px 0px 30px; border-bottom: 1px solid rgba(157,20,23,0.2); position: relative; font-family: 'Inter'; 
   span{
       position: absolute; z-index: 11; left: 50%; transform: translateX(-50%); padding: 10px 15px;
-      top: -18px; background: #fff; font-size: 13px; white-space: nowrap; color: var(--theme-color-2); text-transform: uppercase;
+      top: -18px; background: #fff; font-size: 13px; white-space: nowrap; color: var(--text-black); text-transform: uppercase;
   }
 }
 
@@ -140,9 +141,9 @@ ion-checkbox{
     height: 54px;
     width: 30%;
     --border-width: 1px;
-    --border-color: rgba(17,32,66,0.2);
+    --border-color: rgba(157,20,23,0.2);
     --background:#fff;
-    --color: var(--theme-color-1);
+    --color: var(--theme-color-2);
     margin: 0 6px;
 
     &::part(native) {
@@ -155,8 +156,8 @@ ion-checkbox{
 .create-account{
   text-align: center; margin: 25px 0 0px;
   a{
-      color:var(--theme-color-2); 
-      // text-decoration: underline; 
+      color:var(--text-black); 
+      text-decoration: underline; 
       font-size: 15px; 
   }
 }
@@ -164,8 +165,8 @@ ion-checkbox{
 .forgot{
   text-align: center; margin: 5px 0 0px;
   a{
-     color:var(--theme-color-2); 
-    //  text-decoration: underline; 
+     color:var(--text-black); 
+     text-decoration: underline; 
      font-size: 15px; 
   }
 }

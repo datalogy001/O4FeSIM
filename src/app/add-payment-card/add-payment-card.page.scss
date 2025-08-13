@@ -18,17 +18,17 @@ ion-list{
     ion-item{
         --inner-border-width:0 0 0 0;
         margin: 0 0 20px;
-        --background: rgba(255,255,255,1);
-        border: 1px solid var(--theme-color-2);
+        --background: var(--input-bg);
+      border: 1px solid var(--input-border);
 
         &:last-child{
           margin: 0 0 0px;
         }
         ion-input{
-            color: var(--theme-color-2);
+            color: #000;
         }
         ion-icon{
-            color: var(--theme-color-2);
+            color: #000;
             font-size: 20px;
             cursor: pointer;
         }
@@ -40,7 +40,7 @@ ion-row{
         margin: 25px 0 0px;
         ion-col{
             // padding: 0; width: 100%;
-            border: 1px solid rgba(17,32,66,0.5); border-radius: 8px;
+             border: 1px solid #E3DBD1; border-radius: 8px; 
   
             ion-checkbox{
                 //  width: 100%;
@@ -51,7 +51,7 @@ ion-row{
 }
   
 ion-checkbox{  
-    color: var(--theme-color-2);
+    color: var(--theme-color-2); 
     font-size: 15px;
   
     --border-width:1px;
@@ -86,8 +86,9 @@ ion-row{
     margin: 20px -5px 0;
 }
     ion-card {
-        --background:var(--card-bg);
-        --color: rgba(17,32,66,0.5);
+        --background:rgba(244,235,223,0.2);
+        border: 2px solid #E3DBD1;
+        --color: #000;
         margin-inline: 0;
         box-shadow: none;
         border-radius: 16px;
@@ -161,13 +162,13 @@ ion-radio-group{
 .cardoption{
     margin-top: 30px;
     ion-radio{
-        background-color: #101026;
+        background-color: var(--input-bg);
         padding: 15px 15px;
         display: block;
         border-radius: 10px;
         margin: 0 0 15px;
-        border: 1px solid #181839;
-        color: #fff;
+        border: 1px solid var(--input-border);
+      color: #000;
         font-size: 15px;
 
         img{
@@ -194,10 +195,9 @@ ion-radio{
         &::part(container){
           background: var(--theme-color-2); border-color: var(--theme-color-2);
         }
-        &::part(mark){ background: var(--theme-color-1);}
+        &::part(mark){ background: var(--theme-color-2);}
     }
 }
-
 
 ion-button{
     &.add-card{

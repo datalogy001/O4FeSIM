@@ -4,7 +4,7 @@ ion-header{
         --background:transparent;
         ion-title{
             .ftel-logo{
-                width: 160px;
+                width: 90px;
                 margin:12px 0px 0px;
             }
         }
@@ -39,7 +39,7 @@ ion-content {
     width: 100%;
     padding-bottom: 30px;
     // background:url("../../assets/img/profilebg.png") no-repeat center bottom / cover;
-    background-color: rgba(17,32,66,0.7);
+    background-color: rgba(157,20,23,0.4);
     position: relative;
 
     ion-item{
@@ -104,14 +104,14 @@ ion-content {
 /*************/
 ion-segment{
     justify-content: center;
-    //   border-bottom:1px solid var(--segment-border);
+    border-bottom: 1px solid #E3DBD1;
       position: relative;
       margin-top: 0px;
   
     ion-segment-button{
       --background:transparent;
       --background-checked:transparent;
-      --color:rgba(17,32,66,0.5);
+      --color:#E3DBD1;
       --color-checked:var(--theme-color-2);
       --indicator-height:0;
       border-radius: 0px;  
@@ -185,7 +185,7 @@ ion-segment{
     margin: 10px 0 0;
 
     h2{
-        color: var(--theme-color-2);
+        color: #000;
     }
 }
 
@@ -194,7 +194,7 @@ ion-segment{
     margin: 10px 0 0;
 
     h2{
-        color: var(--theme-color-1);
+        color: #000;
     }
 }
 
@@ -206,7 +206,7 @@ ion-button{
 
     &.button-outline{
         --color: var(--theme-color-1);
-  	--border-color: var(--theme-color-2);
+  	// --border-color: var(--theme-color-2);
     }
 
     &.btn-redeem{
@@ -220,9 +220,9 @@ ion-button{
 .credit-history{
     margin: 30px 0 10px;
     p{
-        margin: 0 0 10px; font-weight: 300; font-size: 16px; color: var(--theme-color-2);
+        margin: 0 0 10px; font-weight: 300; font-size: 16px; color: #000;
         &.title{
-            font-weight: 700; font-size: 15px; margin: 0 0 15px;
+            font-weight: 700; font-size: 15px; margin: 0 0 15px; color: var(--theme-color-2);
             img{ width: 18px; display: inline-block; vertical-align: middle; margin-right: 8px; }
             span{ display: inline-block; vertical-align: middle; }
         }
@@ -261,7 +261,7 @@ ion-button{
     text-align: center;
 }
 .help p{
-    margin: 0 0 25px; font-weight: 300; font-size: 17px; color: var(--theme-color-2);
+    margin: 0 0 25px; font-weight: 300; font-size: 17px; color:#000;
 }
 .nohistory{
     margin: 20px auto 10px; text-align: center;
@@ -269,7 +269,7 @@ ion-button{
         width: 80px; display: inline-block; opacity:1; margin: 0 0 5px;
     }
     p{
-        opacity: 1; color: var(--theme-color-2);
+        opacity: 1; color: #000;
     }
 }
 

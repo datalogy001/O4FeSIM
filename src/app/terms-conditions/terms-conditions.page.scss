@@ -3,7 +3,7 @@ ion-header{
       height: 95px;
       ion-title{
           .ftel-logo{
-              width: 160px;
+              width: 95px;
               margin:7px 0px 0px;
           }
       }
@@ -24,14 +24,14 @@ ion-content {
 }
 
 p{
-  font-size: 13px; line-height: 20px; color: var(--theme-color-2); margin: 0px 0 10px;  font-family: 'Inter'; font-weight: 400;
+  font-size: 13px; line-height: 20px; color: #000; margin: 0px 0 10px;  font-family: 'Inter'; font-weight: 400;
   strong{
     font-weight: 700;
   }
 }
 ul{ margin: 0 0 0 15px; padding: 0 0 0; list-style-type: disc;
   li{
-    color: var(--theme-color-2); font-size: 14px;  font-family: 'Inter'; font-weight: 400;
+    color: #000; font-size: 14px;  font-family: 'Inter'; font-weight: 400;
   }
 }
 

@@ -46,7 +46,7 @@ ion-header {
   }
   ion-button{
       font-size: 22px;
-      color: var(--theme-gray);
+      color: #fff;
       display: inline-block;
       min-height: auto;
       height: auto;
@@ -67,7 +67,8 @@ ion-header {
 
     &::after{
       position: absolute; z-index: 1; top: 0; right: 0; bottom: 0; left: 0; content: "";
-      background: linear-gradient(to bottom,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 50%);
+      // background: linear-gradient(to bottom,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 50%);
+      background: rgba(157,20,23,0.5);
     }
     .topboxbg{
       position: absolute; z-index: -1; left: 0; right: 0; top: 0; bottom: 0; content: "";
@@ -188,19 +189,19 @@ ion-card{
   }
 
   &.mega-data{
-    .day{  color: var(--theme-color-2); }  
-    .price{ color: var(--theme-color-2); }
-    .info{ color: var(--theme-color-2); }
-    .arrow{ color: var(--theme-color-1); }
+    .day{  color: var(--text-black); }  
+    .price{ color: var(--text-black); }
+    .info{ color: var(--text-black); }
+    .arrow{ color: var(--theme-color-2); }
   }
 
   &.value-data{
-    .data{ color: var(--theme-color-2); font-weight: 600; }
-    .price{ color: var(--theme-color-2); }
-    .info{ color:var(--theme-color-2); }
-    .info span{ color: var(--theme-color-2);}
+    .data{ color: var(--text-black); font-weight: 600; }
+    .price{ color: var(--text-black); }
+    .info{ color:var(--text-black); }
+    .info span{ color: var(--text-black);}
     h4{ font-weight: 600;}
-    .arrow{ color: var(--theme-color-1); }
+    .arrow{ color: var(--theme-color-2); }
   }
   
 }

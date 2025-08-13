@@ -42,7 +42,7 @@ body {
 }
 
 a { text-decoration: none; color: var(--theme-color-2); }
-p{ font-size: 15px; color:var(--theme-color-2); }
+p{ font-size: 15px; color:#000; }
 h3{ font-family: 'Roboto'; font-weight: 700; color: var(--theme-color-2); }
 
 .text-center  { text-align: center;}
@@ -84,14 +84,14 @@ ion-header {
           }
           p{
             margin: 0 0 0; font-size: 16px; font-family: 'Roboto'; font-weight: 400; white-space: normal;
-            color: var(--theme-color-2);
+            color: var(--text-black);
           }
       }
 
       ion-buttons{
           ion-button{
               font-size:22px; 
-              color: var(--theme-color-1); 
+              color: var(--theme-color-2); 
               display: inline-block;                
 
               &.button-clear {
@@ -183,13 +183,16 @@ ion-button {
     --color:var(--button-secondary-text);
   }
 
-  &.button-outline{
-      --color:var(--theme-color-2);
-      --border-color:var(--theme-color-2);
+  &.button-outline {
+    --color: #9D1417;
+    --border-color: rgba(157, 20, 23, 0.2);
   }
   &::part(native){
   }
 }
+
+
+
 ion-item{ 
   border-radius: 8px;
 }
@@ -212,7 +215,7 @@ ion-textarea{
   --padding-top:12px;
 }
 ion-select{
-  &::part(icon){ color: var(--theme-color-1); }
+  &::part(icon){ color: #000; }
 }
 
 /*************************************/
@@ -240,7 +243,7 @@ ion-footer {
           border-radius: 12px 12px 0 0;
           --min-height: 60px;
           // background: var(--theme-footer-bg);
-          background: rgba(13,13,32,0.9);
+          background: rgba(157,20,23,90);
   
           ion-button {
               --padding-start: 10px;
@@ -255,7 +258,7 @@ ion-footer {
               }
       
               img { /*width: 18px;*/ height: 26px; }      
-              img.normal { display: inline-block; }
+              img.normal { display: inline-block; filter: brightness(0.8); }
               img.active { display: none; }
       
               &.selected {      
@@ -316,7 +319,7 @@ ion-alert{
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 16px;
-    color: #0d0d20;
+    color: 000;
   }
   .alert-radio-group.sc-ion-alert-md{
     border-top: inherit;
@@ -364,11 +367,13 @@ ion-alert{
   height: 48px;
 
   &.save {
-    background-color: var(--theme-color-1) !important;
+    background-color: var(--theme-color-2) !important;
   }
   &.cancel {
-    background-color: var(--theme-color-2) !important;
+    background-color: #fff !important;
     color: #fff !important;
+    color: #9D1417 !important;
+    border-color: rgba(157, 20, 23, 0.2);
   }
   &.secondary {
     background-color: #0D0D20 !important;
@@ -377,7 +382,7 @@ ion-alert{
 }  
 .alert-button-group.sc-ion-alert-md {
   .alert-button.sc-ion-alert-md:first-child {
-    background-color: var(--theme-color-2); color: #fff;
+    background-color: var(--theme-gray); color: #000;
   }
 }  
 
@@ -405,19 +410,20 @@ ion-alert{
   padding-inline-end: 55px;
   height: 56px;
   border-radius: 10px;
-  color: var(--theme-color-2);
-  // border: 1px solid var(--theme-color-2);
+  color: #000;
+  border: 1px solid var(--input-border);
   font-size: 17px;
-  background: #e7e9ec;
+  background:var(--input-bg);
+  
 }
 .searchbar-search-icon.sc-ion-searchbar-md{
-   top: 20px; color: var(--theme-color-1);
+   top: 20px; color: #000;
 }
 .searchbar-search-icon.sc-ion-searchbar-ios {
-  color: var(--theme-color-1);
+  color: #000;
 }
 .searchbar-has-value.searchbar-should-show-clear.sc-ion-searchbar-md-h .searchbar-clear-button.sc-ion-searchbar-md {
-  color: var(--theme-color-1);
+  color: #000;
 }
 .sc-ion-searchbar-md-h{
   --placeholder-opacity:1.0; --box-shadow:none;
@@ -641,8 +647,9 @@ app-push-notification {
 
 
 ion-modal {
-  --background: transparent;
-  --backdrop-opacity: 0.7;
+  // --background: transparent;
+  --background:rgba(157,20,23,0.4);
+  --backdrop-opacity: 0.4;
 
   .ion-page{
     border-radius: 12px; 
@@ -653,10 +660,10 @@ ion-modal {
     ion-toolbar {
       --padding-start: 10px;
       --padding-end: 10px;
-      --background:var(--theme-color-2);
+      --background:var(--modal-bg);
       border-radius: 16px 16px 0 0;
       height: 60px;
-      color: #fff;
+      color: var(--theme-color-2);
 
       ion-buttons{
         ion-button{
@@ -670,7 +677,8 @@ ion-modal {
   }
 
   ion-content{
-    --background:var(--theme-color-2);
+    // --background:var(--theme-color-2);
+    --background:var(--modal-bg);
     &::part(background){ border-radius:0 0 12px 12px; }
     color: #fff;
   }
@@ -986,11 +994,11 @@ ion-range {
 
 /******************** Accordion */
 ion-accordion.accordion-animated > [slot="header"] .ion-accordion-toggle-icon {
-  font-size: 16px; color: var(--theme-color-1);
+  font-size: 16px; color: #000;
 }
 
 ion-accordion.accordion-expanded > [slot="header"] .ion-accordion-toggle-icon {
-  color: var(--theme-color-1);
+  color: #000;
 }
 
 
@@ -1004,7 +1012,7 @@ ion-datetime {
       width: 2.7rem;
 
       &::part(native) {
-        color: #444;
+        color: var(--theme-color-2);
       }
     }
   }
@@ -1171,12 +1179,12 @@ ion-popover{
 }
 ion-list.sc-ion-select-popover-md ion-radio.sc-ion-select-popover-md::part(container){ 
   opacity: 1; 
-  background-color: var(--theme-gray);
-  border-color:var(--theme-gray);
+  background-color: #fff;
+  border-color:#E3DBD1;
 }
 ion-list.sc-ion-select-popover-md ion-radio.radio-checked.sc-ion-select-popover-md::part(container){ 
-  background-color: var(--theme-color-1);
-  border-color:var(--theme-color-1);
+  background-color: var(--theme-color-2);
+  border-color:var(--theme-color-2);
 }
 ion-list.sc-ion-select-popover-md ion-radio.sc-ion-select-popover-md::part(mark){
   background: var(--theme-color-1);

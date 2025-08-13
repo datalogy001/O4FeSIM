@@ -266,7 +266,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#F4EBDF');
+      this.statusBar.backgroundColorByHexString('#FFFFFF');
       this.detectLanguage();
     });
     //Check internet connection 

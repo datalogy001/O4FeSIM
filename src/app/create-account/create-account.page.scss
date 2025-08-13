@@ -23,6 +23,7 @@ ion-header{
                 &::part(native){
                     padding-inline-start: 10px;
                     padding-inline-end: 0px;
+                    color: var(--theme-color-2);
                 }
                 &.ios{ margin-top:-5px; }
                 img{
@@ -45,26 +46,26 @@ ion-list{
         --inner-border-width:0 0 0 0;
         margin: 0 0 12px;
         --background:var(--input-bg);
-        // border: 1px solid var(--theme-color-2);
+        border: 1px solid var(--input-border);
         --min-height: 46px;
 
         &:last-child{
           margin: 0 0 0px;
         }
         ion-input{
-            color: var(--theme-color-2);
+            color: var(--input-text);
         }
         ion-icon{
-            color: var(--theme-color-2);
+            color: var(--text-black);
             font-size: 20px;
             cursor: pointer;
         }
         &.reffercode{
-            --background:#DFF2FF;
-            border:1px solid rgba(0,240,181,0.2);
+            --background:rgba(244,235,223,0.2);
+            border:1px solid #E3DBD1;
 
             ion-input{ 
-                color: var(--theme-color-2);
+                color: var(--text-black);
             }
         }
     }
@@ -88,13 +89,13 @@ ion-row{
             &:last-child{ padding-left: 5px; }
 
             .checkdiv{
-                border: 1px solid rgba(17,32,66,0.2); border-radius: 8px; padding: 10px 8px 10px 8px; display: flex; justify-content: flex-start; align-items: center;
+                border:1px solid rgba(157,20,23,0.2); border-radius: 8px; padding: 10px 8px 10px 8px; display: flex; justify-content: flex-start; align-items: center;
                 min-height: 44px;
                 ion-checkbox{ }
                 span{
                     margin-left: 10px; 
                     font-size: 12px; 
-                    color: var(--theme-color-2); 
+                    color: var(--text-black); 
                     // font-family: "Inter"; 
 		            font-weight: 100; 
                     cursor: pointer;                    
@@ -109,7 +110,7 @@ ion-row{
 ion-checkbox{
     // font-family: 'Roboto'; 
     // font-weight: 100; 
-    color: var(--theme-color-2); 
+    color: var(--text-black);
     font-size: 15px;
 
     --border-width:1px;
@@ -118,13 +119,13 @@ ion-checkbox{
     --checkbox-background-checked:var(--theme-color-2);
     --border-color-checked:var(--theme-color-2);
   
-    --checkmark-color:var(--theme-color-1);
+    --checkmark-color:var(--theme-color-2);
     --checkmark-width: 4;
     --checkbox-background-checked: transparent;
     --border-color-checked: transparent;
 
     &::part(label){
-        margin-inline: 8px 0; white-space: normal;
+        margin-inline: 8px 0; white-space: normal; color: var(--text-black);
         // word-wrap: break-word; word-break: break-all;
     }
     &::part(container){
@@ -145,10 +146,10 @@ ion-button{
 }
 
 .orbox{
-    margin: 30px 0px 30px; border-bottom: 1px solid var(--theme-color-2); position: relative; font-family: 'Inter'; 
+    margin: 30px 0px 30px; border-bottom: 1px solid rgba(157,20,23,0.2); position: relative; font-family: 'Inter'; 
     span{
         position: absolute; z-index: 11; left: 50%; transform: translateX(-50%); padding: 10px 15px;
-        top: -18px; background: #fff; font-size: 13px; white-space: nowrap; color: var(--theme-color-2); text-transform: uppercase;
+        top: -18px; background: #fff; font-size: 13px; white-space: nowrap; color: var(--text-black); text-transform: uppercase;
     }
 }
 
@@ -161,9 +162,9 @@ ion-button{
         height: 54px;
         width: 30%;
         --border-width: 1px;
-        --border-color: rgba(17,32,66,0.2);
+        --border-color: rgba(157,20,23,0.2);
         --background:#fff;
-        --color: var(--theme-color-1);        
+        --color: var(--theme-color-2);        
         margin: 0 6px;
     }
 }
@@ -171,7 +172,7 @@ ion-button{
 .create-account{
     text-align: center; margin: 25px 0 0px;
     a{
-        color: var(--theme-color-2); 
+        color:var(--text-black); 
         // text-decoration: underline; 
         font-size: 15px; 
     }
@@ -179,7 +180,7 @@ ion-button{
 .text {
     margin: 15px 0 0px;
     font-size: 12px;
-    color: var(--theme-color-2); 
+    color:var(--text-black);
     line-height: 20px;
 }
   

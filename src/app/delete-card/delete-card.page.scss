@@ -9,7 +9,7 @@ ion-content{
     color: var(--theme-content-bg);
 }
 p{
-    color: #fff; text-align: center; margin: 10px 0 20px; font-size: 14px;
+    color: #000; text-align: center; margin: 10px 0 20px; font-size: 14px;
 }
 
 .btn-div{
@@ -30,8 +30,8 @@ p{
         font-weight: 500;
     }
     ion-button.button-outline {
-        --color: #fff;
-        --border-color:#fff;
+        --color: var(--theme-color-2);
+        --border-color:var(--theme-color-2);
         
       }
       ion-button.btn-delete {

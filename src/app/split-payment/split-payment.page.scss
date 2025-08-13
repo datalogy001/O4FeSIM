@@ -52,7 +52,7 @@ ion-button{
     justify-content: space-between;
     align-items: center;
     font-size: 16px;
-    color: var(--theme-color-2);
+    color: #000;
     padding: 0 10px;
 
     .price{
@@ -84,7 +84,7 @@ h5{
 }
 .select-method{
     margin: 50px 0 20px;
-    color: var(--theme-color-2);
+    color: #000;
 }
 p{
     color: #fff; font-size: 15px;
@@ -189,7 +189,7 @@ swiper-container{
         border-radius: 10px;
         margin: 0 0 15px;
         // border: 1px solid var(--item-border);
-        color: var(--theme-gray);
+        color: #000;
         font-size: 15px;
   
         img{
@@ -208,8 +208,8 @@ swiper-container{
       --color-checked:var(--theme-color-2);
   
       &::part(container){ 
-          background: var(--theme-gray); width: 24px; height: 24px; border-radius: 50%; 
-          border-color: var(--theme-gray);
+          background: var(--radio-bg); width: 24px; height: 24px; border-radius: 50%; 
+          border-color: var(--radio-border);
       } 
   
       &::part(mark){ height: 53%; background: var(--theme-color-2);}

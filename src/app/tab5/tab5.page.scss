@@ -4,7 +4,7 @@ ion-header{
         --background:transparent;
         ion-title{
             .ftel-logo{
-                width: 160px;
+                width: 90px;
                 margin:12px 0px 0px;
             }
         }
@@ -22,7 +22,7 @@ ion-header{
                 }
                 span{
                     position: absolute; z-index: 11; right: -6px; top: -5px; width: 18px; height: 18px; border-radius: 50%;
-                    background-color: var(--theme-color-1); color: #fff; font-size: 10px; text-align: center; 
+                    background-color: var(--theme-color-2); color: #fff; font-size: 10px; text-align: center; 
                     font-family: 'Inter'; font-weight: 700; line-height: 18px;
                 }
             }
@@ -104,16 +104,16 @@ ion-item{
     --inner-padding-end: 0px;
     --background:transparent;
     ion-label{
-        color: var(--theme-color-2); 
+        color: var(--text-black); 
         font-size: 17px;
         margin-top: 0px; 
         margin-bottom: 0px;
         font-weight: 400;
     }
-    span {color: var(--theme-color-2); }
+    span {color: var(--text-black); }
     
     [slot="end"]{
-        color: var(--theme-color-2);
+        color: var(--text-black);
         margin-top:0;
         margin-bottom:0;
         font-size: 18px;
@@ -125,6 +125,12 @@ ion-item{
     &::part(detail-icon){ display: none;}
     &.deleteacc{
         ion-label{ color:#d8322b; }
+    }
+
+    &.profilerow{
+        ion-label{
+            color: var(--theme-color-2); 
+        }
     }
 }
 
@@ -169,6 +175,7 @@ iframe[title="Message from company"] {
 iframe[title="Number of unread messages"] {
     display: none !important;
 }
+
 
 
 

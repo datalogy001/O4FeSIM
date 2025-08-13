@@ -37,18 +37,18 @@ ion-content{
     position: relative;
 
     &::before{
-        position: fixed; z-index: -1; left: 0; right: 0; top: 0px; bottom: 0; content: ""; background-color: rgba(17,32,66,0.5);
+        position: fixed; z-index: -1; left: 0; right: 0; top: 0px; bottom: 0; content: ""; background-color: rgba(157,20,23,0.3);
     }
 }
 h3{
-    color: #fff; 
+    color: var(--theme-color-2); 
     font-size: 32px;
     line-height: 40px;
     margin: 0 0 20px;
     text-align: center;
 }
 p{
-    color: #fff; 
+    color: #000; 
     font-family: 'Roboto';  
     font-weight: 400; 
     text-align: center;

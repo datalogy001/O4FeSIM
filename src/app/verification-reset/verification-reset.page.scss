@@ -14,6 +14,7 @@ ion-header{
                 &::part(native){
                     padding-inline-start: 10px;
                     padding-inline-end: 15px;
+                    color: var(--theme-color-2);
                 }
                 &.ios{ margin-top:-5px; }
             }
@@ -38,6 +39,7 @@ ion-content{
         border-radius: 8px;
         margin: 0 10px;
         background: var(--input-bg);
+        border: 1px solid var(--input-border);
         // &:first-child{ margin-left: 0;}
         // &:last-child{ margin-right: 0;}
     }
@@ -49,7 +51,7 @@ ion-content{
 .text {
     margin: 30px 0 0px;
     font-size: 14px;
-    color: var(--theme-color-2); 
+    color: var(--text-black); 
 }
 
 .list-md{ 
@@ -96,10 +98,10 @@ ion-button{
 }
 
 .orbox{
-    margin: 25px 0px 25px; border-bottom: 1px solid var(--theme-color-2); position: relative; font-family: 'Inter'; 
+    margin: 25px 0px 25px; border-bottom: 1px solid rgba(157,20,23,0.2); position: relative; font-family: 'Inter'; 
     span{
         position: absolute; z-index: 11; left: 50%; transform: translateX(-50%); padding: 10px 15px;
-        top: -18px; background: #fff; font-size: 15px; white-space: nowrap; color: var(--theme-color-2); text-transform: uppercase;
+        top: -18px; background: #fff; font-size: 15px; white-space: nowrap; color: var(--text-black); text-transform: uppercase;
     }
 }
   

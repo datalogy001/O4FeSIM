@@ -10,7 +10,7 @@ ion-content {
 }
 
 .container{
-  position: relative; color: #fff; padding: 20px;
+  position: relative; padding: 20px;
 
   &::after{
     position: absolute; z-index: 111; left: 0; right: 0; top: -20px; background-color: #fff; height: 20px; border-radius: 12px 12px 0 0; 
@@ -23,11 +23,11 @@ h3{
 }
 
 p{
-  margin: 15px 0; font-size: 14px; line-height: 18px; color: var(--theme-color-2);
+  margin: 15px 0; font-size: 14px; line-height: 18px; color: #000;
 
   &.install{
     a{
-        color: var(--theme-color-2);
+        color: #000;
     }
   }
 }

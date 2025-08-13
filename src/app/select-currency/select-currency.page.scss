@@ -3,7 +3,7 @@ ion-header{
       height: 95px;
       ion-title{
           .ftel-logo{
-              width: 160px;
+              width: 95px;
               margin:7px 0px 0px;
           }
       }
@@ -22,7 +22,7 @@ ion-content {
 }
 
 h4{
-  color: var(--theme-color-2); margin: 10px 0 20px; font-size: 20px; font-weight: 400;
+  color: #000; margin: 10px 0 20px; font-size: 20px; font-weight: 400;
 }
 
 ion-radio-group{
@@ -36,7 +36,6 @@ ion-radio{
   border-radius: 10px;
   margin: 0 0 20px;
   // border: 1px solid var(--item-border);
-  color: var(--theme-color-2);
   font-size: 15px;  
 
   img{
@@ -45,32 +44,33 @@ ion-radio{
   }
 
   &::part(container){ 
-    background: var(--theme-gray); width: 24px; height: 24px; border-radius: 50%; 
-    border-color: var(--theme-gray);
+    background: #FDFBF9; width: 24px; height: 24px; border-radius: 50%; 
+    border-color: #E3DBD1;
   } 
 
   &::part(mark){ height: 53%; background: var(--theme-color-2);}
 
   &.radio-checked{
-    color:var(--theme-color-2);
+    color:#000;
     .currency{
-        background-color: #fff;
+        background-color: var(--theme-color-2); color: #fff;
     }
     &::part(container){
       background: var(--theme-color-1); border-color: var(--theme-color-1);
     }
     &::part(mark){ background: var(--theme-color-1);}
   }
+  
 
 }
 
 ion-radio{
-    --color: var(--theme-color-2);
+    color: rgba(0,0,0,0.5);
     --color-checked:var(--theme-color-2);
 }
 
 .currency{
-  background-color: #fff; padding: 3px 6px; border-radius: 4px; color: var(--theme-color-1); font-weight:900;
+  background-color: var(--theme-color-1); padding: 3px 6px; border-radius: 4px; color: #fff; font-weight:900;
   font-size: 11px; display: inline-block; margin-right: 7px;
 }
 

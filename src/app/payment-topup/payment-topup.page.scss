@@ -11,7 +11,7 @@ ion-content {
 }
 
 p{
-    color: var(--theme-color-2);
+    color: #000;
 }
 
 .cardoption{
@@ -23,8 +23,8 @@ p{
         display: block;
         border-radius: 10px;
         margin: 0 0 15px;
-        // border: 1px solid var(--item-border);
-        color: var(--theme-gray);
+        border: 1px solid var(--input-border);
+        color: #000;
         font-size: 15px;
 
         img{
@@ -34,7 +34,7 @@ p{
             &.gpay{ width: 30px;}
         } 
         &.radio-checked{
-          color: var(--theme-color-2);
+          color: #000;
         }       
     }
 }
@@ -45,8 +45,8 @@ ion-radio{
     display: block;
     border-radius: 10px;
     margin: 0 0 15px;
-    // border: 1px solid var(--item-border);
-    color: var(--theme-gray);
+    border: 1px solid var(--input-border);
+    color: #000;
     font-size: 15px;
 
     img{
@@ -57,18 +57,18 @@ ion-radio{
     }        
 
     &::part(container){ 
-        background: var(--theme-gray); width: 24px; height: 24px; border-radius: 50%; 
-        border-color: var(--theme-gray);
+        background:var(--radio-bg); width: 24px; height: 24px; border-radius: 50%; 
+        border-color: var(--radio-border);
     } 
 
     &::part(mark){ height: 53%; background: var(--theme-color-2);}
 
     &.radio-checked{
-      color: var(--theme-color-2);
+      color: #000;
         &::part(container){
-          background: var(--theme-color-1); border-color: var(--theme-color-1);
+          background: var(--theme-color-2); border-color: var(--theme-color-2);
         }
-        &::part(mark){ background: var(--theme-color-1);}
+        &::part(mark){ background: var(--theme-color-2);}
     }
 }
 
@@ -93,7 +93,7 @@ ion-row{
             margin: 0 0 0;
         }
         h3{ 
-            color: var(--theme-color-2);
+            color: #000;
             font-weight: 700;
             font-size: 25px;
             line-height: 28px; 
@@ -131,8 +131,9 @@ ion-row{
 }
 
 ion-card {
-    --background:var(--card-bg);
-    --color: rgba(17,32,66,0.5);
+    --background:rgba(244,235,223,0.2);
+    border: 2px solid #E3DBD1;
+    --color: #000;
     margin-inline: 0;
     box-shadow: none;
     border-radius: 16px;

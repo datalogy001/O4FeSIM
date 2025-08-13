@@ -6,7 +6,7 @@ ion-header {
 }
 
 p{
-    color: #fff; text-align: center; margin: 10px 0 20px; font-size: 14px;
+    color: #000; text-align: center; margin: 10px 0 20px; font-size: 14px;
 }
 
 .btn-div{
@@ -32,6 +32,10 @@ p{
         --background:var(--theme-color-1);     
         --color: #fff;
         font-weight: 500;
+    }
+    .button-outline {
+        --color: var(--theme-color-2);
+        --border-color: var(--theme-color-2);
     }
 }
 
