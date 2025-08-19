@@ -6,10 +6,10 @@
     }    
 }
 h2{
-    color: #fff; font-size: 46px; margin: 0 0 10px; font-weight: 700;  text-align: center;
+    color: var(--theme-color-2); font-size: 46px; margin: 0 0 10px; font-weight: 700;  text-align: center;
 }
 p{
-    color: #fff; margin: 0 0 5px; text-align: center; font-size: 13px; font-weight: 300;
+    color: #000; margin: 0 0 5px; text-align: center; font-size: 13px; font-weight: 300;
     strong{
         font-weight: 500;
     }

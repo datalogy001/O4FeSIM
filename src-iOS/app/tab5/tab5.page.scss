@@ -5,7 +5,7 @@ ion-header{
         --background:transparent;
         ion-title{
             .ftel-logo{
-                width: 160px;
+                width: 90px;
                 margin:12px 0px 0px;
             }
         }
@@ -23,7 +23,7 @@ ion-header{
                 }
                 span{
                     position: absolute; z-index: 11; right: -6px; top: -5px; width: 18px; height: 18px; border-radius: 50%;
-                    background-color: var(--theme-color-1); color: #fff; font-size: 10px; text-align: center; 
+                    background-color: var(--theme-color-2); color: #fff; font-size: 10px; text-align: center; 
                     font-family: 'Inter'; font-weight: 700; line-height: 18px;
                 }
             }
@@ -105,16 +105,16 @@ ion-item{
     --inner-padding-end: 0px;
     --background:transparent;
     ion-label{
-        color: var(--theme-color-2); 
+        color: var(--text-black); 
         font-size: 17px;
         margin-top: 0px; 
         margin-bottom: 0px;
         font-weight: 400;
     }
-    span {color: var(--theme-color-2); }
+    span {color: var(--text-black); }
     
     [slot="end"]{
-        color: var(--theme-color-2);
+        color: var(--text-black);
         margin-top:0;
         margin-bottom:0;
         font-size: 18px;
@@ -126,6 +126,12 @@ ion-item{
     &::part(detail-icon){ display: none;}
     &.deleteacc{
         ion-label{ color:#d8322b; }
+    }
+
+    &.profilerow{
+        ion-label{
+            color: var(--theme-color-2); 
+        }
     }
 }
 
@@ -190,14 +196,16 @@ and (-webkit-min-device-pixel-ratio: 2){
     
     ion-header ion-toolbar {height: auto; }
     ion-header ion-toolbar.titlebar ion-title h3 {  line-height: 56px; }
-    ion-header ion-toolbar ion-title .ftel-logo{ width: 260px;}
+    ion-header ion-toolbar ion-title .ftel-logo{ width: 160px;}
     ion-header ion-toolbar ion-buttons ion-button img{ width: 38px; }
     ion-header ion-toolbar ion-buttons ion-button span{ top: -7px; right: -7px; width: 28px; height: 28px; font-size: 16px; line-height: 28px; }
     ion-header ion-toolbar [slot="end"] { margin-inline-end: 20px;  margin-top: 10px; }
 
     ion-item {  margin: 0 0 10px; --padding-start: 5px; --inner-padding-end: 5px; }
     ion-item ion-label { font-size: 25px; }
-    // .pagecontent{ height: calc(100% - 210px); }
+    .pagecontent{ 
+        //height: calc(100% - 210px); overflow-y: auto; 
+    }
     .btn-log ion-button.btn-chat { margin: 0 0 20px; }
     .topbox ion-item ion-avatar {
         width: 75px; height: 75px;

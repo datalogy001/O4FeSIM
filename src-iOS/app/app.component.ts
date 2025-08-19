@@ -17,8 +17,7 @@ import { Market } from '@ionic-native/market/ngx';
 import {UpdateAppPage} from '../app/update-app/update-app.page'
 import {Device} from '@ionic-native/device/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
-import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
+
 
 register();
 @Component({
@@ -261,7 +260,7 @@ export class AppComponent {
   }
 
   
-  constructor(private firebaseCrashlytics: FirebaseCrashlytics,private firebaseAnalytics: FirebaseAnalytics,private statusBar: StatusBar, private navController: NavController, private market: Market,private translate: TranslateService, private toastController: ToastController,private network: Network, private modalController: ModalController, private http: HttpClient, private alertController: AlertController, private platform: Platform, private apiService: ServicesService, private router: Router) {
+  constructor(private statusBar: StatusBar, private navController: NavController, private market: Market,private translate: TranslateService, private toastController: ToastController,private network: Network, private modalController: ModalController, private http: HttpClient, private alertController: AlertController, private platform: Platform, private apiService: ServicesService, private router: Router) {
   
     this.todaysDate = moment().format('YYYY-MM-DD');
 
@@ -377,15 +376,7 @@ export class AppComponent {
   }
 
     ngOnInit() {
-      this.platform.ready().then(() => {
-        this.firebaseAnalytics.logEvent('app_open', {})
-          .then(() => {
-            console.log('[FirebaseAnalytics] Event "app_open" logged successfully');
-          })
-          .catch(err => {
-            console.error('[FirebaseAnalytics] Failed to log event "app_open":', err);
-          });
-      });
+    
     }
 
   AppUpdatesCommonFun() {

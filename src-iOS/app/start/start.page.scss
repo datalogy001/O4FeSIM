@@ -24,7 +24,7 @@ ion-content{
     position: relative;
 
     &::before{
-        position: fixed; z-index: -1; left: 0; right: 0; top: 0px; bottom: 0; content: ""; background-color: rgba(17,32,66,0.5);
+        position: fixed; z-index: -1; left: 0; right: 0; top: 0px; bottom: 0; content: ""; background-color: rgba(180,23,30,0.4);
     }
 }
 
@@ -57,7 +57,7 @@ p{
 .signin{
     margin: 15px 0 0;
     a{
-        text-decoration: underline; font-size: 15px; color: #fff;
+        text-decoration: underline; font-size: 15px; color: #F4EBDF;
     }
 }
 

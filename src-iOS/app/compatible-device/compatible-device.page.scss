@@ -1,9 +1,10 @@
 ion-header{
   ion-toolbar{
-      height:160px;
+      height:145px;
+      --min-height:145px;
       ion-title{
           .ftel-logo{
-              width: 160px;
+              width: 95px;
               margin:12px 0px 0px;
           }
       }
@@ -76,23 +77,23 @@ ion-accordion-group{
           --background:var(--item-bg);
           --min-height:60px;
           ion-label{
-              font-size: 15px; white-space: normal; color: var(--theme-color-2);
+              font-size: 15px; white-space: normal; color: #000;
           }
           ion-icon{
               font-size: 18px;
           }
-          &::part(native){ background: var(--input-bg); /*border: 1px solid var(--item-border);*/ color: #fff; border-radius: 10px; }
+          &::part(native){ background: var(--input-bg); border: 1px solid var(--input-border); color: #000; border-radius: 10px; }
       }
       &.accordion-expanded{
           ion-item{
-              &::part(native){ background: var(--input-bg); /*border: 1px solid var(--theme-color-2);*/ }
-              ion-label{ color: var(--theme-color-2); }
+              &::part(native){ background: var(--input-bg);  border: 1px solid var(--input-border); }
+              ion-label{ color: #000; }
           }
       }
       .ion-padding{
         font-family: 'Inter'; font-weight: 400; font-size: 14px; line-height: 20px;
           p {
-            margin: 0 0 5px; font-family:'Inter'; font-weight: 400; font-size: 14px; line-height: 20px;  color: var(--theme-color-2);
+            margin: 0 0 5px; font-family:'Inter'; font-weight: 400; font-size: 14px; line-height: 20px;  color: #000;
           }
     
           ul {
@@ -102,7 +103,7 @@ ion-accordion-group{
             li {
               font-size: 15px;
               margin: 0 0 2px;
-              color: var(--theme-color-2);
+              color: #000;
             }
           }
       }
@@ -111,7 +112,7 @@ ion-accordion-group{
 .note{
   margin: 0 0 28px;
   font-size: 14px;
-  color: var(--theme-color-2); line-height: 26px;
+  color: var(--text-black); line-height: 26px;
   span{
     font-weight: 700;
   }
@@ -169,7 +170,7 @@ ion-checkbox{
   margin:0px 0 0px; padding-top:10px;
 }
 .device-title{
-  min-height: 44px; color: var(--theme-color-2); font-size: 16px; padding: 10px;
+  min-height: 44px; color: #000; font-size: 16px; padding: 10px;
 }
 .device-names{
   padding: 10px;
@@ -199,7 +200,7 @@ and (min-device-height: 1024px)
 and (-webkit-min-device-pixel-ratio: 2){
 
   ion-header ion-toolbar {height: 110px;}
-  ion-header ion-toolbar ion-title .ftel-logo{ width: 260px;}
+  ion-header ion-toolbar ion-title .ftel-logo{ width: 160px;}
   ion-header ion-toolbar.titlebar { --min-height: 60px; height: 80px; }
 
   .note{ font-size: 21px;  line-height: 32px; }

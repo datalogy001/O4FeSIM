@@ -26,8 +26,7 @@ import {Market} from '@ionic-native/market/ngx';
 import {Device} from '@ionic-native/device/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
-import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -49,7 +48,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     mode: 'md'
     }), AppRoutingModule,  HttpClientModule],
     providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },Clipboard, Keyboard,Market,Camera,
-         FileOpener,Device, StatusBar, SignInWithApple, GooglePlus, SplashScreen, Network, LoadingScreenAppPage, EmailComposer, File,InAppBrowser, SocialSharing,FileTransfer, FirebaseAnalytics, FirebaseCrashlytics],
+         FileOpener,Device, StatusBar, SignInWithApple, GooglePlus, SplashScreen, Network, LoadingScreenAppPage, EmailComposer, File,InAppBrowser, SocialSharing,FileTransfer],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

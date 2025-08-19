@@ -22,7 +22,7 @@
   "SIGNIN_TEXT": "Got an account? Sign in here",
   "RESET_PASSWORD_SUCCESS": "Reset password success",
   "ONBOARD_GET_CONNECTED": "Get connected",
-  "ONBOARD_FREEDOM_ROAMING": "OR4 Travel App gets you the best internet rates in 150+ countries. Get connected in 5 clicks or less.",
+  "ONBOARD_FREEDOM_ROAMING": "Or4eSIM Travel App gets you the best internet rates in 150+ countries. Get connected in 5 clicks or less.",
   "ONBOARD_SOUNDS_GOOD": "Sounds good",
   "ONBOARD_DEVICE_COMPATIBLE": "Is my device compatible?",
   "ONBOARD_KEEP_UP_TO_DATE": "Keep up to date",
@@ -257,7 +257,7 @@
   "SHARE_INFO_MESSAGE": "Share this eSIM with another device or person using your phone's share settings",
   "SHARE_BUTTON_TEXT": "Share Now",
   "EMAIL_SUBJECT": "Hello,\n\nYou have received an eSIM QR code from {{email}}\n\nOrder summary: {{orderSummary}}\n\nICCID: {{iccid}}\n\neSIM QR code: {{url}}\n\nContact us: support@or4esim.com\n\nThanks!",
-  "share_refer_code_msg_android": "🎉 Hiya... I’ve got a travel tip for you! Join *OR4 Travel App* and get instant credits just for signing up with my referral code: *[{{refer_code}}]*.\n✅ Save on roaming.\n✅ Stay connected anywhere.\n✅ Save your money for suncream.\n*Download the app now and start saving!* 🚀" ,
+  "share_refer_code_msg_android": "🎉 Hiya... I’ve got a travel tip for you! Join *Or4eSIM Travel App* and get instant credits just for signing up with my referral code: *[{{refer_code}}]*.\n✅ Save on roaming.\n✅ Stay connected anywhere.\n✅ Save your money for suncream.\n*Download the app now and start saving!* 🚀" ,
   "ERROR_SHARE_MSG": "Error while sharing eSIM QR code",
   "ERROR_SHARE_Code_MSG": "Error while sharing Referral code",
   "ERROR_MODAL_BUTTON": "Try Again",
@@ -426,7 +426,7 @@
     "December"
   ],
   "SYSTEM_SETTINGS": "System Settings",
-  "NOTIFICATION_PERMISSION_REQUEST": "OR4 Travel App is requesting permission to send you notifications.",
+  "NOTIFICATION_PERMISSION_REQUEST": "Or4eSIM Travel App is requesting permission to send you notifications.",
   "DONT_ALLOW": "DON'T ALLOW",
   "ALLOW": "ALLOW",
   "COUNTRIES": {
@@ -798,7 +798,7 @@
 "SELECT_VALID_AMOUNT": "Please select an amount or enter a valid value.",
 "No_referral_history": "No referral history",
 "signed_up": "signed up",
-  "earn_extra_credit": "Get free credit when you share OR4 Travel App",
+  "earn_extra_credit": "Get free credit when you share Or4eSIM Travel App",
 "Share_with_friend_code": "Share with friends or family. It's easy, just click below!",
 "Referral_code": "Referral code",
 "code_didn't_work" : "Hmm, that code didn't seem to work.Double check and try again?",
@@ -829,12 +829,12 @@
 "Deletion Failed" : "Deletion Failed",
 "There was a problem removing your profile picture." : "There was a problem removing your profile picture.",
 "Choose_amount" : "Choose amount",
-"REF_UPDATE_MSG": "When friends sign up for OR4 Travel App using your referral code, you'll receive {{currency}}{{amount}} in OR4Credit when they make their first purchase of {{currency}}{{purchase_amount}} or more.",
+"REF_UPDATE_MSG": "When friends sign up for Or4eSIM Travel App using your referral code, you'll receive {{currency}}{{amount}} in Or4eSIMCredit when they make their first purchase of {{currency}}{{purchase_amount}} or more.",
 "validate_top-up_code": "Voucher code cannot be empty.",
 "validate_voucher_length": "Voucher code must be exactly 16 digits.",
 "Redeem_voucher" : "Redeem voucher",
 "voucher_top_up" : "Voucher top up",
-  "VOUCHER_THANK_YOU": "Thank you for purchasing a OR4 Travel App pre-paid voucher. We’re excited to get you online for your next trip. Please add your 16 digit code as found on your voucher receipt below.",
+  "VOUCHER_THANK_YOU": "Thank you for purchasing a Or4eSIM Travel App pre-paid voucher. We’re excited to get you online for your next trip. Please add your 16 digit code as found on your voucher receipt below.",
 "SUCCESS": "Success",
 "PLAN_TOPPED_UP": "Your new plan has topped up successfully. \n Go to your eSIMs to activate it.",
 "GO_TO_ESIMS": "Go to my internet plans",
@@ -893,7 +893,4 @@
   "DAYS_FEW": "Days",
   "DAYS_MANY": "Days"
 }
-
-
-
 }

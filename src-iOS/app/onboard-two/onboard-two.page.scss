@@ -17,7 +17,7 @@ ion-content{
 }
 .container{
     position: relative; 
-    color: var(--theme-color-2); 
+    
     padding: 20px;
 
     &::after{
@@ -26,10 +26,10 @@ ion-content{
     }
 }
 h3{
-    margin: -0px 0 0; font-family: 'Roboto'; font-weight: 600; font-size: 30px;
+    margin: -0px 0 0; font-family: 'Roboto'; font-weight: 600; font-size: 30px; color: var(--theme-color-2);
 }
 p{
-    margin: 20px 0; font-size: 13px; line-height: 18px; color: var(--theme-color-2);
+    margin: 20px 0; font-size: 13px; line-height: 18px; color: #000;
 }
 
 ion-button{  
@@ -43,7 +43,7 @@ ion-button{
 .link{
     margin: 10px 0 0;
 
-    a { color:var(--theme-color-2); font-size: 14px; text-decoration: underline;}
+    a { color: #000; font-size: 14px; text-decoration: underline;}
 }
 
 .dots{

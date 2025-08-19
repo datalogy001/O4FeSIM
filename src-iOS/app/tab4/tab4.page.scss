@@ -4,7 +4,7 @@ ion-header{
       --min-height:145px;
       ion-title{
           .ftel-logo{
-              width: 160px;
+              width: 95px;
               margin:7px 0px 0px;
           }
       }
@@ -31,7 +31,7 @@ ion-content {
 ion-card{
   --background:var(--input-bg);
   --color:var(--theme-color-2);
-  // border: 1px solid var(--item-border);
+  border: 1px solid var(--input-border);
   margin-inline: 0;
   box-shadow: none;
   border-radius: 10px;
@@ -59,10 +59,10 @@ ion-card{
     }
   }
   h5{
-    margin: 0 0 5px; font-size: 15px; font-weight: 300; text-transform: uppercase; color: var(--theme-color-2);
+    margin: 0 0 5px; font-size: 15px; font-weight: 300; text-transform: uppercase; color: #000;
   }
   h6{
-    margin: 8px 0 0px; font-size: 14px;  font-weight: 300; color: var(--theme-color-2);
+    margin: 8px 0 0px; font-size: 14px;  font-weight: 300; color: #000;
 
     img{
       width: 20px; display: inline-block; vertical-align: middle; margin: 0 5px 0 15px;
@@ -97,9 +97,6 @@ ion-row {
     padding: 0px 0;  
   }
 }
-
-
-
 
 
 ion-radio-group{
@@ -166,7 +163,7 @@ ion-button {
     }
 
     p {
-        color: var(--theme-color-2);
+        color: #000;
         font-size: 13px;
     }
 
@@ -181,11 +178,13 @@ ion-button {
   justify-content: space-between;
   align-items: center;
   margin: 4px 0 0;
+  color: #000;
 
   &.total{
-    border-top: 1px solid rgba(17,32,66,0.2);
+    border-top: 1px solid rgba(157,20,23,0.2);
     margin: 8px 0 0;
-  padding-top: 4px;
+    padding-top: 4px;
+    color: var(--theme-color-2);
   }
 
   span{
@@ -197,7 +196,7 @@ ion-button {
   }
 
   .price{
-    color: var(--theme-color-2);
+    color: #000;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
@@ -212,7 +211,7 @@ ion-button {
 .splittitle{
   font-size: 14px;
   margin: 10px 0 0px;
-  color: var(--theme-color-2);
+  color: #000;
 }
 
 .no-record{
@@ -233,7 +232,7 @@ and (-webkit-min-device-pixel-ratio: 2){
 
 
   ion-header ion-toolbar {height: 150px;}
-  ion-header ion-toolbar ion-title .ftel-logo{ width: 260px;}
+  ion-header ion-toolbar ion-title .ftel-logo{ width: 160px;}
 
   ion-card{ padding: 15px 20px; margin: 0px 0 20px; }
   ion-card h4{ margin: 0 0 10px; font-size: 32px; }

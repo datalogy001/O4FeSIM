@@ -19,8 +19,10 @@ ion-header{
           min-height: 26px;
 
           &.primary{ --background:var(--theme-color-1); --color:#fff; }
-          &.secondary{ --background:var(--input-bg); --color:var(--theme-color-1); }
-          &.tertiary{ --background:var(--theme-color-2); --color:#fff;}
+          // &.secondary{ --background:var(--input-bg); --color:var(--theme-color-1); }
+          // &.tertiary{ --background:var(--theme-color-2); --color:#fff;}
+          &.secondary{ --background:var(--theme-color-1); --color:#fff; }
+          &.tertiary{ --background:var(--theme-color-1); --color:#fff; }
         }
         ion-title{
           p{
@@ -41,6 +43,7 @@ p{
     font-size: 14px; line-height: 18px;
     a{
         color: var(--theme-color-2);
+        text-decoration: underline;
     }
 }
 
@@ -49,8 +52,9 @@ p{
 }
 
 ion-card {
-    --background:var(--card-bg);
-    --color: rgba(17,32,66,0.5);
+    --background:rgba(244,235,223,0.2);
+    border: 2px solid #E3DBD1;
+    --color: #000;
     margin-inline: 0;
     box-shadow: none;
     border-radius: 16px;
@@ -146,7 +150,7 @@ ion-radio-group{
       display: block;
       border-radius: 10px;
       margin: 0 0 15px;
-      // border: 1px solid var(--item-border);
+      border: 1px solid var(--input-border);
       color: rgba(17,32,66,0.5);
       font-size: 15px;
 
@@ -166,8 +170,8 @@ ion-radio{
     --color-checked:var(--theme-color-2);
 
     &::part(container){ 
-        background: var(--theme-gray); width: 24px; height: 24px; border-radius: 50%; 
-        border-color: var(--theme-gray);
+        background: #fff; width: 24px; height: 24px; border-radius: 50%; 
+        border-color: #E3DBD1;
     } 
 
     &::part(mark){ height: 53%; background: var(--theme-color-2);}
@@ -175,7 +179,7 @@ ion-radio{
     &.radio-checked{
       color: #fff !important;
         &::part(container){
-          background: var(--theme-color-1); border-color: var(--theme-color-1);
+          background: var(--theme-color-2); border-color: var(--theme-color-2);
         }
         &::part(mark){ background: var(--theme-color-1);}
         &::part(label){
@@ -225,19 +229,19 @@ h2{
 }
 
 .megapass{ 
-    color: var(--theme-color-2);
+    color: #000;
     font-weight: 300;
     font-size: 18px; word-wrap: break-word;
     word-break: break-all; 
 }
-.megapass span{ color: var(--theme-color-2); font-size:13px;
+.megapass span{ color: #000; font-size:13px;
 display: block; font-size: 15px; margin: -5px 0 15px;}
 
 .price{
   text-align: right;
   font-weight: 700;
   font-size: 25px;
-  color: var(--theme-color-1); 
+  color:#000; 
   line-height: 28px;
 
   &.cross{
@@ -264,7 +268,7 @@ display: block; font-size: 15px; margin: -5px 0 15px;}
 }
 
 .countryname{ 
-  color: var(--theme-color-2); font-size: 15px; font-weight: 600;
+  color: var(--text-black); font-size: 15px; font-weight: 600;
     span{
         display: inline-block; vertical-align: middle; width: 51px; height: 34px; border-radius: 6px; overflow: hidden; margin-right: 6px;
         img{ width: 100%; height: 100%; object-fit: cover;}
@@ -280,7 +284,7 @@ display: block; font-size: 15px; margin: -5px 0 15px;}
   .datatext{ 
     margin: 0 0 0;
     font-size: 14px;
-    color: var(--theme-color-2);
+    color: #000;
   }
   ion-row{
     &.dataneed{
@@ -290,7 +294,7 @@ display: block; font-size: 15px; margin: -5px 0 15px;}
           height: 17px; display: inline-block; vertical-align: middle; margin-right: 5px;
         }
         small{
-          font-size: 10.5px; color: var(--theme-color-2); text-align: left;
+          font-size: 10.5px; color: #000; text-align: left;
         }
         div{
           display: flex;
@@ -314,7 +318,7 @@ display: block; font-size: 15px; margin: -5px 0 15px;}
 .speedtext{
   margin: 10px 20px;
   text-align: center;
-  color: var(--theme-color-2);
+  color: #000;
   font-size: 10px;
   line-height: 16px;
 }
@@ -356,7 +360,7 @@ ion-checkbox{
 }
 
 .coupontitle{
-  color: var(--theme-color-2);
+  color: #000;
   font-size: 16px;
   margin: 15px 0 15px;
 }
@@ -371,17 +375,16 @@ ion-checkbox{
       width: 100%;
       --inner-padding-end:10px;
       --padding-start:14px;
-      --background: #DFF2FF;
-      // border:1px solid rgba(0,240,181,0.2);
+      --background: var(--input-bg);
+      border:1px solid var(--input-border);
 
       ion-input{
-        // color: #606AB8;
-        color: var(--theme-color-2);
+        color: #000;
       }   
       
       ion-button{
         margin: 0 0 0;
-        --color:#606AB8;
+        --color:var(--theme-color-2);
         height: auto;
         img{
           width: 26px;
@@ -399,7 +402,7 @@ ion-checkbox{
           padding-inline-end: 0px;
       }
       &.apply{
-        --background: var(--theme-color-1);
+        --background: var(--theme-color-2);
         --color: #fff;
         --border-radius: 8px;
         font-size: 16px;

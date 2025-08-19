@@ -15,11 +15,11 @@
 
         <ion-buttons slot="end">
           <ion-button fill="clear" *ngIf="notiCount == 0" (click)="gotoNoti()">
-            <img src="assets/img/icons/bell-dark.png" alt="">
+            <img src="assets/img/icons/bell.png" alt="">
           </ion-button>
           
           <ion-button fill="clear" *ngIf="notiCount > 0" (click)="gotoNoti()">
-            <img src="assets/img/icons/bell-dark.png" alt="">
+            <img src="assets/img/icons/bell.png" alt="">
             <span>{{notiCount}}</span>
           </ion-button>
         </ion-buttons>
@@ -34,7 +34,7 @@
       </ion-toolbar> -->
     </ion-header>
 
-    <ion-item>
+    <ion-item class="profilerow">
       <ion-avatar slot="start" *ngIf="tokenValue != 0">
         <img  [src]="tempDetails.profile_image" />
       </ion-avatar>
@@ -101,13 +101,13 @@
     </div>
 
     <div class="btn-log">
-      <ion-button expand="block" class="btn-green btn-chat"  *ngIf="tokenValue == 0" lines="none" (click)="login()">
+      <ion-button expand="block" fill="outline" class="btn-chat"  *ngIf="tokenValue == 0" lines="none" (click)="login()">
         {{ 'SIGN_IN_TO_YOUR_ACCOUNT' | translate }}
       </ion-button>
-      <ion-button expand="block" class="btn-secondary btn-chat"  lines="none" (click)="openZendeskChat()">
+      <ion-button expand="block" fill="outline" class="btn-chat"  lines="none" (click)="openZendeskChat()">
         {{ 'CHAT_WITH_SUPPORT' | translate }}
       </ion-button> 
-      <ion-button expand="block" fill="outline" class="btn-chat" *ngIf="tokenValue == 0"  (click)="createAccount()">
+      <ion-button expand="block" class="btn-green btn-chat" *ngIf="tokenValue == 0"  (click)="createAccount()">
         {{ 'SIGN_UP_WITH_CODE' | translate }}
       </ion-button>
       <ion-button expand="block" fill="outline" class="btn-chat" *ngIf="tokenValue != 0"  (click)="logout()">

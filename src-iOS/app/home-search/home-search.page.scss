@@ -4,7 +4,7 @@ ion-header{
       --background:transparent;
       ion-title{
           .ftel-logo{
-              width: 160px;
+              width: 95px;
               margin:12px 0px 0px;
           }
       }
@@ -27,8 +27,10 @@ ion-header{
       ion-chip[slot="end"]{
         margin-inline-end: 0px; margin-top: 10px; padding-inline: 25px; font-weight: 700; height: 26px; min-height: 26px;
         &.primary{ --background:var(--theme-color-1); --color:#fff; }
-        &.secondary{ --background:#fff; --color:var(--theme-color-1); }
-        &.tertiary{ --background:var(--theme-color-2); --color:#fff;}
+        // &.secondary{ --background:#fff; --color:var(--theme-color-1); }
+        // &.tertiary{ --background:var(--theme-color-2); --color:#fff;}
+        &.secondary{ --background:var(--theme-color-1); --color:#fff; }
+        &.tertiary{ --background:var(--theme-color-1); --color:#fff; }
       }
   }
 }
@@ -49,7 +51,7 @@ ion-content{
 
   &::after{
         position: absolute; z-index: -1; left: 0; right: 0; top: 0px; bottom: 0; content: "";
-        background:#fff url("../../assets/img/home.png") no-repeat center bottom / cover;
+        background:#fff url("../../assets/img/home.png") no-repeat center top / cover;
         //background-position-y: 0px;
     }
 }
@@ -69,7 +71,7 @@ h3{
   margin: 0px 0 0; font-size: 25px;
 }
 p{
-  margin: 15px 0; font-size: 14px; line-height: 18px;
+  margin: 15px 0; font-size: 13px; line-height: 18px;
 }
 ion-select{    
   font-size: 17px;
@@ -88,8 +90,8 @@ ion-item{
   --border-radius:6px; 
   --inner-border-width:0 0 0 0;
   --min-height: 56px;
-  --color:var(--theme-color-2);
-  // border: 1px solid #fff;
+  --color:#000;
+  border: 1px solid var(--input-border);
   margin: 0 0 15px;
 }
 
@@ -111,7 +113,7 @@ ion-button{
   
   ion-searchbar{
     padding-inline-start:0px; padding-inline-end:0px; padding-top: 0; padding-bottom: 0;  
-    color: var(--theme-color-2); --background:#fff;
+    color: #000; --background:#fff;
     --box-shadow:none;
     border-radius:6px;
     overflow: hidden;
@@ -137,7 +139,7 @@ ion-button{
     ion-item{
       --padding-start: 15px;
       --inner-padding-end: 15px;
-      border: 1px solid var(--theme-color-1);
+      border: 1px solid #E3DBD1;
       box-shadow: none;
       --inner-border-width:0 0 0 0;
       margin: 0px 0 -1px;
@@ -149,7 +151,7 @@ ion-button{
           width: 36px; height: 24px; --border-radius:4px;
         }
         ion-label{ 
-          font-size: 15px; color: var(--theme-color-2); font-weight: 500;
+          font-size: 15px; color: #000; font-weight: 500;
         }
 
         &:last-child{

@@ -1,9 +1,10 @@
 ion-header{
     ion-toolbar{
-        height: 140px;
+        height: 145px;
+        --min-height: 145px;
         ion-title{
             .ftel-logo{
-                width: 160px;
+                width: 90px;
                 margin:7px 0px 0px;
             }
         }
@@ -32,18 +33,18 @@ ion-row{
     border-bottom: 1px solid rgba(0,0,0,0.15);
 }
 h4{
-    color: var(--theme-color-1); 
+    color: var(--theme-color-2); 
     font-size: 18px; 
     margin: 0 0 5px;     
     font-weight:600;
 }
 p{
     margin: 0px 0 5px; 
-    color: var(--theme-color-2); 
+    color: #000; 
     font-size: 14px;
 }
 .date{
-    color: var(--theme-color-2); 
+    color: #000; 
     font-size: 12px;
     display: inline-block; 
     font-family: 'Inter';
@@ -51,7 +52,7 @@ p{
 }
 .delete{
     a{
-        display: inline-block; font-size: 16px; color: #d8322b;
+        display: inline-block; font-size: 16px; color: var(--theme-color-2);
     }
 }
 
@@ -74,7 +75,7 @@ p{
     }
 
     p {
-        color: var(--theme-color-2); 
+        color: #000; 
         font-size: 13px;
         margin: 15px 0;
     }
@@ -100,7 +101,7 @@ and (-webkit-min-device-pixel-ratio: 2){
 
 
     ion-header ion-toolbar {height: 140px;}
-    ion-header ion-toolbar ion-title .ftel-logo{ width: 260px;}
+    ion-header ion-toolbar ion-title .ftel-logo{ width: 160px;}
     ion-header ion-toolbar.titlebar{ --min-height: 60px; height: 80px; }
 
     h4{ font-size: 28px;  margin: 0 0 10px; }

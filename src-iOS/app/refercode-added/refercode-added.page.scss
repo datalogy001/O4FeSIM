@@ -1,8 +1,8 @@
 h2{
-    color:#fff; font-size: 46px; margin: 0 0 10px; font-weight: 700;  text-align: center;
+    color:#000; font-size: 46px; margin: 0 0 10px; font-weight: 700;  text-align: center;
 }
 p{
-    color:#fff; margin: 10px 0 5px; text-align: center; font-size: 13px; font-weight: 300;
+    color:#000; margin: 10px 0 5px; text-align: center; font-size: 13px; font-weight: 300;
     strong{
         font-weight: 500;
     }
@@ -12,8 +12,8 @@ p{
 }
 ion-button{  
     display: inline-block; 
-    --background:var(--theme-color-1);
-    --background-activated:var(--theme-color-1);
+    --background:var(--theme-color-2);
+    --background-activated:var(--theme-color-2);
     --color:#fff;
     font-size: 15px;
     font-weight: 600;

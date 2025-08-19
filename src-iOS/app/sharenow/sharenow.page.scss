@@ -6,8 +6,15 @@ ion-header {
       padding-inline: 10px;
       font-size:20px;
     }
+
+    ion-buttons{
+      ion-button{
+        color: var(--theme-color-2);
+      }
+    }
   }
 }
+
 
 .sharebox{
     display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start; padding:0 10px 10px;
@@ -19,7 +26,7 @@ ion-header {
     }
     .sharedetail{
       width: 100%;
-      p{color: #fff; font-weight: 300; margin: -5px 0 10px; font-size: 14px;
+      p{color: #000; font-weight: 300; margin: -5px 0 10px; font-size: 14px;
         line-height: 16px;
       }    
     }

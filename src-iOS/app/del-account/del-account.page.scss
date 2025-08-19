@@ -3,7 +3,7 @@ ion-header{
       height: 160px;
       ion-title{
           .ftel-logo{
-              width: 160px;
+              width: 95px;
               margin:7px 0px 0px;
           }
       }
@@ -24,7 +24,7 @@ ion-content {
 }
 
 p{
-    color: var(--theme-color-2); margin: 15px 0 0px; font-size: 18px;
+    color: #000; margin: 15px 0 0px; font-size: 18px;
 }
   
 ion-button{
@@ -45,14 +45,15 @@ ion-list{
       --inner-border-width:0 0 0 0;
       margin: 0 0 20px;
       --background: var(--input-bg);
+      border: 1px solid var(--input-border);
       &:last-child{
         margin: 0 0 0px;
       }
       ion-input{
-          color: var(--theme-color-2); text-align: center; text-transform: uppercase;
+          color: var(--input-text); text-align: center; text-transform: uppercase;
       }
       ion-icon{
-          color: var(--theme-color-2);
+          color: var(--input-text);
           font-size: 20px;
           cursor: pointer;
       }
@@ -79,7 +80,7 @@ and (-webkit-min-device-pixel-ratio: 2){
 
 
     ion-header ion-toolbar {height: 140px;}
-    ion-header ion-toolbar ion-title .ftel-logo{ width: 260px;}
+    ion-header ion-toolbar ion-title .ftel-logo{ width: 160px;}
     ion-header ion-toolbar.titlebar { --min-height: 60px; 
       // height: 80px; 
     }

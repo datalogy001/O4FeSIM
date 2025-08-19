@@ -23,7 +23,7 @@ ion-header{
     }
 }
 .topbox{
-    display: block; min-height: 48%;
+    display: block; min-height: 46%;
 }
 
 ion-content{ 
@@ -34,7 +34,7 @@ ion-content{
     position: relative;
 
     &::before{
-        position: fixed; z-index: -1; left: 0; right: 0; top: 0px; bottom: 0; content: ""; background-color: rgba(17,32,66,0.7);
+        position: fixed; z-index: -1; left: 0; right: 0; top: 0px; bottom: 0; content: ""; background-color: rgba(157,20,23,0.3);
     }
 }
 h3{
@@ -70,9 +70,8 @@ p{
         margin: 0 4px 0px;  
         font-weight: 400; 
         min-height: 32px;
-        --background:#fff; 
-        --color:var(--theme-color-1); 
-        // border: 1px solid var(--theme-color-1); 
+        --background:var(--theme-color-2); 
+        --color:#fff;
         font-size: 13px;
         text-align: center;
         min-width: 92px;

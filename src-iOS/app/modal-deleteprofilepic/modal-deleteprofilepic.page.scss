@@ -18,7 +18,7 @@ ion-content{
     }
 }
 p{
-    color: #fff; 
+    color: #000; 
     text-align: center; 
     margin: 10px 0 10px; 
     font-size: 14px;
@@ -36,8 +36,8 @@ p{
         margin: 0 0 10px;
 
         &.button-outline{
-            --border-color: #fff;
-            --color: #fff;
+            --border-color: var(--theme-color-2);
+            --color: var(--theme-color-2);
         }
     }
     .btn-back{
