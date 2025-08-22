@@ -801,7 +801,12 @@
   "DAYS_FEW": "Gün",
   "DAYS_MANY": "Gün"
 }
-
+,"Expired_Date" : "Son Kullanım Tarihi",
+  "DATA_VALID_UNTIL": "Veriler geçerli olduğu tarih",
+ "EXPIRED”": "Süresi doldu",
+  "EXPIRES_TODAY": "Bugün süresi doluyor",
+  "EXPIRES_IN_ONE": "1 gün içinde süresi doluyor",
+  "EXPIRES_IN": "{{days}} gün içinde süresi doluyor"
 }
 
   

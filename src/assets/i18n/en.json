@@ -675,7 +675,7 @@
  
  "Expired" : "Expired",
  "top_up_again":"Top up again",
- "place_expires_in": "Plan expires {{duration}} days after first data used in your destination",
+ "place_expires_in": "Plan expires {{duration}} after first data used in your destination",
  "GB_LEFT": "GB left",
  "LEFT": "left",
  "DAYS_LEFT": "days left",
@@ -811,6 +811,12 @@
   "DAY": "Day",
   "DAYS_FEW": "Days",
   "DAYS_MANY": "Days"
-}
+},
+"Expired_Date" : "Expired Date",
+  "DATA_VALID_UNTIL": "Data valid until",
+  "EXPIRED": "Expired",
+  "EXPIRES_TODAY": "Expires today",
+  "EXPIRES_IN_ONE": "Expires in 1 Day",
+  "EXPIRES_IN": "Expires in {{days}} Days"
 
 }
