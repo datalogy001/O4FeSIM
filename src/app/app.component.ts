@@ -261,24 +261,25 @@ export class AppComponent {
 
   constructor(private firebaseAnalytics: FirebaseAnalytics,private statusBar: StatusBar,private device: Device,private navController: NavController, private market: Market,private translate: TranslateService, private toastController: ToastController, private firebaseCrashlytics: FirebaseCrashlytics, private network: Network, private modalController: ModalController, private http: HttpClient, private alertController: AlertController, private platform: Platform, private apiService: ServicesService, private router: Router) {
   
-    this.todaysDate = moment().format('YYYY-MM-DD');
-    this.initCountry();
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#FFFFFF');
-      this.detectLanguage();
-    });
-    //Check internet connection 
-    
-    if (this.platform.is('android') || this.platform.is('ios')) {
-      this.checkInternetConnection();
-      this.getIPAddress();
-    }else{
-      this.setDefaultCurrencyAndLanguage();
-    } 
+        this.platform.ready().then(() => {
+          this.todaysDate = moment().format('YYYY-MM-DD');
+          this.statusBar.overlaysWebView(true);
+          this.statusBar.backgroundColorByHexString('#00000000'); // transparent
+            this.detectLanguage();
+          //Check internet connection 
+           this.initCountry();
+        if (this.platform.is('android') || this.platform.is('ios')) {
+          this.checkInternetConnection();
+          this.getIPAddress();
+        }else{
+          this.setDefaultCurrencyAndLanguage();
+        } 
+      
+        this.initApp();
+        
+        });
+
    
-    this.initApp();
   }
   deviceLanguage: any = 'en';
 

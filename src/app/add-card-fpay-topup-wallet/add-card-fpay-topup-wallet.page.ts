@@ -156,7 +156,11 @@ export class AddCardFpayTopupWalletPage implements OnInit {
     };
     this.elements = this.stripe.elements();
   // Create and mount the Card Number Element
-  this.creditCardObj.cardNumber = this.elements.create('cardNumber', { style });
+this.creditCardObj.cardNumber = this.elements.create('cardNumber', {
+  style,
+  placeholder: '**** **** **** ****'
+});
+
   if (this.creditCardObj.cardNumber) {
     this.creditCardObj.cardNumber.mount('#card-number-element');
   }

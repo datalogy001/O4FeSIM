@@ -209,11 +209,14 @@ export class AddCardFpayPage implements OnInit {
     };
     this.elements = this.stripe.elements();
   // Create and mount the Card Number Element
-  this.creditCardObj.cardNumber = this.elements.create('cardNumber', { style });
-  if (this.creditCardObj.cardNumber) {
-    this.creditCardObj.cardNumber.mount('#card-number-element');
-  }
+this.creditCardObj.cardNumber = this.elements.create('cardNumber', {
+  style,
+  placeholder: '**** **** **** ****'
+});
 
+if (this.creditCardObj.cardNumber) {
+  this.creditCardObj.cardNumber.mount('#card-number-element');
+}
   // Create and mount the Card Expiry Element
   this.creditCardObj.expirationDate = this.elements.create('cardExpiry', { style });
   if (this.creditCardObj.expirationDate) {
