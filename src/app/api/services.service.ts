@@ -1082,7 +1082,7 @@ validate_voucher_code(obj: any, access_token:any) {
         .set('Content-Type', 'application/json; charset=utf-8')
         .set('whitelabel', this.whiteLabelId)
         .set('client-token', this.clientToken)
-      return this.http.post(this.restAPI + 'esimcountries', JSON.stringify(paramObj), { headers }).subscribe((res: any) => {
+      return this.http.post(this.restAPI + 'esim_countries_zone', JSON.stringify(paramObj), { headers }).subscribe((res: any) => {
         resolve(res);
       }, (err) => {
         reject(err);
