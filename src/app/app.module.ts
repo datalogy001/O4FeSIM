@@ -17,8 +17,6 @@ import {LoadingScreenAppPage} from '../app/loading-screen-app/loading-screen-app
 import {Network} from '@ionic-native/network/ngx'
 import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { Firebase } from '@ionic-native/firebase/ngx';
-import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
 import {Clipboard} from '@ionic-native/clipboard/ngx';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -28,7 +26,6 @@ import {Market} from '@ionic-native/market/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import {Device} from '@ionic-native/device/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -50,8 +47,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       rippleEffect: true,
     mode: 'md'
     }), AppRoutingModule,  HttpClientModule],
-    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },Clipboard, Camera, Keyboard, Firebase,Market,
-      FirebaseCrashlytics,FirebaseAnalytics,FileOpener , Device, StatusBar, GooglePlus, Network, LoadingScreenAppPage, EmailComposer, File,InAppBrowser, SocialSharing, Stripe,FileTransfer],
+    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },Clipboard, Camera, Keyboard,Market,FileOpener , Device, StatusBar, GooglePlus, Network, LoadingScreenAppPage, EmailComposer, File,InAppBrowser, SocialSharing, Stripe,FileTransfer],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

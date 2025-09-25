@@ -9,16 +9,16 @@ import * as moment from 'moment';
 import { PushNotificationPage } from '../app/push-notification/push-notification.page'
 import OneSignalPlugin from 'onesignal-cordova-plugin'
 import { Network } from '@ionic-native/network/ngx';
-import { FirebaseCrashlytics } from '@ionic-native/firebase-crashlytics/ngx';
 import axios from 'axios';
 import { NointernetPage } from '../app/nointernet/nointernet.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Constants } from './api/constants.enum';
 import { Market } from '@ionic-native/market/ngx';
 import {UpdateAppPage} from '../app/update-app/update-app.page'
+
 import {Device} from '@ionic-native/device/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
+  
 register();
 @Component({
   selector: 'app-root',
@@ -259,27 +259,28 @@ export class AppComponent {
     'app_platform': ''
   }
 
-  constructor(private firebaseAnalytics: FirebaseAnalytics,private statusBar: StatusBar,private device: Device,private navController: NavController, private market: Market,private translate: TranslateService, private toastController: ToastController, private firebaseCrashlytics: FirebaseCrashlytics, private network: Network, private modalController: ModalController, private http: HttpClient, private alertController: AlertController, private platform: Platform, private apiService: ServicesService, private router: Router) {
   
-        this.platform.ready().then(() => {
-          this.todaysDate = moment().format('YYYY-MM-DD');
-          this.statusBar.overlaysWebView(true);
-          this.statusBar.backgroundColorByHexString('#00000000'); // transparent
-            this.detectLanguage();
-          //Check internet connection 
-           this.initCountry();
-        if (this.platform.is('android') || this.platform.is('ios')) {
-          this.checkInternetConnection();
-          this.getIPAddress();
-        }else{
-          this.setDefaultCurrencyAndLanguage();
-        } 
-      
-        this.initApp();
-        
-        });
-
+  constructor(private statusBar: StatusBar,private device: Device, private navController: NavController, private market: Market,private translate: TranslateService, private toastController: ToastController, private network: Network, private modalController: ModalController, private http: HttpClient, private alertController: AlertController, private platform: Platform, private apiService: ServicesService, private router: Router) {
+  
+    this.todaysDate = moment().format('YYYY-MM-DD');
+    this.initCountry();
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.backgroundColorByHexString('#00000000');
+        //Check internet connection 
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      this.detectLanguage();
+      this.checkInternetConnection();
+      this.getIPAddress();
+    }else{
+      this.detectLanguage();
+      this.setDefaultCurrencyAndLanguage();
+    } 
    
+    this.initApp();
+    });
+  
   }
   deviceLanguage: any = 'en';
 
@@ -313,6 +314,7 @@ export class AppComponent {
     }
     return 'en'; // Fallback to English
   }
+  
   
 
 
@@ -350,7 +352,6 @@ export class AppComponent {
     //Configure Push notification 
     this.platform.ready().then(() => {
       if (this.platform.is('android') || this.platform.is('ios')) {
-        this.initializeCrashlytics();
         this.initOneSignal();
       }
     });
@@ -370,49 +371,11 @@ export class AppComponent {
     });
   }
 
-  // Function to initialize Firebase Crashlytics
-  initializeCrashlytics() {
-    if (this.firebaseCrashlytics) {
-      console.log("Firebase Crashlytics is available");
-      this.firebaseCrashlytics.log("App successfully initialized.");
-    } else {
-      console.warn("Firebase Crashlytics plugin is not available.");
-    }
-  }
- // Log a non-fatal exception
-  logNonFatalException() {
-    try {
-      throw new Error('This is a test non-fatal exception');
-    } catch (error: any) {
-      console.log("Caught a non-fatal error:", error);
-      this.firebaseCrashlytics.log(`Non-fatal error: ${error.message}`);
-      this.firebaseCrashlytics.log(`Non-fatal stack: ${error.stack}`);
-    }
-  }
 
-// Alternative function to simulate a crash
-forceCrash() {
-  try {
-    // Simulating an uncaught error
-    throw new Error('Simulating a crash!');
-  } catch (error:any) {
-    console.log("Simulated crash:", error);
-    this.firebaseCrashlytics.log("Simulated crash: " + error.message);
-  }
-}
 
-// Example usage on app initialization
-ngOnInit() {
-  this.platform.ready().then(() => {
-    this.firebaseAnalytics.logEvent('app_open', {})
-      .then(() => {
-        console.log('✅ Firebase Analytics: app_open event logged successfully');
-      })
-      .catch(error => {
-        console.error('❌ Firebase Analytics: Failed to log app_open event', error);
-      });
-  });
-}
+
+
+
 
 
   AppUpdatesCommonFun() {
