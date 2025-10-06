@@ -6,8 +6,7 @@ import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.p
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { PlanCountryPage } from '../plan-country/plan-country.page';
-
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 
 
 
@@ -19,7 +18,7 @@ import { PlanCountryPage } from '../plan-country/plan-country.page';
 export class BundlePage implements OnInit {
 
 
-  constructor( private platform:Platform, private translate: TranslateService, private loadingScreen: LoadingScreenAppPage, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
+  constructor( private firebaseAnalytics: FirebaseAnalytics,private platform:Platform, private translate: TranslateService, private loadingScreen: LoadingScreenAppPage, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
   }
   tempData: any = [];
   bundleName: any = '';
@@ -151,6 +150,11 @@ getBackgroundUrl() {
 }
 
 gotoSummary(bundleItem: any, isUnlimited:any) {
+
+  //View Contents 
+   if (this.platform.is('android') || this.platform.is('ios')) { 
+      this.firebaseAnalytics.logEvent('viewed_plan_details', { plan_id: bundleItem.name });
+}
 
     this.checkoutObj.actualAmount = bundleItem.org_price;
     this.checkoutObj.extraAmount = bundleItem.price;

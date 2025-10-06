@@ -11,8 +11,7 @@ import { SuccessModelPage } from '../success-model/success-model.page';
 import Swiper from 'swiper';
 import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core';
-
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 @Component({
   selector: 'app-add-card-fpay',
   templateUrl: './add-card-fpay.page.html',
@@ -68,7 +67,7 @@ export class AddCardFpayPage implements OnInit {
   cardList = [];
   cashBackRes:any=[];
 
-  constructor(private platform: Platform, private translate: TranslateService,private loadingScreen: LoadingScreenAppPage, private Router: Router, private popoverController: PopoverController, private service: ServicesService, private loadCtr: LoadingController, private navController: NavController, private modalController: ModalController, private toastController: ToastController) {
+  constructor(private firebaseAnalytics: FirebaseAnalytics,private platform: Platform, private translate: TranslateService,private loadingScreen: LoadingScreenAppPage, private Router: Router, private popoverController: PopoverController, private service: ServicesService, private loadCtr: LoadingController, private navController: NavController, private modalController: ModalController, private toastController: ToastController) {
     this.tempDetails=[];
     this.tempDetails = this.Router.getCurrentNavigation()?.extras.state;
     this.cashBackRes = this.tempDetails.cashBackRes;
@@ -445,7 +444,12 @@ if (this.creditCardObj.cardNumber) {
 
     if (confirmError) {
       this.loadingScreen.dismissLoading();
-      this.managingAppLogs("From App Step 3: Add Card Confirmation Payment Failed:" + JSON.stringify(confirmError),this.paymentIntentObj.currency,  this.paymentIntentObj.amount, this.paymentIntentObj.plan);
+       this.managingAppLogs("From App Step 3: Add Card Confirmation Payment Failed:" + JSON.stringify(confirmError),this.paymentIntentObj.currency,  this.paymentIntentObj.amount, this.paymentIntentObj.plan);
+     
+       if (this.platform.is('android') || this.platform.is('ios')) {
+      this.firebaseAnalytics.logEvent('payment_error', { reason: this.translate.instant('PAYMENT_CONFIRMATION_FAILED') });
+   }
+   
       this.errorMSGModal( this.translate.instant('ERROR_TRY_AGAIN'),  this.translate.instant('PAYMENT_CONFIRMATION_FAILED'));
     } else if (paymentIntent && paymentIntent.status == 'succeeded') {
      this.managingAppLogs("From App Step 3: Add Card Confirmation Payment Success:" + JSON.stringify(paymentIntent),this.paymentIntentObj.currency,  this.paymentIntentObj.amount, this.paymentIntentObj.plan);

@@ -23,6 +23,7 @@ import { DelModelCoupenPage } from '../del-model-coupen/del-model-coupen.page';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 import { SplitPaymentPage } from '../split-payment/split-payment.page';
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 declare var sgap: any;
 
 
@@ -70,7 +71,7 @@ export class PaymentDaysPage implements OnInit {
   googlePayType: any = '';
   @ViewChild(IonContent, { static: false }) content?: IonContent;
 
-  constructor(private zone: NgZone,  private keyboard: Keyboard, private alertController: AlertController, private translate: TranslateService, private popoverController: PopoverController, private loadingScreen: LoadingScreenAppPage, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private navController: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) {
+  constructor(private firebaseAnalytics: FirebaseAnalytics,private zone: NgZone,  private keyboard: Keyboard, private alertController: AlertController, private translate: TranslateService, private popoverController: PopoverController, private loadingScreen: LoadingScreenAppPage, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private navController: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) {
 
    this.platform.ready().then(() => {
   if ((this.platform.is('android') || this.platform.is('ios')) && typeof sgap !== 'undefined') {
@@ -205,6 +206,13 @@ export class PaymentDaysPage implements OnInit {
 
 
     this.checkoutObj = this.tempDetails.checkoutData;
+
+      if (this.platform.is('android') || this.platform.is('ios')) {
+    this.firebaseAnalytics.logEvent('started_checkout', { plan_id:  this.checkoutObj.bundleData.name});
+    }
+
+
+
     this.checkBrowsingData(this.checkoutObj.bundleData.dataAmount);
 
     if (this.checkoutObj.types == 'country')

@@ -10,8 +10,9 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 import { debounceTime, Subject } from 'rxjs';
-
-
+import OneSignalPlugin from 'onesignal-cordova-plugin';
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
+// Uncomment declarations if using with Ionic.
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.page.html',
@@ -33,8 +34,8 @@ export class VerificationPage implements OnInit {
     private toastController: ToastController,
     private keyboard: Keyboard,
     private translate: TranslateService,
-    
-    private platform: Platform
+    private platform: Platform,
+        private firebaseAnalytics: FirebaseAnalytics
   ) {}
 
   timer: number = 30; // Initial timer value in seconds
@@ -177,7 +178,13 @@ export class VerificationPage implements OnInit {
     this.service.createAccount(this.tempData.registerObj).then((res: any) => {
       this.loadingScreen.dismissLoading();
       if (res.code == 200) {
-      
+          if (this.platform.is('android') || this.platform.is('ios')) {
+          //For users who haven't signed up yet, this tag will simply not exist.
+          this.firebaseAnalytics.logEvent('user_completed_signup', { method: 'email' });
+          OneSignalPlugin.sendTag("signed_up", "true");
+          }
+          //
+
         this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'en';
         this.updateUserLanguage(res.data[0]['token']); 
         window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(res.data[0]['data']));

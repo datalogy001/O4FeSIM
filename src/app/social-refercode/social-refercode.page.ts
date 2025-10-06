@@ -7,14 +7,14 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalCodenotworkPage } from '../modal-codenotwork/modal-codenotwork.page';
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 @Component({
   selector: 'app-social-refercode',
   templateUrl: './social-refercode.page.html',
   styleUrls: ['./social-refercode.page.scss'],
 })
 export class SocialRefercodePage implements OnInit {
-  constructor( private translate: TranslateService, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private modalController: ModalController, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private Router: Router, private navController: NavController, private toastController: ToastController) {
+  constructor(private firebaseAnalytics: FirebaseAnalytics,  private translate: TranslateService, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private modalController: ModalController, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private Router: Router, private navController: NavController, private toastController: ToastController) {
   }
   tempDetails:any=[]; 
   checkoutObj:any=[]; 
@@ -46,6 +46,10 @@ export class SocialRefercodePage implements OnInit {
   async submit() {
     if (this.validate()) {
       // If refere code added 
+          if (this.platform.is('android') || this.platform.is('ios')) {
+            this.firebaseAnalytics.logEvent('user_entered_referral_code', { referral_code: this.referObj.referer_code  });
+            }
+
         await this.loadingScreen.presentLoading();
         this.service.validate_refer_code(this.referObj).then((res: any) => {
           

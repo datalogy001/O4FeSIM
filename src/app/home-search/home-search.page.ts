@@ -8,7 +8,7 @@ import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 import { ServicesService } from '../api/services.service';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { TranslateService } from '@ngx-translate/core';
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 
 
 @Component({
@@ -38,6 +38,7 @@ export class HomeSearchPage implements OnInit {
   daysFilter: any = [];
 
   constructor(
+    private firebaseAnalytics: FirebaseAnalytics,
     private translate: TranslateService,  private service: ServicesService,
     private platform: Platform,
     private keyboard: Keyboard,
@@ -239,6 +240,12 @@ afterSearch(event: any): boolean {
     );
     return;
   }
+ // Call Facebook event when user searches 
+      if (this.platform.is('android') || this.platform.is('ios')) {
+
+        this.firebaseAnalytics.logEvent('selected_country', { country: this.country_name });
+          }
+         //End 
 
       let navigationExtras: NavigationExtras = {
         state: {
@@ -398,6 +405,11 @@ selectedDestination: any = null;
   gotoSelect(name: any, iso: any, type: any, isDestinations:any, country_name:any) {
   //  console.log(name);
  // this.isSelected =true;
+
+if (this.platform.is('android') || this.platform.is('ios')) {
+    this.firebaseAnalytics.logEvent('searched_country', { query: country_name });
+    }
+
   this.selectedDestination = {
     name,
     iso,

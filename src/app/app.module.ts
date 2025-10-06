@@ -17,6 +17,7 @@ import {LoadingScreenAppPage} from '../app/loading-screen-app/loading-screen-app
 import {Network} from '@ionic-native/network/ngx'
 import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 import {Clipboard} from '@ionic-native/clipboard/ngx';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -47,7 +48,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       rippleEffect: true,
     mode: 'md'
     }), AppRoutingModule,  HttpClientModule],
-    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },Clipboard, Camera, Keyboard,Market,FileOpener , Device, StatusBar, GooglePlus, Network, LoadingScreenAppPage, EmailComposer, File,InAppBrowser, SocialSharing, Stripe,FileTransfer],
+    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, },Clipboard, Camera, Keyboard,Market,FileOpener , Device, FirebaseAnalytics, StatusBar, GooglePlus, Network, LoadingScreenAppPage, EmailComposer, File,InAppBrowser, SocialSharing, Stripe,FileTransfer],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

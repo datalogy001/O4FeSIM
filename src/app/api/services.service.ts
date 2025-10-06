@@ -1187,5 +1187,46 @@ validate_voucher_code(obj: any, access_token:any) {
     });
   }
 
+    //API to Complete signup 
+  completeSignup(obj: any, authToken: any) {
+    this.selectedLang = window.localStorage.getItem('Or4esim_language') == null ? 'en' : window.localStorage.getItem('Or4esim_language');
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', 'Bearer ' + authToken)
+        .set('whitelabel', this.whiteLabelId)
+        .set('language', this.selectedLang)
+        .set('client-token', this.clientToken)
+      return this.http.post(this.restAPI + 'user/completeprofile', JSON.stringify(obj), { headers }).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+    //API to check Force Update isProfileIncompleteService  
+   
+  isProfileIncompleteService(obj:any) {
+    this.selectedLang = window.localStorage.getItem('Or4esim_language') == null ? 'en' : window.localStorage.getItem('Or4esim_language');
+    this.selectedCurrency = window.localStorage.getItem('Or4esim_currency') == null ? 'GBP' : window.localStorage.getItem('Or4esim_currency');
+    this.authToken =  window.localStorage.getItem('Or4esim_auth_token');
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders()
+        .set('Authorization', 'Bearer ' + this.authToken)
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('whitelabel', this.whiteLabelId)
+        .set('language', this.selectedLang)
+        .set('currency',this.selectedCurrency)
+        .set('client-token', this.clientToken)
+      return this.http.post(this.restAPI + 'user/profilestatus',JSON.stringify(obj), { headers }).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+
 }
 

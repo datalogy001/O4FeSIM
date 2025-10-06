@@ -43,7 +43,7 @@ export class DatePickerFpayPage implements OnInit {
   const mmYY = this.navParams.get('value') || this.minDate;
     this.selectedDate = this.convertToYearMonth(mmYY);
     this.tempDate = this.convertToYearMonth(mmYY);
-this.selectedLanguage = window.localStorage.getItem("goldenESIM_language") || 'nl';
+this.selectedLanguage = window.localStorage.getItem("Or4esim_language") || 'nl';
 
   if(this.selectedLanguage == 'en')
       this.localLang = "en-US";

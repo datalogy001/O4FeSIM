@@ -2,7 +2,6 @@ import { Component, OnInit, } from '@angular/core';
 import { Platform, NavController, ToastController, LoadingController, ModalController } from "@ionic/angular";
 import { Router, NavigationExtras } from '@angular/router';
 import { ServicesService } from '../api/services.service';
-import { AppleModelPage } from '../apple-model/apple-model.page'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
@@ -11,7 +10,8 @@ import { PasswordErrorPage } from '../password-error/password-error.page';
 import { SuccessModelPage } from '../success-model/success-model.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-
+import {SocailLoginCountryPhonePage} from '../socail-login-country-phone/socail-login-country-phone.page';
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
   plat: any;
   playerIds: any;
 
-  constructor(private keyboard: Keyboard, private translate: TranslateService,private googlePlus: GooglePlus, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private modalController: ModalController, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private Router: Router, private navController: NavController, private toastController: ToastController) {
+  constructor(private firebaseAnalytics: FirebaseAnalytics,private keyboard: Keyboard, private translate: TranslateService,private googlePlus: GooglePlus, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private modalController: ModalController, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private Router: Router, private navController: NavController, private toastController: ToastController) {
   }
 
    ionViewDidEnter() {
@@ -306,6 +306,7 @@ async submit() {
    /* SIgn in with google  */
    async loginWithGoogle() {
    // this.googleSuccess()
+          this.firebaseAnalytics.logEvent('user_started_signup', { method: 'google' });
     await this.loadingScreen.presentLoading();
        
       const options = {
@@ -333,11 +334,7 @@ async submit() {
     async googleSuccess(googleRes:any) {
       //API call for Login section
       await this.loadingScreen.presentLoading();
-      //this.googleLoginObj.userId ="11111111";
-      //this.googleLoginObj.first_name = "Dinesh";
-      //this.googleLoginObj.email = "dinesh1291186012@gmail.com";
-      
-      this.googleLoginObj.userId = googleRes.userId;
+       this.googleLoginObj.userId = googleRes.userId;
       this.googleLoginObj.first_name = googleRes.givenName;
       this.googleLoginObj.email = googleRes.email;
       
@@ -361,14 +358,10 @@ async submit() {
           window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
           window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
          
-          if(this.googleAttemp == 0) //If New 
-          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT_Wl'), "2000");
-          else
-          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
-         //Already registered  
+            //Already registered  
          if(resNew.data['is_register'] == false)
          {
-
+        this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "4000");
          if (this.isLogin == true) {
             const loginPageUrl = this.Router.url;
             this.checkoutObj.id = resNew.data['id'];
@@ -384,20 +377,14 @@ async submit() {
             this.Router.navigate(['home-search']);
           } 
          }else{
-    
-
-
-         //First time
-            const loginPageUrl = this.Router.url;
-            this.checkoutObj.id = resNew.data['id'];
-            let navigationExtras: NavigationExtras = {
-              state: {
-                checkoutData: this.checkoutObj,
-                withOutLogin: this.isLogin,
-                payBack: loginPageUrl
-              }
-            };
-         this.Router.navigate(['signup-socialrefer'], navigationExtras);
+     //First time -SIGNUP- Google 
+  if (this.platform.is('android') || this.platform.is('ios')) {
+        //For users who haven't signed up yet, this tag will simply not exist.
+        OneSignalPlugin.sendTag("signed_up", "true");
+          }
+          //
+      //Socail Media Country Model STARTED 
+     this.modelSocailCountry( resNew.data['id'],this.Router.url );
          }
   
         } else {
@@ -405,5 +392,34 @@ async submit() {
         }
       })
   }
+
+  async modelSocailCountry(userId: string, routeURL: string): Promise<void> {
+  const modal = await this.modalController.create({
+    component: SocailLoginCountryPhonePage, // fixed typo
+  });
+
+  modal.onDidDismiss().then((result) => {
+    console.log('Modal result:', result);
+
+    if (result.data.success == true) {
+
+      this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT_Wl'), "2000");
+
+      this.checkoutObj.id = userId;
+
+      const navigationExtras: NavigationExtras = {
+        state: {
+          checkoutData: this.checkoutObj,
+          withOutLogin: this.isLogin,
+          payBack: routeURL,
+        },
+      };
+
+      this.Router.navigate(['signup-socialrefer'], navigationExtras);
+    }
+  });
+
+  await modal.present();
+}
 
 }

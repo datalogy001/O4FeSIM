@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 
 
 
@@ -46,7 +46,7 @@ export class Tab2Page {
   popularCountriesList: any = [];
   zoneList: any = [];
 
-  constructor(private translate: TranslateService, private toastController: ToastController, private platform: Platform, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
+  constructor(private firebaseAnalytics: FirebaseAnalytics, private translate: TranslateService, private toastController: ToastController, private platform: Platform, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
   }
 
   isDeletedObj: any = { 'user_id': '' };
@@ -57,6 +57,9 @@ export class Tab2Page {
   //Init function 
   langDefault: any;
   ngOnInit() {
+     if (this.platform.is('android') || this.platform.is('ios')) {
+    this.firebaseAnalytics.logEvent('viewed_country_list', {});
+    }
 
     this.mainObj = [];
     this.langDefault = window.localStorage.getItem('Or4esim_language');
@@ -331,7 +334,7 @@ Promise.all(languages.map(lang => this.translate.getTranslation(lang).toPromise(
    
 
   gotoBundlesSearch(name: any, iso: any, type: any, zoneCountries: any, isDestinations:any, country_name:any) {
-    
+        this.firebaseAnalytics.logEvent('searched_country', { query: country_name });
     this.isDestinations =isDestinations;
     this.country_name = country_name;
 
@@ -370,7 +373,14 @@ Promise.all(languages.map(lang => this.translate.getTranslation(lang).toPromise(
 
   //Goto Bundle details
   gotoBundles(name: any, iso: any, type: any, zoneCountries: any, isDestinations:any, country_name:any) {
+     if (this.platform.is('android') || this.platform.is('ios')) {
+        this.firebaseAnalytics.logEvent('selected_country', { country: country_name });
+       }
+    
+  
     this.isDestinations =isDestinations;
+
+
     this.country_name = country_name;
 
     let navigationExtras: NavigationExtras = {

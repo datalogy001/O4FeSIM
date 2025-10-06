@@ -32,7 +32,7 @@ export class DatePickerPage implements OnInit {
   ngOnInit() {
     this.selectedDate = this.navParams.get('value');
     this.tempDate = this.navParams.get('value');
-    this.selectedLanguage = window.localStorage.getItem("goldenESIM_language");
+    this.selectedLanguage = window.localStorage.getItem("Or4esim_language");
 
     if(this.selectedLanguage == 'en')
     this.localLang = "en-US"; 

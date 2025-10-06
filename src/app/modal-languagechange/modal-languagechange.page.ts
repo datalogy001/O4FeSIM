@@ -21,7 +21,7 @@ export class ModalLanguagechangePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.selectedLanguage = window.localStorage.getItem("goldenESIM_language") || 'nl';
+    this.selectedLanguage = window.localStorage.getItem("Or4esim_language") || 'nl';
     this.translate.use(this.selectedLanguage);
     this.updateLanguageList();
   }
@@ -48,8 +48,8 @@ export class ModalLanguagechangePage implements OnInit {
       this.modalCtrl.dismiss();
       const selectedLang = this.selectedLanguage;
       this.translate.use(selectedLang).subscribe(() => {
-        window.localStorage.setItem("goldenESIM_Saved_Language", "Yes");
-        window.localStorage.setItem("goldenESIM_language", selectedLang);
+        window.localStorage.setItem("Or4esim_Saved_Language", "Yes");
+        window.localStorage.setItem("Or4esim_language", selectedLang);
         
         this.updateLanguageList();
         this.successMSGModal(
