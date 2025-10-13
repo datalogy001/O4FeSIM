@@ -10,7 +10,6 @@ import { PlanCountryPage } from '../plan-country/plan-country.page';
 
 
 
-
 @Component({
   selector: 'app-bundle',
   templateUrl: './bundle.page.html',
@@ -102,6 +101,8 @@ export class BundlePage implements OnInit {
       this.checkoutObj.id = this.userDetails.id;
     }
 
+  
+  
   }
 
   async gotoPlancountry() {
@@ -149,6 +150,7 @@ getBackgroundUrl() {
 }
 
 gotoSummary(bundleItem: any, isUnlimited:any) {
+
 
     this.checkoutObj.actualAmount = bundleItem.org_price;
     this.checkoutObj.extraAmount = bundleItem.price;

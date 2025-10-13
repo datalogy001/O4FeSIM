@@ -11,8 +11,6 @@ import { SuccessModelPage } from '../success-model/success-model.page';
 import Swiper from 'swiper';
 import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core';
-
-
 @Component({
   selector: 'app-add-card-fpay',
   templateUrl: './add-card-fpay.page.html',
@@ -209,11 +207,14 @@ export class AddCardFpayPage implements OnInit {
     };
     this.elements = this.stripe.elements();
   // Create and mount the Card Number Element
-  this.creditCardObj.cardNumber = this.elements.create('cardNumber', { style });
-  if (this.creditCardObj.cardNumber) {
-    this.creditCardObj.cardNumber.mount('#card-number-element');
-  }
+this.creditCardObj.cardNumber = this.elements.create('cardNumber', {
+  style,
+  placeholder: '**** **** **** ****'
+});
 
+if (this.creditCardObj.cardNumber) {
+  this.creditCardObj.cardNumber.mount('#card-number-element');
+}
   // Create and mount the Card Expiry Element
   this.creditCardObj.expirationDate = this.elements.create('cardExpiry', { style });
   if (this.creditCardObj.expirationDate) {
@@ -440,7 +441,8 @@ export class AddCardFpayPage implements OnInit {
     if (confirmError) {
       this.loadingScreen.dismissLoading();
       this.managingAppLogs("From App Step 3: Add Card Confirmation Payment Failed:" + JSON.stringify(confirmError),this.paymentIntentObj.currency,  this.paymentIntentObj.amount, this.paymentIntentObj.plan);
-      this.errorMSGModal( this.translate.instant('ERROR_TRY_AGAIN'),  this.translate.instant('PAYMENT_CONFIRMATION_FAILED'));
+ 
+ this.errorMSGModal( this.translate.instant('ERROR_TRY_AGAIN'),  this.translate.instant('PAYMENT_CONFIRMATION_FAILED'));
     } else if (paymentIntent && paymentIntent.status == 'succeeded') {
      this.managingAppLogs("From App Step 3: Add Card Confirmation Payment Success:" + JSON.stringify(paymentIntent),this.paymentIntentObj.currency,  this.paymentIntentObj.amount, this.paymentIntentObj.plan);
       this.stripeCardObj.payment_intent = paymentIntent;

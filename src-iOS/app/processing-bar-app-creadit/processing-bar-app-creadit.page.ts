@@ -3,6 +3,7 @@ import { NavController,ModalController, Platform } from '@ionic/angular';
 import { ServicesService } from '../api/services.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import OneSignalPlugin from 'onesignal-cordova-plugin';
 
 
 
@@ -28,6 +29,7 @@ export class ProcessingBarAppCreaditPage implements OnInit {
   resValue:any=''; 
     accessToken:any;
   userDetails:any=[]; 
+
   constructor(private platform: Platform,private translate: TranslateService,private Router: Router, private service: ServicesService,private modalController: ModalController, private renderer: Renderer2, private el: ElementRef) {}
   
   ngOnInit() {
@@ -45,10 +47,18 @@ export class ProcessingBarAppCreaditPage implements OnInit {
        this.managingAppLogs("From App Step 3: Wallet Pay payment Success:",this.value.bundle.extraAmount,this.value.bundle.bundleData.name);
        window.localStorage.setItem('Or4esim_user_wallets',  res.data[0]['user_wallet']);
        console.log(res.data[0]['user_wallet']);
+
+ //Purchase callback
+        if (this.platform.is('android') || this.platform.is('ios')) { 
+              //Make purchase TAG
+              OneSignalPlugin.sendTag("made_purchase", "true");
+           }
+          //End 
        
       } else {
-        this.error = true;
+      this.error = true;
         this.managingAppLogs("From App Step 3: Wallet Pay payment Error:" + JSON.stringify(res),this.value.bundle.extraAmount,this.value.bundle.bundleData.name);
+  
       }
     }).catch(err => {
       this.managingAppLogs("From App Step 3: Wallet pay payment Error from API:" + JSON.stringify(err),this.value.bundle.extraAmount,this.value.bundle.bundleData.name);

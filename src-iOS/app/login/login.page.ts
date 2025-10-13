@@ -11,6 +11,8 @@ import { PasswordErrorPage } from '../password-error/password-error.page';
 import { SuccessModelPage } from '../success-model/success-model.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import {SocailLoginCountryPhonePage} from '../socail-login-country-phone/socail-login-country-phone.page';
+
 import {
   SignInWithApple,
   ASAuthorizationAppleIDRequest,
@@ -97,7 +99,7 @@ export class LoginPage implements OnInit {
      //Notification Permission Popup 
      this.platform.ready().then(() => {
       if (this.platform.is('android') || this.platform.is('ios')) {
-        OneSignalPlugin.setAppId('6bacd441-2725-432b-9c48-0cf95e377be8');
+        OneSignalPlugin.setAppId('aae08e91-b9cb-455f-885c-7b77073bcd41');
       }
     });
     this.tempDetails = this.Router.getCurrentNavigation()?.extras.state;
@@ -335,13 +337,10 @@ async submit() {
     this.service.appleSignIn(this.appleLoginObj).then((resNew: any) => {
       this.loadingScreen.dismissLoading();
       if (resNew['code'] == 200) {
-      
-        const authToken = resNew.data['token'];
-        
-        this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'en';
-        this.updateUserLanguage(authToken);
-        
 
+        const authToken = resNew.data['token'];
+        this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'tu';
+        this.updateUserLanguage(authToken);
         window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(resNew.data['data']));
         window.localStorage.setItem('Or4esim_auth_token', resNew.data['token']);
         window.localStorage.setItem('Or4esim_loginType', "apple");
@@ -352,43 +351,36 @@ async submit() {
         window.localStorage.setItem('Or4esim_user_wallets', resNew.data['data']['user_wallet']);
         window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
         window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
-        this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
-          //Already registered  
-          if(resNew.data['is_register'] == false)
-            {
-   
-            if (this.isLogin == true) {
-               const loginPageUrl = this.Router.url;
-               this.checkoutObj.id = resNew.data['id'];
-               let navigationExtras: NavigationExtras = {
-                 state: {
-                   checkoutData: this.checkoutObj,
-                   withOutLogin: this.isLogin,
-                   payBack: loginPageUrl
-                 }
-               };
-               this.Router.navigate(['/payment-days'], navigationExtras);
-             } else {
-               this.Router.navigate(['home-search']);
-             } 
-            }else{
-   
-            //First time
-               const loginPageUrl = this.Router.url;
-               this.checkoutObj.id = resNew.data['id'];
-               let navigationExtras: NavigationExtras = {
-                 state: {
-                   checkoutData: this.checkoutObj,
-                   withOutLogin: this.isLogin,
-                   payBack: loginPageUrl
-                 }
-               };
-            this.Router.navigate(['signup-socialrefer'], navigationExtras);
-            }
-     
-           } else {
-             this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
-           }
+        //Already registered  
+        if (resNew.data['is_register'] == false) {
+          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
+          if (this.isLogin == true) {
+            const loginPageUrl = this.Router.url;
+            this.checkoutObj.id = resNew.data['id'];
+            let navigationExtras: NavigationExtras = {
+              state: {
+                checkoutData: this.checkoutObj,
+                withOutLogin: this.isLogin,
+                payBack: loginPageUrl
+              }
+            };
+            this.Router.navigate(['/payment-days'], navigationExtras);
+          } else {
+            this.Router.navigate(['home-search']);
+          }
+        } else {
+          //First time -SIGNUP- Google 
+          //Socail Media Country Model STARTED 
+          this.modelSocailCountry(resNew.data['id'], this.Router.url);
+             if (this.platform.is('android') || this.platform.is('ios')) {
+        //For users who haven't signed up yet, this tag will simply not exist.
+        OneSignalPlugin.sendTag("signed_up", "true");
+          }
+        }
+
+      } else {
+        this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
+      }
     }).catch(err => {
       this.loadingScreen.dismissLoading();
       this.callModalForApple(this.appleLoginObj);
@@ -419,10 +411,10 @@ async submit() {
       if (resNew['code'] == 200) {
         const authToken = resNew.data['token'];
         // Fetch and store bundles after login
-        
+
         this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'en';
         this.updateUserLanguage(authToken);
-        
+
 
         window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(resNew.data['data']));
         window.localStorage.setItem('Or4esim_auth_token', resNew.data['token']);
@@ -435,45 +427,36 @@ async submit() {
         window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
         window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
 
-        this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
-
         //Already registered  
-        if(resNew.data['is_register'] == false)
-          {
- 
+        if (resNew.data['is_register'] == false) {
+          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
           if (this.isLogin == true) {
-             const loginPageUrl = this.Router.url;
-             this.checkoutObj.id = resNew.data['id'];
-             let navigationExtras: NavigationExtras = {
-               state: {
-                 checkoutData: this.checkoutObj,
-                 withOutLogin: this.isLogin,
-                 payBack: loginPageUrl
-               }
-             };
-             this.Router.navigate(['/payment-days'], navigationExtras);
-           } else {
-             this.Router.navigate(['home-search']);
-           } 
-          }else{
- 
- 
-          //First time
-             const loginPageUrl = this.Router.url;
-             this.checkoutObj.id = resNew.data['id'];
-             let navigationExtras: NavigationExtras = {
-               state: {
-                 checkoutData: this.checkoutObj,
-                 withOutLogin: this.isLogin,
-                 payBack: loginPageUrl
-               }
-             };
-          this.Router.navigate(['signup-socialrefer'], navigationExtras);
+            const loginPageUrl = this.Router.url;
+            this.checkoutObj.id = resNew.data['id'];
+            let navigationExtras: NavigationExtras = {
+              state: {
+                checkoutData: this.checkoutObj,
+                withOutLogin: this.isLogin,
+                payBack: loginPageUrl
+              }
+            };
+            this.Router.navigate(['/payment-days'], navigationExtras);
+          } else {
+            this.Router.navigate(['home-search']);
           }
-   
-         } else {
-           this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
-         }
+        } else {
+          //First time -SIGNUP- Google 
+          //Socail Media Country Model STARTED 
+          this.modelSocailCountry(resNew.data['id'], this.Router.url);
+             if (this.platform.is('android') || this.platform.is('ios')) {
+        //For users who haven't signed up yet, this tag will simply not exist.
+        OneSignalPlugin.sendTag("signed_up", "true");
+          }
+        }
+
+      } else {
+        this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
+      }
     }).catch(err => {
       this.loadingScreen.dismissLoading();
       this.errorMSGModal(this.translate.instant('ERROR_MSG_TEXT'), this.translate.instant('ERROR_MSG_BUTTON'));
@@ -483,6 +466,7 @@ async submit() {
    async loginWithGoogle() {
    // this.googleSuccess()
     await this.loadingScreen.presentLoading();
+       
       const options = {
         prompt: 'consent',
         // other options...
@@ -504,14 +488,11 @@ async submit() {
   
     googleAttemp:any;
 
+    
     async googleSuccess(googleRes:any) {
       //API call for Login section
       await this.loadingScreen.presentLoading();
-      //this.googleLoginObj.userId ="11111111";
-      //this.googleLoginObj.first_name = "Dinesh";
-      //this.googleLoginObj.email = "dinesh1291186012@gmail.com";
-      
-      this.googleLoginObj.userId = googleRes.userId;
+       this.googleLoginObj.userId = googleRes.userId;
       this.googleLoginObj.first_name = googleRes.givenName;
       this.googleLoginObj.email = googleRes.email;
       
@@ -535,14 +516,10 @@ async submit() {
           window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
           window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
          
-          if(this.googleAttemp == 0) //If New 
-          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT_Wl'), "2000");
-          else
-          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
-         //Already registered  
+            //Already registered  
          if(resNew.data['is_register'] == false)
          {
-
+        this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "4000");
          if (this.isLogin == true) {
             const loginPageUrl = this.Router.url;
             this.checkoutObj.id = resNew.data['id'];
@@ -558,20 +535,16 @@ async submit() {
             this.Router.navigate(['home-search']);
           } 
          }else{
+     //First time -SIGNUP- Google 
+
+       //Socail Media Country Model STARTED 
+     this.modelSocailCountry( resNew.data['id'],this.Router.url );
+     
+    if (this.platform.is('android') || this.platform.is('ios')) {
+        //For users who haven't signed up yet, this tag will simply not exist.
+        OneSignalPlugin.sendTag("signed_up", "true");
+          }
     
-
-
-         //First time
-            const loginPageUrl = this.Router.url;
-            this.checkoutObj.id = resNew.data['id'];
-            let navigationExtras: NavigationExtras = {
-              state: {
-                checkoutData: this.checkoutObj,
-                withOutLogin: this.isLogin,
-                payBack: loginPageUrl
-              }
-            };
-         this.Router.navigate(['signup-socialrefer'], navigationExtras);
          }
   
         } else {
@@ -579,5 +552,34 @@ async submit() {
         }
       })
   }
+
+  async modelSocailCountry(userId: string, routeURL: string): Promise<void> {
+  const modal = await this.modalController.create({
+    component: SocailLoginCountryPhonePage, // fixed typo
+  });
+
+  modal.onDidDismiss().then((result) => {
+    console.log('Modal result:', result);
+
+    if (result.data.success == true) {
+
+      this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT_Wl'), "2000");
+
+      this.checkoutObj.id = userId;
+
+      const navigationExtras: NavigationExtras = {
+        state: {
+          checkoutData: this.checkoutObj,
+          withOutLogin: this.isLogin,
+          payBack: routeURL,
+        },
+      };
+
+      this.Router.navigate(['signup-socialrefer'], navigationExtras);
+    }
+  });
+
+  await modal.present();
+}
 
 }

@@ -45,7 +45,7 @@ export class SocialRefercodePage implements OnInit {
   // Validate form inputs
   async submit() {
     if (this.validate()) {
-      // If refere code added 
+      
         await this.loadingScreen.presentLoading();
         this.service.validate_refer_code(this.referObj).then((res: any) => {
           

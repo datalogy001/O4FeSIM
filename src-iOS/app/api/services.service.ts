@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
 })
 export class ServicesService {
   
-//Development server for Or4esim V3
-  restAPI: string = "https://or4esim.devdemo.biz/api/v3/"; // V3 with development 
-  stripePubliserKey: string = 'pk_test_51ReDE2EwjcMLfIk950R9H3BXVJyLJfhPDrSqBaI4YwA4qfXFVUkjO3oqDI5Pq8Lb4NQ44uLnjH8IPW6HUav1h7Du00hh27SS1F';     
-  //stripePubliserKey: string = 'pk_live_51ReDE2EwjcMLfIk9Q1nZqupwmguG9mMdbXdS8JJErL8XSmgMgOcbc69axsYC8wdFORxRHFgWdY99uF0fP9S8CLlM00DbGoqqht';     
+  
+  restAPI: string = "https://or4esim.com/api/v3/";
+  stripePubliserKey: string = 'pk_live_51ReDE2EwjcMLfIk9Q1nZqupwmguG9mMdbXdS8JJErL8XSmgMgOcbc69axsYC8wdFORxRHFgWdY99uF0fP9S8CLlM00DbGoqqht';     
   whiteLabelId: any = "95";
   clientToken:any = '6C0rGOC89Lg3i0hwgYM00WD5hvw1ZLZzZz3D9YDLMG9a0pbKI2EAuNhj2sUh'; 
+
 
   constructor(private http: HttpClient) { }
 
@@ -1154,7 +1154,7 @@ validate_voucher_code(obj: any, access_token:any) {
         .set('Content-Type', 'application/json; charset=utf-8')
         .set('whitelabel', this.whiteLabelId)
         .set('client-token', this.clientToken)
-      return this.http.post(this.restAPI + 'esimcountries', JSON.stringify(paramObj), { headers }).subscribe((res: any) => {
+      return this.http.post(this.restAPI + 'esim_countries_zone', JSON.stringify(paramObj), { headers }).subscribe((res: any) => {
         resolve(res);
       }, (err) => {
         reject(err);
@@ -1258,6 +1258,47 @@ validate_voucher_code(obj: any, access_token:any) {
       });
     });
   }
+
+    //API to Complete signup 
+  completeSignup(obj: any, authToken: any) {
+    this.selectedLang = window.localStorage.getItem('Or4esim_language') == null ? 'en' : window.localStorage.getItem('Or4esim_language');
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', 'Bearer ' + authToken)
+        .set('whitelabel', this.whiteLabelId)
+        .set('language', this.selectedLang)
+        .set('client-token', this.clientToken)
+      return this.http.post(this.restAPI + 'user/completeprofile', JSON.stringify(obj), { headers }).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+    //API to check Force Update isProfileIncompleteService  
+   
+  isProfileIncompleteService(obj:any) {
+    this.selectedLang = window.localStorage.getItem('Or4esim_language') == null ? 'en' : window.localStorage.getItem('Or4esim_language');
+    this.selectedCurrency = window.localStorage.getItem('Or4esim_currency') == null ? 'GBP' : window.localStorage.getItem('Or4esim_currency');
+    this.authToken =  window.localStorage.getItem('Or4esim_auth_token');
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders()
+        .set('Authorization', 'Bearer ' + this.authToken)
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('whitelabel', this.whiteLabelId)
+        .set('language', this.selectedLang)
+        .set('currency',this.selectedCurrency)
+        .set('client-token', this.clientToken)
+      return this.http.post(this.restAPI + 'user/profilestatus',JSON.stringify(obj), { headers }).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
 
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core'
 import { Platform, NavController, ToastController, PopoverController, ModalController, LoadingController } from "@ionic/angular";
 import { Router, NavigationExtras } from '@angular/router';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy.page';
@@ -456,7 +456,7 @@ export class CreateAccountPage implements OnInit {
 
 
   // Inject services and controllers
-  constructor(private firebaseAnalytics: FirebaseAnalytics,private translate: TranslateService, private googlePlus: GooglePlus,
+  constructor(private eRef: ElementRef,private firebaseAnalytics: FirebaseAnalytics,private translate: TranslateService, private googlePlus: GooglePlus,
     private loadingScreen: LoadingScreenAppPage,
     private platform: Platform,
     private loadCtr: LoadingController,
@@ -507,9 +507,33 @@ export class CreateAccountPage implements OnInit {
     this.iso = '';
     this.isearchIMg = '';
     this.searchData = this.tempCountry;
+    this.temp_mobile_number =''; 
     this.isCountrySelected =false;
      this.countryCodeObj = {};
     this.searchDiv.nativeElement.classList.remove('searching');
+  }
+
+ // Show list on focus
+  onFocusSearch() {
+    this.isSearch = true;
+    this.searchData = this.tempCountry;
+  }
+
+ // Detect click outside this component or on any ion-input
+  @HostListener('document:click', ['$event'])
+  handleClick(event: Event) {
+    const target = event.target as HTMLElement;
+
+    // Close if click is outside this component
+    const clickedOutside = !this.eRef.nativeElement.contains(target);
+
+    // Close if clicked on another ion-input
+    const clickedOtherInput = target.tagName.toLowerCase() === 'ion-input' ||
+                              target.closest('ion-input') !== null;
+
+    if (clickedOutside || clickedOtherInput) {
+      this.isSearch = false;
+    }
   }
 
 
@@ -537,6 +561,8 @@ onSearchMobile(event: any) {
   const inputValue: string = event.target.value || '';
   this.temp_mobile_number = inputValue.replace(/\D/g, ''); // digits only
 }
+
+
 
   onSearch(event: any) {
     const searchTerm: string = event.target.value;
@@ -586,20 +612,21 @@ onSearchMobile(event: any) {
 
   // Initialize component
   ngOnInit() {
-    this.langDefault = window.localStorage.getItem('Or4esim_language');
+    
     this.registerObj.city = window.localStorage.getItem('Or4esim_city') || '' ;
     //this.countryCodeObj.code = window.localStorage.getItem('Or4esim_phone_code') || '+44';
     //this.countryCodeObj.flag = window.localStorage.getItem('Or4esim_country_code') || 'gb';
 
+    this.langDefault = window.localStorage.getItem('Or4esim_language');
     this.translate.use(this.langDefault).subscribe(() => {
-      this.searchData = this.searchData.map((country: any) => ({
+      this.countryListWithCodes = this.countryListWithCodes.map((country: any) => ({
         name: this.translate.instant(`COUNTRIES.${country.iso}`),
         region: country.region,
         iso: country.iso,
         countrycode: country.countrycode
       }));
 
-         this.tempCountry = this.tempCountry.map((country: any) => ({
+      this.tempCountry = this.tempCountry.map((country: any) => ({
         name: this.translate.instant(`COUNTRIES.${country.iso}`),
         region: country.region,
         iso: country.iso,
@@ -708,6 +735,7 @@ async googleSuccess(googleRes:any) {
     if (resNew['code'] == 200) {
         
       const authToken =  resNew.data['token'];
+
       this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'en';
       this.updateUserLanguage(authToken); 
       window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(resNew.data['data']));
@@ -743,6 +771,9 @@ async googleSuccess(googleRes:any) {
      }else{
      //First time -SIGNUP- Google 
 
+     //Socail Media Country Model STARTED 
+     this.modelSocailCountry( resNew.data['id'],this.Router.url );
+
    if (this.platform.is('android') || this.platform.is('ios')) {
         //For users who haven't signed up yet, this tag will simply not exist.
         OneSignalPlugin.sendTag("signed_up", "true");
@@ -750,8 +781,7 @@ async googleSuccess(googleRes:any) {
           }
         //
 
-      //Socail Media Country Model STARTED 
-     this.modelSocailCountry( resNew.data['id'],this.Router.url );
+      
      }
 
     } else {

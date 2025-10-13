@@ -3,9 +3,10 @@
     <!-- <img src="assets/img/home.png"> -->
     <ion-header>
       <ion-toolbar>
-        <!-- <ion-title>
-        </ion-title> -->
-
+      
+         <ion-title>
+          <img class="ftel-logo" src="assets/img/coop-logo.png" alt="">
+        </ion-title>
        <ion-chip (click)="gotoTOpup()" slot="end" [ngClass]="getWalletClass()">{{ walletBalance | currency:currencyCode }}</ion-chip>
 
         <ion-buttons slot="end">
@@ -83,9 +84,9 @@
         <ion-select-option *ngIf="langDefault !='tu'" value="7plusdays">7+ days</ion-select-option>
         <ion-select-option *ngIf="langDefault !='tu'" value="3to6days">3-6 days</ion-select-option>
         <ion-select-option *ngIf="langDefault !='tu'"  value="1to2days">1-2 day</ion-select-option>
-        <ion-select-option *ngIf="langDefault =='tu'" value="7plusdays">7+ gün</ion-select-option>
-        <ion-select-option *ngIf="langDefault =='tu'" value="3to6days">3-6 gün</ion-select-option>
-        <ion-select-option *ngIf="langDefault =='tu'" value="1to2days">1-2 gün</ion-select-option>
+        <ion-select-option *ngIf="langDefault =='tu'" value="7plusdays">7 gün ve üzeri</ion-select-option>
+        <ion-select-option *ngIf="langDefault =='tu'" value="3to6days">3-6 gün arası</ion-select-option>
+        <ion-select-option *ngIf="langDefault =='tu'" value="1to2days">1-2 günlük</ion-select-option>
       </ion-select>
     </ion-item>
 

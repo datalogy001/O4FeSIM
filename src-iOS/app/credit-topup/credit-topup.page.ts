@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { Platform, ModalController, NavController } from '@ionic/angular';
 import { ModalRefercodePage } from '../modal-refercode/modal-refercode.page';
 import { IonActionSheet, IonButton } from '@ionic/angular/standalone';
 import { Router, NavigationExtras } from '@angular/router';
@@ -37,10 +37,10 @@ topupAMTNewList: any = Array.from({ length: 50 }, (_, i) => ({
 
   topupAMTObj: any = {  'status': '', 'amount': '', 'currency': '', 'paymentId': '', 'PayerID': '', 'token': '', 'payment_method':'','payment_intent':''};
 
-  constructor(private cdr: ChangeDetectorRef, private loadingScreen: LoadingScreenAppPage, private modalCtrl: ModalController, private translate: TranslateService, private service: ServicesService, private Router: Router, private modalController: ModalController, private navCtrl: NavController) { }
+  constructor(private platform: Platform,private cdr: ChangeDetectorRef, private loadingScreen: LoadingScreenAppPage, private modalCtrl: ModalController, private translate: TranslateService, private service: ServicesService, private Router: Router, private modalController: ModalController, private navCtrl: NavController) { }
 
   ngOnInit() {
-    
+  
     //Current currency 
     if (window.localStorage.getItem("Or4esim_currency") == null) {
       this.currencyCode = 'USD';

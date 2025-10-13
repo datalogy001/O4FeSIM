@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 
 
-
 @Component({
   selector: 'app-bundle-data-topup',
   templateUrl: './bundle-data-topup.page.html',
@@ -16,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class BundleDataTopupPage implements OnInit {
 
-  constructor(private platform:Platform, private translate: TranslateService,private loadingScreen: LoadingScreenAppPage, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
+  constructor(  private platform:Platform, private translate: TranslateService,private loadingScreen: LoadingScreenAppPage, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
   }
   tempData: any = [];
   bundleName: any = '';
@@ -117,7 +116,7 @@ getBackgroundUrl() {
 }
 
 gotoSummary(bundleItem: any, isUnlimited:any) {
-  
+ 
     this.checkoutObj.actualAmount = bundleItem.org_price;
     this.checkoutObj.extraAmount = bundleItem.price;
     this.checkoutObj.currency = this.currencyCode;

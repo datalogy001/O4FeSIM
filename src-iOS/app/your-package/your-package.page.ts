@@ -499,8 +499,10 @@ export class YourPackagePage implements OnInit {
         
         }
         }).catch(err => {
-            // Handle error here
+
             this.IsDatabalanceLoaded =true;
+            //this.bundleExpireDate = this.bundleDatas.topups[0].end_time;
+            console.log(this.bundleExpireDate);
             this.loadingScreen.dismissLoading();
             if (this.bundleDatas.isUnlimited == false) {
                 const totalGB = 0;
@@ -526,7 +528,7 @@ export class YourPackagePage implements OnInit {
     
     expiredates:any; 
     isDepleted:any= false;
-   
+   expRemainDays:any;
     checkBundleState(assignmenrtArr: any) {
         this.loadingScreen.dismissLoading();
         this.IsDatabalanceLoaded =true;
@@ -535,7 +537,16 @@ export class YourPackagePage implements OnInit {
             for (let j = 0; j < assignmenrtArr.length; j++) {
                 if (this.topupArray[i]['assignmentReference'] + '-0' == assignmenrtArr[j]['assignmentReference']) {
                     if (assignmenrtArr[j]['bundleState'] == 'depleted') {
-                        this.bundleDatas.isUnlimited = assignmenrtArr[j]['unlimited'];
+                        console.log(assignmenrtArr[j]['bundleState']['endTime']);
+                 // Example: inside your function where you get bundleExpireDate
+const endDate = moment.utc(assignmenrtArr[j]['endTime']);
+this.bundleExpireDate = endDate.format('DD-MM-YYYY');
+
+// Calculate remaining days (difference between expiry date and today)
+const today = moment.utc();
+this.expRemainDays = endDate.diff(today, 'days'); // gives integer days
+
+      this.bundleDatas.isUnlimited = assignmenrtArr[j]['unlimited'];
                         if(this.bundleDatas.isUnlimited == true)
                             this.dataDaysField = this.topupArray[i]['days'];
                         else
@@ -558,6 +569,8 @@ export class YourPackagePage implements OnInit {
             }
         }
     }
+
+    bundleExpireDate:any; 
     checkWithTopups(assignmenrtArr: any) {
         this.topupArray = this.bundleDatas.topups;
         this.loadingScreen.dismissLoading();
@@ -568,12 +581,22 @@ export class YourPackagePage implements OnInit {
             for (let j = 0; j < assignmenrtArr.length; j++) {
                 if (this.topupArray[i]['assignmentReference'] + '-0' == assignmenrtArr[j]['assignmentReference']) {
                     foundMatch = true;
+
+                    console.log(JSON.stringify(assignmenrtArr[j]['bundleState']));
                     // No use data amount and start and end time
                     if (assignmenrtArr[j]['bundleState'] == 'queued') {
                         this.topupArray[i]['status'] = 'Queued';
 
                     }
                     else if (assignmenrtArr[j]['bundleState'] == 'depleted') {
+                        console.log(assignmenrtArr[j]['bundleState']['endTime']);
+                      // Example: inside your function where you get bundleExpireDate
+const endDate = moment.utc(assignmenrtArr[j]['endTime']);
+this.bundleExpireDate = endDate.format('DD-MM-YYYY');
+
+// Calculate remaining days (difference between expiry date and today)
+const today = moment.utc();
+this.expRemainDays = endDate.diff(today, 'days'); // gives integer days
                         this.bundleDatas.isUnlimited = assignmenrtArr[j]['unlimited'];
                         if(this.bundleDatas.isUnlimited == true)
                             this.dataDaysField = this.topupArray[i]['days'];
@@ -634,8 +657,13 @@ export class YourPackagePage implements OnInit {
                     } else if (assignmenrtArr[j]['bundleState'] == 'active' || assignmenrtArr[j]['bundleState'] == 'Active') {
                         this.topupArray[i]['status'] = 'Active';
                         //For Active Bundle status 
+                        // Example: inside your function where you get bundleExpireDate
+const endDate = moment.utc(assignmenrtArr[j]['endTime']);
+this.bundleExpireDate = endDate.format('DD-MM-YYYY');
 
-                        
+// Calculate remaining days (difference between expiry date and today)
+const today = moment.utc();
+this.expRemainDays = endDate.diff(today, 'days'); // gives integer days
                         this.bundleDatas.isUnlimited = assignmenrtArr[j]['unlimited'];
 
                         if(this.bundleDatas.isUnlimited == true)

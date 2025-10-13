@@ -1,6 +1,5 @@
 import { ConfirmContinuePage } from '../confirm-continue/confirm-continue.page';
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
-
+import { Component, OnInit, Input, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Platform, NavController, AlertController, ToastController, PopoverController, ModalController, LoadingController } from "@ionic/angular";
 import { ServicesService } from '../api/services.service';
 import { Router, NavigationExtras } from '@angular/router';
@@ -73,7 +72,7 @@ export class PaymentDaysPage implements OnInit {
   googlePayType: any = '';
   @ViewChild(IonContent, { static: false }) content?: IonContent;
 
-  constructor(private keyboard: Keyboard, private alertController: AlertController, private translate: TranslateService, private popoverController: PopoverController, private loadingScreen: LoadingScreenAppPage, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private navController: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) {
+  constructor(private zone: NgZone,private keyboard: Keyboard, private alertController: AlertController, private translate: TranslateService, private popoverController: PopoverController, private loadingScreen: LoadingScreenAppPage, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private navController: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) {
     //    if (this.platform.is('android') || this.platform.is('ios')) {
     //      sgap.setKey(this.service.stripePubliserKey);
     //    }
@@ -429,7 +428,7 @@ export class PaymentDaysPage implements OnInit {
         if (data.splitDatas.selected_payment_method == 'apple-pay') {
           this.appleAmt = this.stripeCardObj.amt_from_other_payment;
           this.managingAppLogs("From App Step 1 Normal eSIM Purchase: Split Payment- Apple Pay Checkout Started",this.currencyCode,  this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
-          customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": "Coop Travel eSIM", "plan": this.stripeCardObj.bundle.bundleData.name, "token": this.accessToken, "ApplePayErrorMSG": this.applePayErrorMSG, "NosetupApplePay": this.noApplePaySetup }, (success: any) => {
+          customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": "Or4 eSIM - Global Travel Plan", "plan": this.stripeCardObj.bundle.bundleData.name, "token": this.accessToken, "ApplePayErrorMSG": this.applePayErrorMSG, "NosetupApplePay": this.noApplePaySetup }, (success: any) => {
             // API calls 
              this.managingAppLogs("From App Step 2 Normal eSIM Purchase: Split Payment- Apple Pay Success FROM Native SDK: " + JSON.stringify(success),this.currencyCode,  this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
             this.successApplePay(success.clientSecret);
@@ -590,7 +589,7 @@ export class PaymentDaysPage implements OnInit {
 
         this.appleAmt = this.stripeCardObj.is_couped_applied == 0 ? this.stripeCardObj.bundle.extraAmount : this.stripeCardObj.original_amount;
         this.managingAppLogs("From App Step 1 Normal eSIM Purchase: Apple Pay Checkout Started",this.currencyCode,  this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
-        customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": "Coop Travel eSIM", "plan": this.stripeCardObj.bundle.bundleData.name, "token": this.accessToken, "ApplePayErrorMSG": this.applePayErrorMSG, "NosetupApplePay": this.noApplePaySetup }, (success: any) => {
+        customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": "Or4 eSIM - Global Travel Plan", "plan": this.stripeCardObj.bundle.bundleData.name, "token": this.accessToken, "ApplePayErrorMSG": this.applePayErrorMSG, "NosetupApplePay": this.noApplePaySetup }, (success: any) => {
           // API calls 
           this.managingAppLogs("From App Step 2 Normal eSIM Purchase: Apple Pay Success FROM Native SDK: " + JSON.stringify(success),this.currencyCode,  this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
           this.successApplePay(success.clientSecret);

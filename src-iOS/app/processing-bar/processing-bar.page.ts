@@ -4,7 +4,7 @@ import { ServicesService } from '../api/services.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-
+import OneSignalPlugin from 'onesignal-cordova-plugin';
 @Component({
   selector: 'app-processing-bar',
   templateUrl: './processing-bar.page.html',
@@ -33,9 +33,12 @@ export class ProcessingBarPage implements OnInit, OnDestroy {
       if (res.code == 200) {
         this.result = res.data[0];
         this.error = false;
-     
-
-      
+ //Purchase callback
+         if (this.platform.is('android') || this.platform.is('ios')) { 
+            //Make purchase TAG
+            OneSignalPlugin.sendTag("made_purchase", "true");
+          }
+          //End 
       } else {
         this.error = true;
       }

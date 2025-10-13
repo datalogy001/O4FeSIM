@@ -18,9 +18,15 @@
         src="assets/flags/{{ isearchIMg | lowercase }}.svg" alt="{{ isearchIMg }} flag">
     </div>
 
-    <ion-searchbar (keyup)="onSearch($event)" (ionClear)="onClearSearch()" class="homesearch"
-      [placeholder]="'Country_residence' | translate" [(ngModel)]="searchTerm">
-    </ion-searchbar>
+       <ion-searchbar 
+  (ionFocus)="onFocusSearch()"  
+  (keyup)="onSearch($event)" 
+  (ionClear)="onClearSearch()" 
+  class="homesearch"
+  [placeholder]="'Country_residence' | translate" 
+  [(ngModel)]="searchTerm">
+</ion-searchbar>
+
 
 <!-- Error message always takes space -->
 <p class="error-msg" [class.visible]="!!countryError">{{ countryError }}</p>

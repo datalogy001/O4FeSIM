@@ -6,10 +6,11 @@ import { Router, NavigationExtras } from '@angular/router';
 import { AlertController, NavController, ModalController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
-import { PushNotificationPage } from '../app/push-notification/push-notification.page'
 import OneSignalPlugin from 'onesignal-cordova-plugin'
+import { PushNotificationPage } from '../app/push-notification/push-notification.page'
 import { Network } from '@ionic-native/network/ngx';
 import axios from 'axios';
+
 import { NointernetPage } from '../app/nointernet/nointernet.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Constants } from './api/constants.enum';
@@ -17,7 +18,9 @@ import { Market } from '@ionic-native/market/ngx';
 import {UpdateAppPage} from '../app/update-app/update-app.page'
 import {Device} from '@ionic-native/device/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-
+import { SocailLoginCountryPhonePage } from '../app/socail-login-country-phone/socail-login-country-phone.page';
+import { SuccessModelPage } from '../app/success-model/success-model.page';
+  
 
 register();
 @Component({
@@ -201,55 +204,55 @@ export class AppComponent {
     { "country": 'Netherlands', "code": 'NL', "currency": 'EUR', "language": 'en', "phone_code_country": '+31' },
     { "country": 'New Zealand', "code": 'NZ', "currency": 'NZD', "language": 'en', "phone_code_country": '+64' },
     { "country": 'Nigeria', "code": 'NG', "currency": 'NGN', "language": 'en', "phone_code_country": '+234' },
- { "country": 'Niue', "code": 'NU', "currency": 'NZD', "language": 'en', "phone_code_country": '+683' },
-  { "country": 'Norfolk Island', "code": 'NF', "currency": 'AUD', "language": 'en', "phone_code_country": '+672' },
-  { "country": 'Northern Mariana Islands', "code": 'MP', "currency": 'USD', "language": 'en', "phone_code_country": '+1-670' },
-  { "country": 'Norway', "code": 'NO', "currency": 'NOK', "language": 'en', "phone_code_country": '+47' },
-  { "country": 'Oman', "code": 'OM', "currency": 'OMR', "language": 'en', "phone_code_country": '+968' },
-  { "country": 'Pakistan', "code": 'PK', "currency": 'PKR', "language": 'en', "phone_code_country": '+92' },
-  { "country": 'Palau', "code": 'PW', "currency": 'USD', "language": 'en', "phone_code_country": '+680' },
-  { "country": 'Palestinian Territory Occupied', "code": 'PS', "currency": 'ILS', "language": 'en', "phone_code_country": '+970' },
-  { "country": 'Panama', "code": 'PA', "currency": 'PAB', "language": 'en', "phone_code_country": '+507' },
-  { "country": 'Papua New Guinea', "code": 'PG', "currency": 'PGK', "language": 'en', "phone_code_country": '+675' },
-  { "country": 'Paraguay', "code": 'PY', "currency": 'PYG', "language": 'en', "phone_code_country": '+595' },
-  { "country": 'Peru', "code": 'PE', "currency": 'PEN', "language": 'en', "phone_code_country": '+51' },
-  { "country": 'Philippines', "code": 'PH', "currency": 'PHP', "language": 'en', "phone_code_country": '+63' },
-  { "country": 'Pitcairn Island', "code": 'PN', "currency": 'NZD', "language": 'en', "phone_code_country": '+64' },
-  { "country": 'Poland', "code": 'PL', "currency": 'PLN', "language": 'en', "phone_code_country": '+48' },
-  { "country": 'Portugal', "code": 'PT', "currency": 'EUR', "language": 'en', "phone_code_country": '+351' },
-  { "country": 'Puerto Rico', "code": 'PR', "currency": 'USD', "language": 'en', "phone_code_country": '+1-787, +1-939' },
-  { "country": 'Qatar', "code": 'QA', "currency": 'QAR', "language": 'en', "phone_code_country": '+974' },
-  { "country": 'Reunion', "code": 'RE', "currency": 'EUR', "language": 'en', "phone_code_country": '+262' },
-  { "country": 'Romania', "code": 'RO', "currency": 'RON', "language": 'en', "phone_code_country": '+40' }, // Set to Turkish
-  { "country": 'Russia', "code": 'RU', "currency": 'RUB', "language": 'en', "phone_code_country": '+7' },
-  { "country": 'Rwanda', "code": 'RW', "currency": 'RWF', "language": 'en', "phone_code_country": '+250' },
-  { "country": 'Saint Helena', "code": 'SH', "currency": 'SHP', "language": 'en', "phone_code_country": '+290' },
-  { "country": 'Saint Kitts And Nevis', "code": 'KN', "currency": 'XCD', "language": 'en', "phone_code_country": '+1-869' },
-  { "country": 'Saint Lucia', "code": 'LC', "currency": 'XCD', "language": 'en', "phone_code_country": '+1-758' },
-  { "country": 'Saint Vincent And The Grenadines', "code": 'VC', "currency": 'XCD', "language": 'en', "phone_code_country": '+1-784' },
-  { "country": 'San Marino', "code": 'SM', "currency": 'EUR', "language": 'en', "phone_code_country": '+378' },
-  { "country": 'Saudi Arabia', "code": 'SA', "currency": 'SAR', "language": 'en', "phone_code_country": '+966' },
-  { "country": 'Senegal', "code": 'SN', "currency": 'XOF', "language": 'en', "phone_code_country": '+221' },
-  { "country": 'Serbia', "code": 'RS', "currency": 'RSD', "language": 'en', "phone_code_country": '+381' }, // Set to Turkish
-  { "country": 'Seychelles', "code": 'SC', "currency": 'SCR', "language": 'en', "phone_code_country": '+248' },
-  { "country": 'Singapore', "code": 'SG', "currency": 'SGD', "language": 'en', "phone_code_country": '+65' },
-  { "country": 'Slovakia', "code": 'SK', "currency": 'EUR', "language": 'en', "phone_code_country": '+421' },
-  { "country": 'Slovenia', "code": 'SI', "currency": 'EUR', "language": 'en', "phone_code_country": '+386' }, // Set to Turkish
-  { "country": 'South Africa', "code": 'ZA', "currency": 'ZAR', "language": 'en', "phone_code_country": '+27' },
-  { "country": 'Spain', "code": 'ES', "currency": 'EUR', "language": 'en', "phone_code_country": '+34' },
-  { "country": 'Sri Lanka', "code": 'LK', "currency": 'LKR', "language": 'en', "phone_code_country": '+94' },
-  { "country": 'Sudan', "code": 'SD', "currency": 'SDG', "language": 'en', "phone_code_country": '+249' },
-  { "country": 'Sweden', "code": 'SE', "currency": 'SEK', "language": 'en', "phone_code_country": '+46' },
-  { "country": 'Switzerland', "code": 'CH', "currency": 'CHF', "language": 'en', "phone_code_country": '+41' },
-  { "country": 'Thailand', "code": 'TH', "currency": 'THB', "language": 'en', "phone_code_country": '+66' },
-  { "country": 'Turkey', "code": 'TR', "currency": 'TRY', "language": 'en', "phone_code_country": '+90' },
-  { "country": 'United Arab Emirates', "code": 'AE', "currency": 'AED', "language": 'en', "phone_code_country": '+971' },
-  { "country": 'United Kingdom', "code": 'GB', "currency": 'GBP', "language": 'en', "phone_code_country": '+44' },
-  { "country": 'United States', "code": 'US', "currency": 'USD', "language": 'en', "phone_code_country": '+1' },
-  { "country": 'Vietnam', "code": 'VN', "currency": 'VND', "language": 'en', "phone_code_country": '+84' },
-  { "country": 'Zambia', "code": 'ZM', "currency": 'ZMW', "language": 'en', "phone_code_country": '+260' },
-  { "country": 'Zimbabwe', "code": 'ZW', "currency": 'ZWL', "language": 'en', "phone_code_country": '+263' }];
-  
+    { "country": 'Niue', "code": 'NU', "currency": 'NZD', "language": 'en', "phone_code_country": '+683' },
+    { "country": 'Norfolk Island', "code": 'NF', "currency": 'AUD', "language": 'en', "phone_code_country": '+672' },
+    { "country": 'Northern Mariana Islands', "code": 'MP', "currency": 'USD', "language": 'en', "phone_code_country": '+1-670' },
+    { "country": 'Norway', "code": 'NO', "currency": 'NOK', "language": 'en', "phone_code_country": '+47' },
+    { "country": 'Oman', "code": 'OM', "currency": 'OMR', "language": 'en', "phone_code_country": '+968' },
+    { "country": 'Pakistan', "code": 'PK', "currency": 'PKR', "language": 'en', "phone_code_country": '+92' },
+    { "country": 'Palau', "code": 'PW', "currency": 'USD', "language": 'en', "phone_code_country": '+680' },
+    { "country": 'Palestinian Territory Occupied', "code": 'PS', "currency": 'ILS', "language": 'en', "phone_code_country": '+970' },
+    { "country": 'Panama', "code": 'PA', "currency": 'PAB', "language": 'en', "phone_code_country": '+507' },
+    { "country": 'Papua New Guinea', "code": 'PG', "currency": 'PGK', "language": 'en', "phone_code_country": '+675' },
+    { "country": 'Paraguay', "code": 'PY', "currency": 'PYG', "language": 'en', "phone_code_country": '+595' },
+    { "country": 'Peru', "code": 'PE', "currency": 'PEN', "language": 'en', "phone_code_country": '+51' },
+    { "country": 'Philippines', "code": 'PH', "currency": 'PHP', "language": 'en', "phone_code_country": '+63' },
+    { "country": 'Pitcairn Island', "code": 'PN', "currency": 'NZD', "language": 'en', "phone_code_country": '+64' },
+    { "country": 'Poland', "code": 'PL', "currency": 'PLN', "language": 'en', "phone_code_country": '+48' },
+    { "country": 'Portugal', "code": 'PT', "currency": 'EUR', "language": 'en', "phone_code_country": '+351' },
+    { "country": 'Puerto Rico', "code": 'PR', "currency": 'USD', "language": 'en', "phone_code_country": '+1-787, +1-939' },
+    { "country": 'Qatar', "code": 'QA', "currency": 'QAR', "language": 'en', "phone_code_country": '+974' },
+    { "country": 'Reunion', "code": 'RE', "currency": 'EUR', "language": 'en', "phone_code_country": '+262' },
+    { "country": 'Romania', "code": 'RO', "currency": 'RON', "language": 'en', "phone_code_country": '+40' }, // Set to Turkish
+    { "country": 'Russia', "code": 'RU', "currency": 'RUB', "language": 'en', "phone_code_country": '+7' },
+    { "country": 'Rwanda', "code": 'RW', "currency": 'RWF', "language": 'en', "phone_code_country": '+250' },
+    { "country": 'Saint Helena', "code": 'SH', "currency": 'SHP', "language": 'en', "phone_code_country": '+290' },
+    { "country": 'Saint Kitts And Nevis', "code": 'KN', "currency": 'XCD', "language": 'en', "phone_code_country": '+1-869' },
+    { "country": 'Saint Lucia', "code": 'LC', "currency": 'XCD', "language": 'en', "phone_code_country": '+1-758' },
+    { "country": 'Saint Vincent And The Grenadines', "code": 'VC', "currency": 'XCD', "language": 'en', "phone_code_country": '+1-784' },
+    { "country": 'San Marino', "code": 'SM', "currency": 'EUR', "language": 'en', "phone_code_country": '+378' },
+    { "country": 'Saudi Arabia', "code": 'SA', "currency": 'SAR', "language": 'en', "phone_code_country": '+966' },
+    { "country": 'Senegal', "code": 'SN', "currency": 'XOF', "language": 'en', "phone_code_country": '+221' },
+    { "country": 'Serbia', "code": 'RS', "currency": 'RSD', "language": 'en', "phone_code_country": '+381' }, // Set to Turkish
+    { "country": 'Seychelles', "code": 'SC', "currency": 'SCR', "language": 'en', "phone_code_country": '+248' },
+    { "country": 'Singapore', "code": 'SG', "currency": 'SGD', "language": 'en', "phone_code_country": '+65' },
+    { "country": 'Slovakia', "code": 'SK', "currency": 'EUR', "language": 'en', "phone_code_country": '+421' },
+    { "country": 'Slovenia', "code": 'SI', "currency": 'EUR', "language": 'en', "phone_code_country": '+386' }, // Set to Turkish
+    { "country": 'South Africa', "code": 'ZA', "currency": 'ZAR', "language": 'en', "phone_code_country": '+27' },
+    { "country": 'Spain', "code": 'ES', "currency": 'EUR', "language": 'en', "phone_code_country": '+34' },
+    { "country": 'Sri Lanka', "code": 'LK', "currency": 'LKR', "language": 'en', "phone_code_country": '+94' },
+    { "country": 'Sudan', "code": 'SD', "currency": 'SDG', "language": 'en', "phone_code_country": '+249' },
+    { "country": 'Sweden', "code": 'SE', "currency": 'SEK', "language": 'en', "phone_code_country": '+46' },
+    { "country": 'Switzerland', "code": 'CH', "currency": 'CHF', "language": 'en', "phone_code_country": '+41' },
+    { "country": 'Thailand', "code": 'TH', "currency": 'THB', "language": 'en', "phone_code_country": '+66' },
+    { "country": 'Turkey', "code": 'TR', "currency": 'TRY', "language": 'en', "phone_code_country": '+90' },
+    { "country": 'United Arab Emirates', "code": 'AE', "currency": 'AED', "language": 'en', "phone_code_country": '+971' },
+    { "country": 'United Kingdom', "code": 'GB', "currency": 'GBP', "language": 'en', "phone_code_country": '+44' },
+    { "country": 'United States', "code": 'US', "currency": 'USD', "language": 'en', "phone_code_country": '+1' },
+    { "country": 'Vietnam', "code": 'VN', "currency": 'VND', "language": 'en', "phone_code_country": '+84' },
+    { "country": 'Zambia', "code": 'ZM', "currency": 'ZMW', "language": 'en', "phone_code_country": '+260' },
+    { "country": 'Zimbabwe', "code": 'ZW', "currency": 'ZWL', "language": 'en', "phone_code_country": '+263' }];
+
   currencyCode: any;
   platformType: any = '';
 
@@ -259,71 +262,25 @@ export class AppComponent {
     'app_platform': ''
   }
 
+  deviceLanguage: any = 'en';
   
   constructor(private statusBar: StatusBar, private navController: NavController, private market: Market,private translate: TranslateService, private toastController: ToastController,private network: Network, private modalController: ModalController, private http: HttpClient, private alertController: AlertController, private platform: Platform, private apiService: ServicesService, private router: Router) {
   
-    this.todaysDate = moment().format('YYYY-MM-DD');
-
-    this.initCountry();
-  
-      this.platform.ready().then(() => {
- this.statusBar.styleDefault();
-      this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#F4EBDF');
-      this.detectLanguage();
-        
+    this.platform.ready().then(() => {
+        if (this.platform.is('android') || this.platform.is('ios')) {
+         this.checkInternetConnection();
+         this.detectLanguage();
+         this.getIPAddress();
+         this.AppUpdatesCommonFun();
+         this.initializeApp();
+        }else{
+          this.detectLanguage();
+          this.setDefaultCurrencyAndLanguage();
+          this.AppUpdatesCommonFun();
+          this.initializeApp();
+        }
          });
-   
-
-    //Check internet connection 
-    
-    if (this.platform.is('android') || this.platform.is('ios')) {
-      this.checkInternetConnection();
-      this.getIPAddress();
-    }else{
-      this.setDefaultCurrencyAndLanguage();
-    } 
-   
-    this.initApp();
   }
-
- deviceLanguage: any = 'en';
-
-  detectLanguage() {
-    const supportedLanguages = ['en','tu']; // Only allow English and French
-    const savedLanguageStatus = window.localStorage.getItem("Or4esim_Saved_Language");
-    const savedLanguage = window.localStorage.getItem("Or4esim_language");
-  
-    if (savedLanguageStatus === "Yes" || savedLanguageStatus !== null) {
-      if (savedLanguage) {
-        this.deviceLanguage = savedLanguage;
-      } else {
-        this.deviceLanguage = this.getDeviceLanguage(supportedLanguages);
-        window.localStorage.setItem("Or4esim_language", this.deviceLanguage);
-      }
-    } else {
-      this.deviceLanguage = this.getDeviceLanguage(supportedLanguages);
-      window.localStorage.setItem("Or4esim_language", this.deviceLanguage);
-    }
-  
-    // Set language in translation service
-    this.translate.addLangs(supportedLanguages);
-    this.translate.setDefaultLang(this.deviceLanguage);
-    this.translate.use(this.deviceLanguage);
-  }
-  
-  private getDeviceLanguage(supportedLanguages: string[]): string {
-    if (typeof navigator !== 'undefined' && navigator.language) {
-      const langCode = navigator.language.split('-')[0].toLowerCase(); // Extract and convert to lowercase
-      return supportedLanguages.includes(langCode) ? langCode : 'en';
-    }
-    return 'en'; // Fallback to English
-  }
-  
-
-
-
-  langvalue:any;
 
   /* Step:1  */
   checkInternetConnection() {
@@ -350,21 +307,34 @@ export class AppComponent {
   }
   /*Step 1 END */
 
-  //Step 2 Start
-
-  initApp() {
-    //Configure Push notification 
-    this.platform.ready().then(() => {
-      if (this.platform.is('android') || this.platform.is('ios')) {
-        this.initOneSignal();
+/* Step:2*/
+//Detect Device langauge:
+  detectLanguage() {
+    const supportedLanguages = ['en','tu']; // Only allow English and Dutch
+    const savedLanguageStatus = window.localStorage.getItem("Or4esim_Saved_Language");
+    const savedLanguage = window.localStorage.getItem("Or4esim_language");
+  
+    if (savedLanguageStatus === "Yes" || savedLanguageStatus !== null) {
+      if (savedLanguage) {
+        this.deviceLanguage = savedLanguage;
+      } else {
+        this.deviceLanguage = 'en';
+        window.localStorage.setItem("Or4esim_language", this.deviceLanguage);
       }
-    });
-   //App updates popup 
-    this.AppUpdatesCommonFun();
+    } else {
+      this.deviceLanguage = 'en';
+      window.localStorage.setItem("Or4esim_language", this.deviceLanguage);
+    }
+  
+    // Set language in translation service
+    this.translate.addLangs(supportedLanguages);
+    this.translate.setDefaultLang(this.deviceLanguage);
+    this.translate.use(this.deviceLanguage);
   }
 
-   // Initialize OneSignal Push Notifications
+// Initialize OneSignal Push Notifications
    initOneSignal() {
+    const isNotiSettingAllowed = window.localStorage.getItem('eSIM_IsNotiSettingAllow');
     OneSignalPlugin.setAppId('aae08e91-b9cb-455f-885c-7b77073bcd41');
     OneSignalPlugin.setNotificationOpenedHandler((jsonData: any) => {
       console.log('Notification opened:', jsonData);
@@ -373,19 +343,27 @@ export class AppComponent {
         this.router.navigate(['home-search']);
       }
     });
+
+// Initialize push notifications if accepted
+    if (isNotiSettingAllowed === 'yes') {
+       this.initializePushNotifications();
+    }
   }
 
-    ngOnInit() {
-    
-    }
 
+
+
+ 
+
+
+
+  
+ /* Step:2 END*/
+  
   AppUpdatesCommonFun() {
-   //if (this.platform.is('cordova')) {
     this.platformType = this.platform.is('ios') ? 'Ios' : 'Android';
       const APP_VERSION = this.platformType == 'Ios' ? Constants.IOS_APP_VERSION : Constants.ANDROID_APP_VERSION;
-       //this.platformType = 'Android'; //static removeal
-      //const APP_VERSION = Constants.ANDROID_APP_VERSION; //static removal 
-      this.platformsObj.app_version = APP_VERSION;
+       this.platformsObj.app_version = APP_VERSION;
       this.platformsObj.app_platform = this.platformType;
       //Check API for updated version 
       this.apiService.checkForAppUpdateIOS(this.platformsObj).then((res: any) => {
@@ -414,6 +392,8 @@ export class AppComponent {
   getIPAddress() {
    this.http.get('https://ipinfo.io?token=ba0ae1ba3623e2').subscribe((data: any) => {
     window.localStorage.setItem("Or4esim_IP", data.ip);
+window.localStorage.setItem('Or4esim_city', data.city);
+      window.localStorage.setItem('Or4esim_country_code', data.country);
     console.log("Datas"+JSON.stringify(data));
       this.setCurrencyAndLanguage(data.country);
     }, error => {
@@ -424,15 +404,10 @@ export class AppComponent {
   setDefaultCurrencyAndLanguage() {
 
   //If no country 
-  if(window.localStorage.getItem("Or4esim_Saved_Currency") == "Yes" || window.localStorage.getItem("Or4esim_Saved_Currency") != null)
-    this.currencyCode = window.localStorage.getItem("Or4esim_currency");
+  if(window.localStorage.getItem("Or4esim_Saved_Currency") == "Yes")
+   this.currencyCode = window.localStorage.getItem("Or4esim_currency") || 'USD';
   else
   this.currencyCode = 'USD';
-
-  /*if( window.localStorage.getItem("Or4esim_language") != null)
-  this.langvalue = window.localStorage.getItem("Or4esim_language");
-  else
-  this.langvalue = 'en'; */
 
   if( window.localStorage.getItem("Or4esim_countryCode") != null)
     this.countryCode = window.localStorage.getItem("Or4esim_countryCode");
@@ -443,19 +418,82 @@ export class AppComponent {
       this.phoneCode = window.localStorage.getItem("Or4esim_phone_code");
       else
       this.phoneCode = '+44';
-
-    // Add languages to support
-    //this.translate.addLangs(['en']);
-   // this.translate.addLangs(['en', 'fr']);
-    // Set default language
-  //  this.translate.setDefaultLang(this.langvalue);
- //   this.translate.use(this.langvalue);
-    
- //   window.localStorage.setItem("Or4esim_language", this.langvalue);
     window.localStorage.setItem('Or4esim_currency', this.currencyCode);
     window.localStorage.setItem('Or4esim_phone_code',  this.phoneCode );
     window.localStorage.setItem('Or4esim_countryCode',  this.countryCode );
   }
+
+
+  profileStatus: any = {};
+
+  isProfileIncomplete(): void {
+  const userDetails = JSON.parse(
+    window.localStorage.getItem('Or4esim_userDetails') || '{}'
+  );
+
+  if (!userDetails?.id) {
+    console.warn('No user details found in localStorage.');
+    return;
+  }
+
+  this.profileStatus.user_id = userDetails.id;
+
+  this.apiService.isProfileIncompleteService(this.profileStatus)
+    .then((res: any) => {
+      if (res?.code === 200) {
+        if (res.data?.is_first_time === 0) {
+          console.log('Popup will not appear');
+        } else {
+          this.modelSocialCountry(this.profileStatus.user_id);
+          console.log('Popup will appear');
+        }
+      } else {
+        console.error('API error: invalid response code', res);
+      }
+    })
+    .catch((err) => {
+      console.error('API error:', err);
+    });
+}
+
+async modelSocialCountry(userId: string): Promise<void> {
+  try {
+    const modal = await this.modalController.create({
+      component: SocailLoginCountryPhonePage, // ✅ component reference
+      componentProps: { userId }, // 👈 pass userId if needed
+    });
+
+    modal.onDidDismiss().then((result) => {
+      console.log('Modal result:', result);
+
+      if (result?.data?.success === true) {
+        this.successMSGModal(
+          this.translate.instant('SIGNUP_SUCCESS_DESCRIPTION'),
+          this.translate.instant('SIGNUP_SUCCESS_TITLE'),
+          '2000'
+        );
+      }
+    });
+
+    await modal.present();
+  } catch (err) {
+    console.error('Error opening modal:', err);
+  }
+}
+
+
+
+  // Success Modal
+  async successMSGModal(buttonText: any, msg: any, times: any) {
+    const modal = await this.modalController.create({
+      component: SuccessModelPage,
+      componentProps: { 'value': msg, 'value1': buttonText, 'value2': times }
+    });
+
+    modal.onDidDismiss();
+    return await modal.present();
+  }
+
 
  phoneCode:any;
   countryCode:any;
@@ -472,7 +510,7 @@ console.log("Here" + JSON.stringify(country))
     window.localStorage.setItem('Or4esim_countryCode',  country.code);
 
 
-    if(window.localStorage.getItem("Or4esim_Saved_Currency") == "Yes" || window.localStorage.getItem("Or4esim_Saved_Currency") != null)
+    if(window.localStorage.getItem("Or4esim_Saved_Currency") == "Yes" )
       this.currencyCode = window.localStorage.getItem("Or4esim_currency");
     else
     this.currencyCode =this.currencyList.includes(country.currency) ? country.currency : 'USD';
@@ -481,7 +519,7 @@ console.log("Here" + JSON.stringify(country))
 
   }else {
     //If no country 
-    if(window.localStorage.getItem("Or4esim_Saved_Currency") == "Yes" || window.localStorage.getItem("Or4esim_Saved_Currency") != null)
+    if(window.localStorage.getItem("Or4esim_Saved_Currency") == "Yes")
       this.currencyCode = window.localStorage.getItem("Or4esim_currency");
     else
     this.currencyCode = 'USD';
@@ -509,35 +547,30 @@ console.log("Here" + JSON.stringify(country))
   window.localStorage.setItem('Or4esim_currency', this.currencyCode); 
 
 }
-
   //Step 4 Start
-
-  initCountry() {
+  initializeApp() {
     this.countryParam.to_currency = this.currencyCode == '' || this.currencyCode == null ? 'USD' : this.currencyCode;
- const authToken = window.localStorage.getItem('Or4esim_auth_token');
+    const authToken = window.localStorage.getItem('Or4esim_auth_token');
     const isNotiSettingAllowed = window.localStorage.getItem('eSIM_IsNotiSettingAllow');
     
-    if (!authToken) {
-    //  this.navController.navigateRoot('start');
-     // return;
-    } else {
-      this.getWalletBalance();
-    }
-  
-    // Fetch and store country and zone bundles
+     // Fetch and store country and zone bundles
      this.fetchCountryData();
-  
-    // Check notification settings and navigate
-    if (!authToken && (!isNotiSettingAllowed || isNotiSettingAllowed === '')) {
-      this.navController.navigateRoot('start');
+
+   if (!authToken && (!isNotiSettingAllowed || isNotiSettingAllowed === '')) {
+    this.navController.navigateRoot('start');
     } else {
+       this.isProfileIncomplete()
+       this.getWalletBalance();
       this.navController.navigateRoot('home-search');
     }
+
+//Configure Push notification 
+    this.platform.ready().then(() => {
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        this.initOneSignal();
+      }
+    });
   
-    // Initialize push notifications if accepted
-    if (isNotiSettingAllowed === 'yes') {
-       this.initializePushNotifications();
-    }
   }
 
   getWalletBalance()
@@ -621,6 +654,6 @@ console.log("Here" + JSON.stringify(country))
     }
   }
 
-  /* Step 5 End */
+
 
 }

@@ -23,6 +23,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {Market} from '@ionic-native/market/ngx';
+
 import {Device} from '@ionic-native/device/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';

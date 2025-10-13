@@ -330,7 +330,7 @@ async actualStripePaymentGooglrPay(client_secret: string, token: string) {
   
     if (this.selectedPaymentType == 'apple-pay') {
       this.managingAppLogs("From App Step 1 Credit Top-up: Apple Pay Checkout Started",this.currencyCode, this.checkoutObj.amount, "Credit TOP-UP");
-      customStripePlugin.makePayment({"amount" : parseFloat(this.checkoutObj.amount), "countryCode": this.countryCode,"currency" : this.currencyCode, "description" :"Coop Travel eSIM", "plan": "Credit TOP-UP" , "token" : this.accessToken, "ApplePayErrorMSG" : this.applePayErrorMSG, "NosetupApplePay" : this.noApplePaySetup}, (success: any) => {
+      customStripePlugin.makePayment({"amount" : parseFloat(this.checkoutObj.amount), "countryCode": this.countryCode,"currency" : this.currencyCode, "description": "Or4 eSIM - Global Travel Plan", "plan": "Credit TOP-UP" , "token" : this.accessToken, "ApplePayErrorMSG" : this.applePayErrorMSG, "NosetupApplePay" : this.noApplePaySetup}, (success: any) => {
         // API calls 
         this.managingAppLogs("From App Step 2 Credit Top-up: Apple Pay Success FROM Native SDK: " + JSON.stringify(success),this.currencyCode,  this.checkoutObj.amount, "Credit TOP-UP");
         this.successApplePay(success.clientSecret);

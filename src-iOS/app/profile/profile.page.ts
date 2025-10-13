@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, Platform, NavController } from '@ionic/angular';
 import { ModalRefercodePage } from '../modal-refercode/modal-refercode.page'; 
 import { IonActionSheet, IonButton } from '@ionic/angular/standalone';
 import { Router, NavigationExtras } from '@angular/router';
@@ -11,6 +11,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SuccessModelPage } from '../success-model/success-model.page';
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 
+
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -21,7 +23,7 @@ export class ProfilePage implements OnInit {
   selectedSegment: string = 'credit';
   notificationList: any = [];
   notiCount: any = 0;
-  constructor(private loadingScreen: LoadingScreenAppPage,private modalCtrl: ModalController,private translate: TranslateService, private clipboard: Clipboard, private service: ServicesService,private zendeskService: ZendeskService,private Router: Router, private modalController: ModalController, private navCtrl: NavController) { }
+  constructor(private platform: Platform,  private loadingScreen: LoadingScreenAppPage,private modalCtrl: ModalController,private translate: TranslateService, private clipboard: Clipboard, private service: ServicesService,private zendeskService: ZendeskService,private Router: Router, private modalController: ModalController, private navCtrl: NavController) { }
 
 
 	gotoMarketPlace()
@@ -364,6 +366,7 @@ export class ProfilePage implements OnInit {
     setTimeout(() => {
       this.loadingScreen.dismissLoading();
     }, 300); */
+
     this.locale = window.localStorage.getItem("Or4esim_language") || 'en';
     this.zendeskService.loadZendesk(this.locale);
   }

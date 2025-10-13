@@ -242,7 +242,7 @@ if (this.tempDetails && typeof this.tempDetails.first_name === 'string') {
    async errorMSGModal() {
        const modal = await this.modalController.create({
       component: VersionMOdalPage,
-      componentProps: { 'value1': this.translate.instant('version')+ " 2.0.3", 'value': this.translate.instant('VALIDATION_MSG_BUTTON') }
+      componentProps: { 'value1': this.translate.instant('version')+ " 2.0.5", 'value': this.translate.instant('VALIDATION_MSG_BUTTON') }
     });
 
     modal.onDidDismiss();

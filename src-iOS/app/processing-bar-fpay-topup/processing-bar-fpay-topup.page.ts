@@ -43,6 +43,7 @@ export class ProcessingBarFpayTopupPage implements OnInit, OnDestroy {
         window.localStorage.setItem('Or4esim_user_result',  "true");
         window.localStorage.setItem('Or4esim_user_wallets',  res.data['user_wallet']);
       this.managingAppLogs("From App Step 5 Credit Top-up: Card payment Success:",this.value.amount, "Credit Top-up");
+
       } else {
       this.managingAppLogs("From App Step 5 Credit Top-up: Card payment Error:" + JSON.stringify(res),this.value.amount, "Credit Top-up");
       }
