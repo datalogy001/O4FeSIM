@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core'
 import { Platform, NavController, ToastController, PopoverController, ModalController, LoadingController } from "@ionic/angular";
 import { Router, NavigationExtras } from '@angular/router';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy.page';
 import { TermsPage } from '../terms/terms.page';
 import { VerificationPage } from '../verification/verification.page';
 import { ServicesService } from '../api/services.service';
+import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import OneSignalPlugin from 'onesignal-cordova-plugin'
@@ -14,21 +15,37 @@ import { SuccessModelPage } from '../success-model/success-model.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { ModalCodenotworkPage } from '../modal-codenotwork/modal-codenotwork.page';
-
+import { CountryCodeModelPage} from '../country-code-model/country-code-model.page';
+import { IonInfiniteScroll, IonContent } from '@ionic/angular';
+ import {SocailLoginCountryPhonePage} from '../socail-login-country-phone/socail-login-country-phone.page';
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.page.html',
   styleUrls: ['./create-account.page.scss'],
 })
 export class CreateAccountPage implements OnInit {
-
-  registerObj: any = { 'referal_code': '',  'first_name': '', 'last_name': '', 'password': '', 'email': '', 'isPrivacySelected': false, 'isTermsSelected': false, 'confirmPass': '', 'deviceToken': '' ,'lang' : ''};
+  @ViewChild('searchDiv', { static: true }) searchDiv!: ElementRef;
+   @ViewChild(IonContent, { static: false }) content?: IonContent;
+  registerObj: any = { 'referal_code': '', 'mobile_number' : '', 'country_name' : '',  'city':'','first_name': '', 'last_name': '', 'password': '', 'email': '', 'isPrivacySelected': false, 'isTermsSelected': false, 'confirmPass': '', 'deviceToken': '' ,'lang' : ''};
   terms: any = [];
   privacy: any = [];
   passwordType: string = 'password';
   passwordIcon: string = 'eye-off-outline';
   passwordType1: string = 'password';
   passwordIcon1: string = 'eye-off-outline';
+  isearchIMg: any;
+  searchTerm: string = '';
+  searchData: any = [];
+  searchIMg: any;
+  isSearch: any = false;
+   countryCodeObj: any = {
+    flag: '',
+    code: ''
+  };
+    // Declare as a class property
+  private phoneUtil = PhoneNumberUtil.getInstance();
+  
 
   currencyCode: any = '';
   tempDetails: any = [];
@@ -42,9 +59,11 @@ export class CreateAccountPage implements OnInit {
   plat: any;
   playerIds: any;
   IsfacebookObj: any = { 'userId': '' };
+;
+
 
   // Inject services and controllers
-  constructor(private translate: TranslateService, private googlePlus: GooglePlus,
+  constructor(private eRef: ElementRef,private firebaseAnalytics: FirebaseAnalytics,private translate: TranslateService, private googlePlus: GooglePlus,
     private loadingScreen: LoadingScreenAppPage,
     private platform: Platform,
     private loadCtr: LoadingController,
@@ -85,10 +104,133 @@ export class CreateAccountPage implements OnInit {
     }
   }
 
+  //CODE STARTED FOR REGISTER
+  langDefault: any;
+  iso:any;
+
+   onClearSearch() {
+    this.isSearch = false;
+    this.searchTerm = '';
+    this.iso = '';
+    this.isearchIMg = '';
+    this.searchData = this.tempCountry;
+    this.temp_mobile_number =''; 
+    this.isCountrySelected =false;
+     this.countryCodeObj = {};
+    this.searchDiv.nativeElement.classList.remove('searching');
+  }
+
+ // Show list on focus
+  onFocusSearch() {
+    this.isSearch = true;
+    this.onFocus();
+    this.searchData = this.tempCountry;
+  }
+
+   onFocus() {
+    setTimeout(() => {
+      this.content?.scrollToPoint(0, 300, 300); // Scroll to a specific point
+    }, 300);
+  }
+
+  
+ // Detect click outside this component or on any ion-input
+  @HostListener('document:click', ['$event'])
+  handleClick(event: Event) {
+    const target = event.target as HTMLElement;
+
+    // Close if click is outside this component
+    const clickedOutside = !this.eRef.nativeElement.contains(target);
+
+    // Close if clicked on another ion-input
+    const clickedOtherInput = target.tagName.toLowerCase() === 'ion-input' ||
+                              target.closest('ion-input') !== null;
+
+    if (clickedOutside || clickedOtherInput) {
+      this.isSearch = false;
+    }
+  }
+
+
+ findMatchingItems(searchTerm: string): any[] {
+  // normalize input (lowercase + remove spaces)
+  const normalizedSearch = searchTerm.toLowerCase().replace(/\s+/g, "");
+
+  const matchingItems = this.countryListWithCodes.filter((item: any) => {
+    const normalizedName = item.country_name.toLowerCase().replace(/\s+/g, "");
+    return normalizedName.startsWith(normalizedSearch);
+  });
+
+  // Ensure uniqueness by country name
+  const uniqueItemsMap = new Map<string, any>();
+  matchingItems.forEach((item: any) => {
+    uniqueItemsMap.set(item.country_name, item);
+  });
+
+  return Array.from(uniqueItemsMap.values());
+}
+
+  temp_mobile_number: any = '';
+
+onSearchMobile(event: any) {
+  const inputValue: string = event.target.value || '';
+  this.temp_mobile_number = inputValue.replace(/\D/g, ''); // digits only
+}
+
+
+
+  onSearch(event: any) {
+     this.onFocus();
+    const searchTerm: string = event.target.value;
+    this.searchData = this.tempCountry;
+    console.log(JSON.stringify(this.searchData));
+  if (searchTerm) {
+      this.searchData = this.findMatchingItems(searchTerm);
+     this.isSearch = true;
+    } else {
+      this.isearchIMg = '';
+      this.isSearch = false;
+      this.isCountrySelected =false;
+      this.searchDiv.nativeElement.classList.remove('searching');
+    }
+  }
+  isCountrySelected:any =false;
+
+ gotoSelect(countryRES: any) {
+  this.isSearch = false;
+  this.isearchIMg = countryRES.short_name;
+  this.searchTerm = countryRES.country_name;
+  this.searchDiv.nativeElement.classList.add('searching');
+  this.isCountrySelected = true;
+
+  this.registerObj.country_name = countryRES.country_name;
+  this.countryCodeObj.code = countryRES.phone_code;
+  this.countryCodeObj.flag = countryRES.short_name;
+
+  console.log(JSON.stringify(countryRES));
+}
+
+    async chooseCountry() {
+      const modal = await this.modalController.create({
+        component: CountryCodeModelPage,
+        componentProps: { value: this.tempCountry}
+      });
+  
+      modal.onDidDismiss().then((result: any) => {
+        if (result.data.data != '') {
+          this.countryCodeObj.code = result.data.data.phone_code;
+          this.countryCodeObj.flag = result.data.data.short_name;
+        }
+  
+      });
+  
+      return await modal.present();
+    }
 
   // Initialize component
   ngOnInit() {
     
+    this.registerObj.city = window.localStorage.getItem('Or4esim_city') || '' ;
     this.googleLoginObj.lang = window.localStorage.getItem("Or4esim_language");
     this.facebookObj.lang = window.localStorage.getItem("Or4esim_language");
     this.registerObj.lang = window.localStorage.getItem("Or4esim_language");
@@ -99,6 +241,7 @@ export class CreateAccountPage implements OnInit {
     this.tempDetails = this.Router.getCurrentNavigation()?.extras.state;
     this.checkoutObj = this.tempDetails.checkoutData;
     this.isLogin = this.tempDetails.withOutLogin;
+    this.loadCountries();
     this.termsCondition();
     this.privacyPolicies();
       // Show the accessory bar with the "Done" button
@@ -135,7 +278,7 @@ export class CreateAccountPage implements OnInit {
         if (res.code == 200) {
            // Add languages to support
         const languageToSet = res.data.language || 'en';
-        this.translate.addLangs(['en']);
+        this.translate.addLangs(['en','tu']);
         // Set default language
         this.translate.setDefaultLang(languageToSet);
         this.translate.use(languageToSet);
@@ -149,6 +292,7 @@ export class CreateAccountPage implements OnInit {
 
      /* SIgn in with google  */
      async loginWithGoogle() {
+       this.firebaseAnalytics.logEvent('user_started_signup', { method: 'google' });
       await this.loadingScreen.presentLoading();
         const options = {
           prompt: 'consent',
@@ -178,7 +322,7 @@ async googleSuccess(googleRes:any) {
   
   this.googleLoginObj.userId = googleRes.userId;
   this.googleLoginObj.first_name = googleRes.givenName;
-  this.googleLoginObj.email = googleRes.email;
+  this.googleLoginObj.email = googleRes.email; 
   
   this.service.googleLogin(this.googleLoginObj).then((resNew: any) => {
     this.loadingScreen.dismissLoading();
@@ -199,15 +343,11 @@ async googleSuccess(googleRes:any) {
       window.localStorage.setItem('Or4esim_user_wallets', resNew.data['data']['user_wallet']);
       window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
       window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
-     
-      if(this.googleAttemp == 0) //If New 
-      this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT_Wl'), "4000");
-      else
-      this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "4000");
+      
      //Already registered  
      if(resNew.data['is_register'] == false)
      {
-
+      this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "4000");
      if (this.isLogin == true) {
         const loginPageUrl = this.Router.url;
         this.checkoutObj.id = resNew.data['id'];
@@ -223,18 +363,20 @@ async googleSuccess(googleRes:any) {
         this.Router.navigate(['home-search']);
       } 
      }else{
+     //First time -SIGNUP- Google 
 
-     //First time
-        const loginPageUrl = this.Router.url;
-        this.checkoutObj.id = resNew.data['id'];
-        let navigationExtras: NavigationExtras = {
-          state: {
-            checkoutData: this.checkoutObj,
-            withOutLogin: this.isLogin,
-            payBack: loginPageUrl
+     //Socail Media Country Model STARTED 
+     this.modelSocailCountry( resNew.data['id'],this.Router.url );
+
+  if (this.platform.is('cordova')) {
+  if (this.platform.is('android') || this.platform.is('ios')) {
+        //For users who haven't signed up yet, this tag will simply not exist.
+        OneSignalPlugin.sendTag("signed_up", "true");
+ this.firebaseAnalytics.logEvent('user_completed_signup', { method: 'google' });
           }
-        };
-     this.Router.navigate(['signup-socialrefer'], navigationExtras);
+        }
+          //
+      
      }
 
     } else {
@@ -244,6 +386,34 @@ async googleSuccess(googleRes:any) {
 }
     
 
+async modelSocailCountry(userId: string, routeURL: string): Promise<void> {
+  const modalSocail = await this.modalController.create({
+    component: SocailLoginCountryPhonePage, // fixed typo
+  });
+
+  modalSocail.onDidDismiss().then((result) => {
+    console.log('Modal result:', result);
+
+    if (result.data.success == true) {
+
+      this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT_Wl'), "2000");
+
+      this.checkoutObj.id = userId;
+
+      const navigationExtras: NavigationExtras = {
+        state: {
+          checkoutData: this.checkoutObj,
+          withOutLogin: this.isLogin,
+          payBack: routeURL,
+        },
+      };
+
+      this.Router.navigate(['signup-socialrefer'], navigationExtras);
+    }
+  });
+
+  await modalSocail.present();
+}
    
   // Fetch privacy policies from service
   privacyPolicies() {
@@ -257,6 +427,33 @@ async googleSuccess(googleRes:any) {
       console.error('Error fetching privacy policies:', err);
     })
   }
+
+
+countryListWithCodes: any[] = [];
+tempCountry: any[] = [];
+
+// Fetch list of countries
+loadCountries(): void {
+  this.service.listOfCountriesForResidence()
+    .then((response: any) => {
+      if (response?.status === 200 && Array.isArray(response.data)) {
+        const countries = response.data;
+        this.countryListWithCodes = countries;
+        this.tempCountry = countries;
+        console.log(JSON.stringify(this.tempCountry));
+      } else {
+        this.countryListWithCodes = [];
+        this.tempCountry = [];
+        console.warn('Unexpected response structure:', response);
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching list of countries:', error);
+      this.countryListWithCodes = [];
+      this.tempCountry = [];
+    });
+}
+
 
   // Fetch terms and conditions from service
   termsCondition() {
@@ -332,10 +529,18 @@ async googleSuccess(googleRes:any) {
   async submit() {
     if (this.validate()) {
       // If refere code added 
+      this.registerObj.mobile_number = this.countryCodeObj.code + this.temp_mobile_number;
+
+      console.log(JSON.stringify(this.registerObj));
       if(this.registerObj.referal_code !='' &&   this.registerObj.referal_code !=null)
       {
+          if (this.platform.is('android') || this.platform.is('ios')) {
+            this.firebaseAnalytics.logEvent('user_entered_referral_code', { referral_code: this.registerObj.referal_code  });
+            }
+            
         await this.loadingScreen.presentLoading();
         this.referObj.referal_code= this.registerObj.referal_code ;
+        
         this.service.validate_refer_code(this.referObj).then((res: any) => {
           this.loadingScreen.dismissLoading();
           if (res.success == true) {
@@ -394,61 +599,125 @@ async googleSuccess(googleRes:any) {
   }
 
 
-  // Validation function for form fields
-  validate() {
+validate() {
+  const emailValid = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+  const passwordValid = /^(?=.*[A-Z])(?=.*[\W_])(?=.{6,}).*$/;
 
-  let emailValid = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-  let passwordValid = /^(?=.*[A-Z])(?=.*[\W_])(?=.{6,}).*$/; // Regular expression for password validation
+  // ---- FIRST NAME ----
+  if (!this.registerObj.first_name || this.registerObj.first_name.trim() === '') {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_FIRST_NAME'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  } else if (this.registerObj.first_name.trim().length < 3) {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_FIRST_NAME_MIN_LENGTH'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  }
 
-    if (this.registerObj.first_name.trim() == '') {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_FIRST_NAME'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    }
-    else if (this.registerObj.last_name.trim() == '') {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_SURNAME'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    } else if (this.registerObj.email.trim() == '') {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_EMAIL'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    } else if (!emailValid.test(this.registerObj.email) && (this.registerObj.email != '')) {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_VALID_EMAIL'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    } else if (this.registerObj.password.trim() == '') {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_PASSWORD'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
- return false;
-  } else if (!passwordValid.test(this.registerObj.password)) { // Password validation check
+  // ---- LAST NAME ----
+  if (!this.registerObj.last_name || this.registerObj.last_name.trim() === '') {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_SURNAME'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  } else if (this.registerObj.last_name.trim().length < 3) {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_SURNAME_MIN_LENGTH'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  }
+
+  // ---- EMAIL ----
+  if (!this.registerObj.email || this.registerObj.email.trim() === '') {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_EMAIL'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  } else if (!emailValid.test(this.registerObj.email)) {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_VALID_EMAIL'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  }
+
+  // ---- PASSWORD ----
+  if (!this.registerObj.password || this.registerObj.password.trim() === '') {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_PASSWORD'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  } else if (!passwordValid.test(this.registerObj.password)) {
     this.loadingScreen.dismissLoading();
     this.errorMSGPASSWORDModal(this.translate.instant('VALIDATION_MSG_INVALID_PASSWORD'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
     return false;
-
-    } else if (this.registerObj.confirmPass.trim() == '') {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_CONFIRM_PASSWORD'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    } else if (this.registerObj.password != this.registerObj.confirmPass) {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_PASSWORD_MISMATCH'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    } else if (this.registerObj.isPrivacySelected == false && this.registerObj.isTermsSelected == false) {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ACCEPT_PRIVACY_TERMS'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    } else if (this.registerObj.isPrivacySelected == false) {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ACCEPT_PRIVACY'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    } else if (this.registerObj.isTermsSelected == false) {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ACCEPT_TERMS'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
-      return false;
-    }
-    return true;
   }
+
+  if (!this.registerObj.confirmPass || this.registerObj.confirmPass.trim() === '') {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_CONFIRM_PASSWORD'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  } else if (this.registerObj.password !== this.registerObj.confirmPass) {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_PASSWORD_MISMATCH'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  }
+
+  // ---- COUNTRY ----
+  if (!this.registerObj.country_name || this.registerObj.country_name.trim() === '') {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_SELECT_COUNTRY'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  }
+
+  // ---- MOBILE NUMBER (libphonenumber) ----
+  if (!this.temp_mobile_number || this.temp_mobile_number.trim() === '') {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ENTER_MOBILE_NUMBER'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  }
+
+ try {
+  const phoneUtil = PhoneNumberUtil.getInstance();
+  const rawInput = this.temp_mobile_number.trim();
+
+  // Ensure number has '+' and country code
+  let cleaned = rawInput.startsWith('+')
+    ? rawInput
+    : `+${this.countryCodeObj.code.replace('+', '')}${rawInput.replace(/[^\d]/g, '')}`;
+
+  const parsedNumber = phoneUtil.parseAndKeepRawInput(cleaned);
+
+  if (phoneUtil.isValidNumber(parsedNumber)) {
+    this.registerObj.mobile_number = phoneUtil.format(parsedNumber, PhoneNumberFormat.E164);
+  } else {
+    throw new Error('Invalid mobile number');
+  }
+} catch (err) {
+  console.error('Mobile validation error:', err);
+  this.loadingScreen.dismissLoading();
+  this.errorMSGModal(
+    this.translate.instant('VALIDATION_MSG_ENTER_VALID_MOBILE_NUMBER'),
+    this.translate.instant('VALIDATION_MSG_BUTTON_OK')
+  );
+  return false;
+}
+
+
+  // ---- PRIVACY & TERMS ----
+  if (!this.registerObj.isPrivacySelected && !this.registerObj.isTermsSelected) {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ACCEPT_PRIVACY_TERMS'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  } else if (!this.registerObj.isPrivacySelected) {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ACCEPT_PRIVACY'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  } else if (!this.registerObj.isTermsSelected) {
+    this.loadingScreen.dismissLoading();
+    this.errorMSGModal(this.translate.instant('VALIDATION_MSG_ACCEPT_TERMS'), this.translate.instant('VALIDATION_MSG_BUTTON_OK'));
+    return false;
+  }
+
+  // ✅ All validations passed
+  return true;
+}
+
+
   // Open privacy policy modal
   async changePrivacyPolicies() {
     const modal = await this.modalController.create({

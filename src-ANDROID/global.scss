@@ -228,8 +228,6 @@ ion-select{
 }
 
 
-
-/************************************ Footer css */
 ion-footer {
   ion-toolbar {
       --background: #fff;
@@ -291,6 +289,26 @@ ion-footer {
 
 ion-footer .footer-toolbar-padding ion-toolbar:last-of-type {
   padding-bottom: 16px;
+}
+
+
+.countrySearch{
+    .searchbar-input.sc-ion-searchbar-md {
+        border: none;
+        font-weight: 300;
+    }
+}
+
+.socialCountry{
+  .searchbar-input.sc-ion-searchbar-md{
+    color: #000;
+  }
+  .searchbar-search-icon.sc-ion-searchbar-md {
+    color: #000;
+  }
+  .searchbar-has-value.searchbar-should-show-clear.sc-ion-searchbar-md-h .searchbar-clear-button.sc-ion-searchbar-md {
+    color: #000;
+  }
 }
 
 
@@ -412,7 +430,7 @@ ion-alert{
   border-radius: 10px;
   color: #000;
   border: 1px solid var(--input-border);
-  font-size: 17px;
+  font-size: 15px;
   background:var(--input-bg);
   
 }
@@ -741,6 +759,15 @@ ion-modal {
     left: 50%;
     transform: translateX(-50%);
   }
+
+app-topup-not-applied-modal.ion-page {
+    top: calc(100% - 275px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 190px;
+  }
+
   app-version-modal.ion-page{
     height: 220px; top: calc(100% - 290px);      //language
   }
@@ -817,6 +844,34 @@ ion-modal {
   }
 
 
+  app-socail-login-country-phone.ion-page {
+  // top: calc(100% - 280px);
+  // transform: translateX(-50%);
+  left: 50%; 
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 400px;
+}
+
+
+
+   app-country-code-model{
+    &.ion-page {
+      border-radius: 0 0 0 0;
+      border: none;
+      ion-header{
+        ion-toolbar{
+          border-radius: 0px 0px 0 0;
+        }
+      }
+      ion-content{
+        border-radius: 0px 0px 0 0;
+        &::part(background){ border-radius:0 0 0 0; }
+      }
+    }
+  }
+
   app-modal-codenotwork.ion-page {
     width: 90%;
     height: 220px; 
@@ -839,6 +894,15 @@ ion-modal {
     width: 90%;
     height: 235px;
   }
+
+    app-modal-country-opt.ion-page {
+    top: calc(100% - 295px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 235px;
+  }
+
 
   app-modal-upload-profile-image.ion-page {
     top: calc(100% - 315px);
@@ -1374,12 +1438,12 @@ and (-webkit-min-device-pixel-ratio: 2){
   ion-modal app-modal-careconc.ion-page { width: 100%; height: 350px; top: calc(100% - 350px); }
   ion-modal app-plan-country.ion-page { width: 100%; height: 310px; top: calc(100% - 310px); }
   ion-modal app-modal-couponadded.ion-page { width: 100%; height: 280px; top: calc(100% - 280px); }
-  
+  ion-modal app-socail-login-country-phone.ion-page { width: 100%; height: 440px; }
   //ion-modal app-permission-modal.ion-page{ width: 100%; height: 240px; }
   ion-modal app-password-error.ion-page{ width: 100%; height: 260px; top: calc(100% - 260px); }
   ion-modal app-version-modal.ion-page { height: 270px; top: calc(100% - 270px); }
   ion-modal app-delete-card.ion-page { height: 275px; top: calc(100% - 275px); }
-
+  ion-modal app-topup-not-applied-modal.ion-page { height: 270px; top: calc(100% - 270px); }
   ion-modal ion-header ion-toolbar ion-buttons ion-button { font-size: 30px; height: 30px; }
   
   

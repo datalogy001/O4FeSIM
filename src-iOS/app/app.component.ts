@@ -351,13 +351,6 @@ export class AppComponent {
   }
 
 
-
-
- 
-
-
-
-  
  /* Step:2 END*/
   
   AppUpdatesCommonFun() {
@@ -367,15 +360,24 @@ export class AppComponent {
       this.platformsObj.app_platform = this.platformType;
       //Check API for updated version 
       this.apiService.checkForAppUpdateIOS(this.platformsObj).then((res: any) => {
-        if (res.code == 200) {
-          if (res.data[0]['app_version'] != this.platformsObj.app_version && res.data[0]['app_version'] > this.platformsObj.app_version) {
-            this.UpdateApp();
+ if (res.code == 200) {
+        if (res.data[0]['app_version'] != this.platformsObj.app_version && res.data[0]['app_version'] > this.platformsObj.app_version) {
+          this.UpdateApp();
+        } else {
+          console.log("After Login Social Model will call ")
+          const authToken = window.localStorage.getItem('Or4esim_auth_token');
+          if (!authToken) {
+            //  this.navController.navigateRoot('start');
+            // return;
+          } else {
+            this.isProfileIncomplete()
           }
         }
-      }, (err) => {
-        //console.log('err ' + err);
-      });
-      //End 
+      }
+    }, (err) => {
+      //console.log('err ' + err);
+    });
+    //End 
     //}
   }
 
@@ -559,7 +561,6 @@ console.log("Here" + JSON.stringify(country))
    if (!authToken && (!isNotiSettingAllowed || isNotiSettingAllowed === '')) {
     this.navController.navigateRoot('start');
     } else {
-       this.isProfileIncomplete()
        this.getWalletBalance();
       this.navController.navigateRoot('home-search');
     }

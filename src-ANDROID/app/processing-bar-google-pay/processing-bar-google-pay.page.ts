@@ -3,8 +3,8 @@ import { NavController,ModalController, Platform } from '@ionic/angular';
 import { ServicesService } from '../api/services.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
+import OneSignalPlugin from 'onesignal-cordova-plugin';
 
 @Component({
   selector: 'app-processing-bar-google-pay',
@@ -27,7 +27,7 @@ export class ProcessingBarGooglePayPage implements OnInit, OnDestroy {
   resValue:any=''; 
   accessToken:any;
   userDetails:any=[]; 
-  constructor(private platform: Platform,private translate: TranslateService,private Router: Router, private service: ServicesService,private modalController: ModalController, private renderer: Renderer2, private el: ElementRef) {}
+  constructor(private firebaseAnalytics: FirebaseAnalytics,private platform: Platform,private translate: TranslateService,private Router: Router, private service: ServicesService,private modalController: ModalController, private renderer: Renderer2, private el: ElementRef) {}
   
   ngOnInit() {
     this.accessToken = window.localStorage.getItem('Or4esim_auth_token');
@@ -43,8 +43,21 @@ export class ProcessingBarGooglePayPage implements OnInit, OnDestroy {
         this.result = res.data[0];
         window.localStorage.setItem('Or4esim_user_result',"true");
       this.managingAppLogs("From App Step 5: Google Pay payment Success:",this.value.bundle.extraAmount,this.value.bundle.bundleData.name);
+    //Purchase callback
+         if (this.platform.is('android') || this.platform.is('ios')) { 
+            //Make purchase TAG
+           OneSignalPlugin.sendTag("made_purchase", "true");
+           this.firebaseAnalytics.logEvent('completed_purchase', { plan_id: this.value.bundle.bundleData.description, price: this.value.bundle.extraAmount, currency: this.value.currency });  
+          }
+          //End 
       } else {
        this.managingAppLogs("From App Step 5: Google pay payment Error:" + JSON.stringify(res),this.value.bundle.extraAmount,this.value.bundle.bundleData.name);
+ if (this.platform.is('android') || this.platform.is('ios')) {
+          this.firebaseAnalytics.logEvent('purchase_failed',  { 
+      error_source: 'google_payment_api',
+      message: 'Internal API error during google pay'
+    });
+  }
       }
     }).catch(err => {
  this.managingAppLogs("From App Step 5: Google pay payment Error from API:" + JSON.stringify(err),this.value.bundle.extraAmount,this.value.bundle.bundleData.name);   })  

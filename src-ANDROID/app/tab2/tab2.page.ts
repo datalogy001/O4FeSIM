@@ -9,8 +9,6 @@ import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 
-
-
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -30,7 +28,7 @@ export class Tab2Page {
   currentPage: number = 1;
   recordsPerPage: number = 20;
   mainObj: any = [];
-  currencyCode: any = 'USD';
+  currencyCode: any = 'EUR';
   countryParam: any = { 'to_currency': '' };
   isSearch: any = false;
   searchData: any = [];
@@ -106,13 +104,14 @@ export class Tab2Page {
       }));
     });
 
+    console.log(JSON.stringify(this.zoneList));
 
     this.tempAllCountry = this.allCountriesList;
     this.mainObj = this.allCountriesList;
 
     //Current currency 
     if (window.localStorage.getItem("Or4esim_currency") == null) {
-      this.currencyCode = 'USD';
+      this.currencyCode = 'EUR';
     } else {
       this.currencyCode = window.localStorage.getItem("Or4esim_currency");
     }
@@ -170,7 +169,6 @@ export class Tab2Page {
     this.searchTerm = '';
     this.searchData = this.tempAllCountry;
   }
-
 
   findMatchingItems(searchTerm: string, language: string): any[] {
   const normalize = (str: string) =>
@@ -239,6 +237,7 @@ export class Tab2Page {
     ...matchingDestinationItems,
     ...matchingZoneListItems
   ];
+  
 
   // 🧹 Remove duplicates
   const uniqueItemsMap = new Map<string, any>();
@@ -295,7 +294,7 @@ export class Tab2Page {
    
 
   gotoBundlesSearch(name: any, iso: any, type: any, zoneCountries: any, isDestinations:any, country_name:any) {
-    
+        
     this.isDestinations =isDestinations;
     this.country_name = country_name;
 
@@ -334,7 +333,9 @@ export class Tab2Page {
 
   //Goto Bundle details
   gotoBundles(name: any, iso: any, type: any, zoneCountries: any, isDestinations:any, country_name:any) {
+ 
     this.isDestinations =isDestinations;
+
     this.country_name = country_name;
 
     let navigationExtras: NavigationExtras = {

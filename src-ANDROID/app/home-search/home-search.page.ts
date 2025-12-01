@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ModalController, NavController, ToastController, Platform } from '@ionic/angular';
 import { NointernetPage } from '../nointernet/nointernet.page';
 import { UpdateAppPage } from '../update-app/update-app.page';
@@ -8,7 +8,7 @@ import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 import { ServicesService } from '../api/services.service';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { TranslateService } from '@ngx-translate/core';
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 
 
 @Component({
@@ -38,12 +38,14 @@ export class HomeSearchPage implements OnInit {
   daysFilter: any = [];
 
   constructor(
+    private firebaseAnalytics: FirebaseAnalytics,
     private translate: TranslateService,  private service: ServicesService,
     private platform: Platform,
     private keyboard: Keyboard,
     private router: Router,
     private navController: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private eRef: ElementRef
   
   ) { }
 
@@ -196,6 +198,27 @@ this.destinations = window.localStorage.getItem('Or4esim_destinations');
     }, 300);
   }
 
+   // Show list on focus
+  onFocusSearch() {
+    this.onFocus();
+    this.isSearch = true;
+       setTimeout(() => {
+      this.translate.use(this.langDefault).subscribe(() => {
+        console.log(JSON.stringify(this.mainObj));
+        this.searchData = this.mainObj.map((country: any) => ({
+          name: this.translate.instant(`COUNTRIES.${country.iso}`),
+          region: country.region,
+          iso: country.iso,
+          is_destination: false,
+          country_name: this.translate.instant(`COUNTRIES.${country.iso}`)
+        }));
+
+      });
+    }, 200);
+
+  }
+
+
   onSearch(event: any) {
     this.onFocus();
     const searchTerm: string = event.target.value;
@@ -209,7 +232,7 @@ this.destinations = window.localStorage.getItem('Or4esim_destinations');
     } else {
       this.isearchIMg = '';
       this.searchDiv.nativeElement.classList.remove('searching');
-      this.isSearch = false;
+       this.isSearch = false;
     }
   }
 
@@ -223,6 +246,26 @@ this.destinations = window.localStorage.getItem('Or4esim_destinations');
     this.searchData = this.tempAllCountry;
   }
 
+
+   // Detect click outside this component or on any ion-input
+  @HostListener('document:click', ['$event'])
+  handleClick(event: Event) {
+    const target = event.target as HTMLElement;
+
+    // Close if click is outside this component
+    const clickedOutside = !this.eRef.nativeElement.contains(target);
+
+    // Close if clicked on another ion-input
+    const clickedOtherInput = target.tagName.toLowerCase() === 'ion-input' ||
+                              target.closest('ion-input') !== null;
+
+    if (clickedOutside || clickedOtherInput) {
+      this.isSearch = false;
+    }
+  }
+
+
+  
   findMatchingItems(searchTerm: string, language: string): any[] {
   const normalize = (str: string) =>
     str?.toLowerCase().trim().replace(/\s+/g, ''); // remove all extra spaces
@@ -330,6 +373,16 @@ this.destinations = window.localStorage.getItem('Or4esim_destinations');
   }
 
   gotoSelect(name: any, iso: any, type: any, isDestinations:any, country_name:any) {
+
+    console.log(name);
+    console.log(iso);
+    console.log(type);
+    console.log(isDestinations);
+    console.log(country_name);
+
+       if (this.platform.is('android') || this.platform.is('ios')) {
+    this.firebaseAnalytics.logEvent('searched_country', { query: country_name });
+    }
   //  console.log(name);
   this.isDestinations =isDestinations;
   this.itemClicked = true;  // ✅ Track selection
@@ -373,6 +426,14 @@ afterSearch(event: any): boolean {
     if (this.searchTerm == '') {
       this.errorMSGModal(this.translate.instant("Ok"), this.translate.instant('CHOOSE_DESTINATION_ERROR'));
     } else {
+
+      
+      // Call Facebook event when user searches 
+      if (this.platform.is('android') || this.platform.is('ios')) {
+
+        this.firebaseAnalytics.logEvent('selected_country', { country: this.country_name });
+          }
+         //End 
       let navigationExtras: NavigationExtras = {
         state: {
           name: this.searchTerm,

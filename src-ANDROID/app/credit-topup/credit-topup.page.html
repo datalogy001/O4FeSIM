@@ -17,6 +17,7 @@
   <div class="ion-padding">
 
     <div class="contentbox">
+
       
       <ion-radio-group [(ngModel)]="selectedAmount" (ionChange)="onRadioSelect($event)">
         <ion-radio *ngFor="let amt of topupAMTList" [value]="amt.value">
@@ -26,7 +27,14 @@
 
       <ion-list>
         <ion-item>
-          <ion-select label="{{'Choose_amount' | translate}}" placeholder="" [(ngModel)]="customAmount" (ionChange)="onChooseRadio()">
+          <ion-select
+      label="{{ 'Choose_amount' | translate }}"
+      placeholder=""
+      [(ngModel)]="customAmount"
+      (ionChange)="onChooseRadio()"
+      [cancelText]="'CANCEL_BUTTON' | translate"
+      [okText]="'OK' | translate"
+    >
             <ion-select-option *ngFor="let amt of topupAMTNewList" [value]="amt.value">{{ amt.text | currency:currencyCode}}</ion-select-option>
           </ion-select>
         </ion-item>

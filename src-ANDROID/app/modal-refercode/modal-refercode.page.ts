@@ -5,7 +5,7 @@ import { Platform, NavController, ToastController, PopoverController, ModalContr
 import { Router, NavigationExtras } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PasswordErrorPage } from '../password-error/password-error.page';
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 @Component({
   selector: 'app-modal-refercode',
   templateUrl: './modal-refercode.page.html',
@@ -23,7 +23,7 @@ export class ModalRefercodePage implements OnInit {
     this.modalCtrl.dismiss();
   }
  
-   constructor(private translate: TranslateService,private loadingScreen: LoadingScreenAppPage, private Router: Router, private platform: Platform, private socialSharing: SocialSharing, private modalCtrl: ModalController, private toastcntr: ToastController) { }
+   constructor(private firebaseAnalytics: FirebaseAnalytics, private translate: TranslateService,private loadingScreen: LoadingScreenAppPage, private Router: Router, private platform: Platform, private socialSharing: SocialSharing, private modalCtrl: ModalController, private toastcntr: ToastController) { }
  
  
    ngOnInit() {
@@ -71,6 +71,9 @@ export class ModalRefercodePage implements OnInit {
       // Use the Social Sharing plugin to share the message
       this.socialSharing.shareWithOptions(options)
         .then(() => {
+            if (this.platform.is('android') || this.platform.is('ios')) {
+          this.firebaseAnalytics.logEvent('sent_referral_code', { referral_code: this.value1 });
+        }
           this.modalCtrl.dismiss(); // Close modal on success
           this.Router.navigate(['profile']); // Navigate to profile page
         })

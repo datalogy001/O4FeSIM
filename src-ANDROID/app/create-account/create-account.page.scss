@@ -39,9 +39,12 @@ ion-content{
 .list-md{ 
     background: transparent;
 }
-
+.ion-padding{
+  margin-top: 30px;
+}
 ion-list{
-    margin:30px 0px 0; padding: 0;
+    // margin:30px 0px 0; padding: 0;
+}
     ion-item{
         --inner-border-width:0 0 0 0;
         margin: 0 0 12px;
@@ -61,15 +64,15 @@ ion-list{
             cursor: pointer;
         }
         &.reffercode{
-            --background:rgba(244,235,223,0.2);
-            border:1px solid #E3DBD1;
+            --background:rgba(244,235,223,0.2) !important;
+            border:1px solid #E3DBD1 !important;
 
             ion-input{ 
-                color: var(--text-black);
+                color: var(--text-black) !important;
             }
         }
     }
-}
+
 
 a{
     color: var(--theme-color-2);
@@ -105,7 +108,19 @@ ion-row{
     }
 }
 
+ion-searchbar{
+  padding-inline-start:0; padding-inline-end:0; padding-top: 0; padding-bottom: 0;  
+}
 
+ion-item{    
+  --background: var(--input-bg);
+  --border-radius:6px; 
+  --inner-border-width:0 0 0 0;
+  --min-height: 56px;
+  --color: var(--text-black);
+  // border: 1px solid #fff;
+  margin: 0 0 15px;
+}
 
 ion-checkbox{
     // font-family: 'Roboto'; 
@@ -178,13 +193,111 @@ ion-button{
     }
 }
 .text {
-    margin: 15px 0 0px;
-    font-size: 12px;
+    margin: 15px 5px 0;
+    font-size: 14px;
     color:var(--text-black);
     line-height: 20px;
 }
   
 
+
+
+//Updated Scsss - 25-09-2025   
+  .countryselectrow{
+    display: flex; flex-direction: row; align-content: center;
+    .countryselect{
+     width: 88px; background: var(--input-bg); border-radius: 10px; margin-right: 10px; color: #fff; display: flex; align-items: center; padding: 12px;
+     min-height: 56px;
+    //  border: 1px solid var(--theme-color-2);
+
+     .countryimg{ width: 25px; margin-right: 5px; border-radius: 2px;}
+     .countrycode{ color:var(--text-black); }
+    }
+    .phoneno{
+     flex: 1 0 0;
+    }
+}
+//End 
+
+.reffercode {
+  margin-top: 12px;
+  ion-item {
+    border: 1px solid #E3DBD1 !important;
+    --border-radius: 6px;
+    --min-height: 56px;
+    ion-input {
+       color: var(--text-black) !important;
+    }
+  }
+}
+
+
+.searchlist{
+  position: absolute; z-index: 111;
+  top: 100%; left: 0; right: 0; overflow-y: auto;
+   max-height: 130px;
+
+  ion-list{
+    background: transparent; margin: 0; padding: 0;
+
+    ion-item{
+      --padding-start: 15px;
+      --inner-padding-end: 15px;
+      border: 1px solid var(--theme-color-1);
+      box-shadow: none;
+      --inner-border-width:0 0 0 0;
+      margin: 0px 0 -1px;
+      --border-radius: 6px;
+      --background: #fff;
+      --min-height: 42px;
+
+      ion-avatar{
+        width: 36px; height: 24px; --border-radius:4px;
+      }
+      ion-label{ 
+        font-size: 15px;   color: var(--text-black); font-weight: 500;
+      }
+
+      &:last-child{
+        margin: 0px 0 0px;
+      }
+    }
+  }
+   
+}
+
+.searchdiv{
+  position: relative;
+  margin: 0 0 12px;
+  
+  ion-searchbar{
+    padding-inline-start:0px; padding-inline-end:0px; padding-top: 0; padding-bottom: 0;  
+    color: var(--theme-color-2); --background:#fff;
+    --box-shadow:none;
+    border-radius:6px;
+    overflow: hidden;
+    font-weight: 300;
+  }
+  
+}
+
+.searching{
+  .flagicon{ width: 36px; height: 24px; border-radius: 4px; position: absolute; z-index: 11; left: 15px; top: 15px; overflow: hidden;
+    img{
+      width: 100%; height: 100%; object-fit: cover;
+    }
+  }
+}
+
+
+.sc-ion-searchbar-md-h{
+  --placeholder-opacity: 0.4;
+   
+}
+.searchbar-input.sc-ion-searchbar-md::placeholder{
+   font-weight: 300;
+}
+  
 
 
 
@@ -215,6 +328,12 @@ and (-webkit-min-device-pixel-ratio: 2){
     ion-row.checkrow ion-col .checkdiv{ padding: 10px 10px 10px 10px; }
     ion-row.checkrow ion-col .checkdiv ion-checkbox{ padding: 20px 5px; }
     ion-row.checkrow ion-col .checkdiv span{ font-size: 21px; }
+  .searchlist{ height: 300px;}
+  .searchlist ion-list ion-item{ --padding-start: 20px; --inner-padding-end: 20px; --min-height: 65px;}
+  .searchlist ion-list ion-item ion-avatar{ width: 60px;  height: 40px; --border-radius: 6px;}
+  .searchlist ion-list ion-item ion-label{ font-size: 21px;}
+  
+  .searching .flagicon{ width: 50px; height: 50px;  left: 15px; top: 20px;  }
 
 
 }

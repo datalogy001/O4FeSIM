@@ -1299,6 +1299,57 @@ validate_voucher_code(obj: any, access_token:any) {
     });
   }
 
+  //API to get country for residence 
+ countryObj:any  ={'language' :''};  
+ listOfCountriesForResidence() {
+    this.countryObj.language = window.localStorage.getItem('Or4esim_language') == null ? 'en' : window.localStorage.getItem('Or4esim_language');
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('whitelabel', this.whiteLabelId)
+        .set('client-token', this.clientToken)
+      return this.http.post(this.restAPI + 'resisenceofCountry',JSON.stringify(this.countryObj), { headers }).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+    // Stripe with NEW API for APPLE PAY 
+
+  createIntentFromBackend(obj: any, authToken: any) {
+    this.selectedLang = window.localStorage.getItem('Or4esim_language') == null ? 'en' : window.localStorage.getItem('Or4esim_language');
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', 'Bearer ' + authToken)
+        .set('whitelabel', this.whiteLabelId)
+        .set('language', this.selectedLang)
+        .set('client-token', this.clientToken)
+      return this.http.post(this.restAPI + 'createIntentFromBackend', JSON.stringify(obj), { headers }).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+   verifyPaymentIntent(obj: any, authToken: any) {
+    this.selectedLang = window.localStorage.getItem('Or4esim_language') == null ? 'en' : window.localStorage.getItem('Or4esim_language');
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', 'Bearer ' + authToken)
+        .set('whitelabel', this.whiteLabelId)
+        .set('language', this.selectedLang)
+        .set('client-token', this.clientToken)
+      return this.http.post(this.restAPI + 'verifyPaymentIntent', JSON.stringify(obj), { headers }).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
 
 }
-

@@ -266,24 +266,77 @@ async actualStripePaymentGooglrPay(client_secret: string, token: string) {
   applePayErrorMSG: any; 
   
   
-  async successApplePay(payId: any) {
-    
+  // Native plugin returns success | error | cancellation
+  async verifyAndHandle(nativeResponse: any) {
+    await this.loadingScreen.presentLoading();
+
+    try {
+      const res: any = await this.service.verifyPaymentIntent(nativeResponse, this.accessToken);
       this.loadingScreen.dismissLoading();
-      this.checkoutObj.status ='success';
-      this.checkoutObj.payment_intent = {
-        "id": payId,
-        "status": "succeeded"
-      };
 
+      if (res.code === 200) {
+        this.handleApplePaySuccess(nativeResponse);
 
-      const modalFirstOpt = await this.modalController.create({
-         component: ProcessingBarApplePayTopupPage,
-         componentProps: { value: this.checkoutObj, value1: this.accessToken},
-       });
-       modalFirstOpt.onDidDismiss();
-       return await modalFirstOpt.present();
+        this.managingAppLogs(
+          "Apple Pay Payment Verification Success for Credit TOP-UP => " + JSON.stringify(res),
+          this.currencyCode,
+          this.checkoutObj.amount,
+          "Credit TOP-UP"
+        );
+      } else {
+        this.managingAppLogs(
+          "Apple Pay Payment Verification Failed for Credit TOP-UP => " + JSON.stringify(res),
+          this.currencyCode,
+          this.checkoutObj.amount,
+          "Credit TOP-UP"
+        );
+
+        this.errorMSGModal(
+          this.translate.instant('ERROR_TRY_AGAIN'),
+          res.message
+        );
+      }
+
+    } catch (err) {
+      this.loadingScreen.dismissLoading();
+
+      this.managingAppLogs(
+        "Apple Pay Verify Payment ERROR CATCH BLOCK for Credit TOP-UP=> " + JSON.stringify(err),
+        this.currencyCode,
+        this.checkoutObj.amount,
+        "Credit TOP-UP"
+      );
+
+      this.errorMSGModal(
+        this.translate.instant('ERROR_TRY_AGAIN'),
+        JSON.stringify(err)
+      );
     }
+  }
 
+  // AFter Response from Apple pay Native code 
+
+  async handleApplePaySuccess(obj: any) {
+    await this.loadingScreen.dismissLoading();
+    this.checkoutObj.status = 'success';
+    this.checkoutObj.payment_intent = {
+      "id": obj.payment_intent_id,
+      "status": "succeeded"
+    };
+
+
+    console.log("Payment Intent ID =>", this.checkoutObj.payment_intent.id);
+
+    const modal = await this.modalController.create({
+      component: ProcessingBarApplePayTopupPage,
+      componentProps: {
+        value: this.checkoutObj,
+        value1: this.accessToken
+      }
+    });
+    await modal.present();
+  }
+  
   // Common functions for Logs 
   async managingAppLogs(label: string, currencyCode: string, amount: number, plan: string): Promise<void> {
   let devicePlatform = 'Unknown';
@@ -326,18 +379,110 @@ async actualStripePaymentGooglrPay(client_secret: string, token: string) {
 }
 
 // End of Common functions for Logs 
+
+paymentIntentApplePayObj: any = { 'amount': '', 'currency': '', 'plan': '' };
+
+
    async proceedForPayment() {
   
     if (this.selectedPaymentType == 'apple-pay') {
-      this.managingAppLogs("From App Step 1 Credit Top-up: Apple Pay Checkout Started",this.currencyCode, this.checkoutObj.amount, "Credit TOP-UP");
-      customStripePlugin.makePayment({"amount" : parseFloat(this.checkoutObj.amount), "countryCode": this.countryCode,"currency" : this.currencyCode, "description": "Or4 eSIM - Global Travel Plan", "plan": "Credit TOP-UP" , "token" : this.accessToken, "ApplePayErrorMSG" : this.applePayErrorMSG, "NosetupApplePay" : this.noApplePaySetup}, (success: any) => {
+  
+      this.managingAppLogs(
+        "Step 1: Credit Top-up: Apple Pay Checkout Started",
+        this.currencyCode,
+        this.checkoutObj.amount,
+        "Credit TOP-UP"
+      );
+
+
+      // Calling Intent API for Apple pay - NEW code started 
+      await this.loadingScreen.presentLoading();
+      this.paymentIntentApplePayObj.amount = parseFloat(this.checkoutObj.amount);
+      this.paymentIntentApplePayObj.currency = this.currencyCode;
+      this.paymentIntentApplePayObj.plan = "Credit TOP-UP";
+
+      // NEW CREATE INTENT API STARTED
+      this.service.createIntentFromBackend(this.paymentIntentApplePayObj, this.accessToken).then((res: any) => {
+        if (res.code == 200) {
+
+          this.loadingScreen.dismissLoading();
+          const clientSecret = res.data[0].client_secret;
+          const paymentIntentId = res.data[0].id;
+
+          this.managingAppLogs(
+            `Apple Pay Intent Created for Credit TOP-UP=> Client Secret: ${clientSecret}, Intent ID: ${paymentIntentId}`,
+            this.currencyCode,
+            this.checkoutObj.amount,
+            "Credit TOP-UP"
+          );
+
+          // Apple pay plugin native code started 
+          customStripePlugin.makePayment({ "amount": parseFloat(this.checkoutObj.amount), "countryCode": this.countryCode, "currency": this.currencyCode, "description": "Credit TOP-UP", "NosetupApplePay": this.noApplePaySetup, "api_key": this.service.stripePubliserKey, "client_secret": clientSecret, "payment_intent_id": paymentIntentId },
+            async (successResponse: any) => {
+              //Success call back
+              this.managingAppLogs(
+                "Step 2: Apple Pay Native Success for Credit TOP-UP => " + JSON.stringify(successResponse),
+                this.currencyCode,
+                this.checkoutObj.amount,
+                "Credit TOP-UP"
+              );
+
+              await this.verifyAndHandle(successResponse);
+
+            },
+            async (error: any) => {
+              // Error callback / User cancellation
+              this.managingAppLogs(
+                "Step 2: Apple Pay Native Error for Credit TOP-UP => " + JSON.stringify(error),
+                this.currencyCode,
+                this.checkoutObj.amount,
+                "Credit TOP-UP"
+              );
+
+              await this.verifyAndHandle(error);
+            });
+
+        } else {
+          this.managingAppLogs(
+            "Apple Pay Intent Creation Error for Credit TOP-UP =>" + JSON.stringify(res),
+            this.currencyCode,
+            this.checkoutObj.amount,
+            "Credit TOP-UP"
+          );
+
+          this.errorMSGModal(
+            this.translate.instant('ERROR_TRY_AGAIN'),
+            this.translate.instant('ERROR_MESSAGE_INTENT')
+          );
+        }
+      }).catch(err => {
+        this.loadingScreen.dismissLoading();
+        this.managingAppLogs(
+          "Apple Pay Intent Creation Error Catch Block for Credit TOP-UP=> " + JSON.stringify(err),
+          this.currencyCode,
+          this.checkoutObj.amount,
+          "Credit TOP-UP"
+        );
+
+        this.errorMSGModal(
+          this.translate.instant('ERROR_TRY_AGAIN'),
+          this.translate.instant('ERROR_MESSAGE_INTENT')
+        );
+      })
+      //End of Apple pay code 
+
+      
+      
+      /*customStripePlugin.makePayment({"amount" : parseFloat(this.checkoutObj.amount), "countryCode": this.countryCode,"currency" : this.currencyCode, "description" :"Coop Travel eSIM", "plan": "Credit TOP-UP" , "token" : this.accessToken, "ApplePayErrorMSG" : this.applePayErrorMSG, "NosetupApplePay" : this.noApplePaySetup}, (success: any) => {
         // API calls 
         this.managingAppLogs("From App Step 2 Credit Top-up: Apple Pay Success FROM Native SDK: " + JSON.stringify(success),this.currencyCode,  this.checkoutObj.amount, "Credit TOP-UP");
         this.successApplePay(success.clientSecret);
         }, (error: any) => {
           this.managingAppLogs("From App Step 2 Credit Top-up:  Apple Pay Error FROM Native SDK: " + JSON.stringify(error),this.currencyCode, this.checkoutObj.amount, "Credit TOP-UP");
             this.errorMSGModal(this.translate.instant('ERROR_TRY_AGAIN'),this.translate.instant(error.message));
-        }); 
+        });  */
+
+
         }else{
         if (this.cardList.length > 0 && this.isCardSelected == false) {
           this.gotoPernissionModel();

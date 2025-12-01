@@ -190,10 +190,7 @@ const routes: Routes = [
     path: 'nointernet',
     loadChildren: () => import('./nointernet/nointernet.module').then( m => m.NointernetPageModule)
   },
-  {
-    path: 'apple-model',
-    loadChildren: () => import('./apple-model/apple-model.module').then( m => m.AppleModelPageModule)
-  },
+
   {
     path: 'topup-success',
     loadChildren: () => import('./topup-success/topup-success.module').then( m => m.TopupSuccessPageModule)
@@ -467,7 +464,19 @@ const routes: Routes = [
     { path: 'split-payment',
     loadChildren: () => import('./split-payment/split-payment.module').then( m => m.SplitPaymentPageModule)
   }
- 
+ ,
+ {
+     path: 'country-code-model',
+     loadChildren: () => import('./country-code-model/country-code-model.module').then( m => m.CountryCodeModelPageModule)
+   },
+   {
+     path: 'socail-login-country-phone',
+     loadChildren: () => import('./socail-login-country-phone/socail-login-country-phone.module').then( m => m.SocailLoginCountryPhonePageModule)
+   },
+  {
+    path: 'topup-not-applied-modal',
+    loadChildren: () => import('./topup-not-applied-modal/topup-not-applied-modal.module').then( m => m.TopupNotAppliedModalPageModule)
+  }
  
  
  

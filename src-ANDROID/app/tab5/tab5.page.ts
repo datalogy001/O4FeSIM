@@ -11,8 +11,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 import { VersionMOdalPage } from '../version-modal/version-modal.page';
 import { TranslateService } from '@ngx-translate/core';
-
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 @Component({
   selector: 'app-tab5',
   templateUrl: './tab5.page.html',
@@ -31,7 +30,7 @@ export class Tab5Page implements OnInit     {
 
 
   @ViewChild(IonContent, { static: false }) content?: IonContent;
-  constructor( private translate: TranslateService,private ngZone: NgZone, private loadingScreen: LoadingScreenAppPage,private inAppBrowser: InAppBrowser, private zendeskService: ZendeskService, private alertController: AlertController, private platform: Platform, private http: HttpClient, private service: ServicesService, private navCtrl: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) { }
+  constructor(private firebaseAnalytics: FirebaseAnalytics, private translate: TranslateService,private ngZone: NgZone, private loadingScreen: LoadingScreenAppPage,private inAppBrowser: InAppBrowser, private zendeskService: ZendeskService, private alertController: AlertController, private platform: Platform, private http: HttpClient, private service: ServicesService,private navCtrl: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) { }
   private zendeskKey = '7f8c1f28-f661-4acd-9387-81602e1d4abe'; // Replace with your actual Zendesk ke
 
   isDeletedObj: any = { 'user_id': '' };
@@ -60,6 +59,9 @@ async openZendeskChat() {
   setTimeout(() => {
     this.loadingScreen.dismissLoading();
   }, 300); */
+ if (this.platform.is('android') || this.platform.is('ios')) {
+            this.firebaseAnalytics.logEvent('contacted_support', { method: 'chat' });
+            }
   this.locale = window.localStorage.getItem("Or4esim_language") || 'en';
   this.zendeskService.loadZendesk(this.locale);
 }
@@ -240,7 +242,7 @@ if (this.tempDetails && typeof this.tempDetails.first_name === 'string') {
    async errorMSGModal() {
        const modal = await this.modalController.create({
       component: VersionMOdalPage,
-      componentProps: { 'value1': this.translate.instant('version')+ " 1.1.5", 'value': this.translate.instant('VALIDATION_MSG_BUTTON') }
+      componentProps: { 'value1': this.translate.instant('version')+ " 2.0.6", 'value': this.translate.instant('VALIDATION_MSG_BUTTON') }
     });
 
     modal.onDidDismiss();

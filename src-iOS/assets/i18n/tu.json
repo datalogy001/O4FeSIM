@@ -251,7 +251,7 @@
   "SHARE_TITLE": "Şimdi paylaş",
   "SHARE_INFO_MESSAGE": "Bu eSIM'i telefonunuzun paylaşım ayarlarını kullanan başka bir cihaz veya kişiyle paylaşın",
   "SHARE_BUTTON_TEXT": "Şimdi Paylaş",
-  "EMAIL_SUBJECT": "Merhaba, {{email}} adresinden bir eSIM QR kodu aldınız\n\nOrder özet: {{orderSummary}}\n\nICCID: {{iccid}}\n\nbize ulaşın: support@or4esim.com\n\nTeşekkürler !",
+  "EMAIL_SUBJECT": "Merhaba, {{email}} adresinden bir eSIM QR kodu aldınız\n\nOrder özet: {{orderSummary}}\n\nICCID: {{iccid}}\n\neSIM QR-code: {{url}}\n\nbize ulaşın: support@or4esim.com\n\nTeşekkürler !",
   "ERROR_SHARE_MSG": "eSIM QR kodu paylaşılırken hata oluştu",
   "ERROR_MODAL_BUTTON": "Yeniden Dene",
   "HEY": "Merhaba",
@@ -655,7 +655,8 @@
     "VG": "Britanya Virjin Adaları",
     "VI": "Virgin Adaları ABD",
     "EH": "Batı Sahra",
-    "ZM": "Zambiya"
+    "ZM": "Zambiya",
+ "ZW": "Zimbabve"
   },
   "ZONES": {
     "Africa": "Afrika",
@@ -664,6 +665,7 @@
 "Austria" : "Avusturya",
     "United Arab Emirates" : "Birleşik Arap Emirlikleri",
     "Europe": "Avrupa",
+"Europe Lite": "Avrupa Lite",
  "EUROPE": "AVRUPA",
     "Global": "Küresel",
     "Middle East": "Orta Doğu",
@@ -827,7 +829,7 @@
   "earn_extra_credit": "Or4 eSIM Seyahat Uygulamasını paylaştığınızda ücretsiz bakiye kazanın",
 "Share_with_friend_code": "Arkadaşlarınızla veya ailenizle paylaşın. Çok kolay, sadece aşağıya tıklayın!",
 "Referral_code": "Referans kodu",
-"code_didn't_work" : "Bu kod işe yaramıyor gibi. Tekrar kontrol edip yeniden denemek ister misiniz?",
+"code_didn't_work" : "Bu kod işe yaramıyor gibi. <br> Tekrar kontrol edip yeniden denemek ister misiniz?",
 "enter_code" : "Kodu girin",
 "validate_referral_code" : "Lütfen Referans kodunu giriniz",
 "refer_code_added":  "Referans kodu eklendi!",
@@ -928,13 +930,16 @@
 "VALIDATION_MSG_ENTER_MOBILE_NUMBER": "Lütfen cep telefonu numaranızı girin.",
 "VALIDATION_MSG_ENTER_VALID_MOBILE_NUMBER": "Lütfen geçerli bir cep telefonu numarası girin.",
 "SELECT_COUNTRY_CODE": "Ülke kodunu seçin",
-"SEARCH_COUNTRY_CODE": "Ülke kodu veya ülke adına göre arama yapın",
+"SEARCH_COUNTRY_CODE": "Ülke adına göre ara",
 "VALIDATION_MSG_FIRST_NAME_MIN_LENGTH": "İsim en az 3 karakter uzunluğunda olmalıdır.",
 "VALIDATION_MSG_SURNAME_MIN_LENGTH": "Soyadı en az 3 karakter uzunluğunda olmalıdır.",
 "VERIFY_TITLE_CONTINUE_SIGNUP": "Kaydolmaya devam et",
 "VERIFY_SUBTITLE_ENTER_NUMBER": "Lütfen aşağıdaki listeden ikamet ettiğiniz ülkeyi seçin ve alana iletişim numaranızı girin.",
 "SIGNUP_SUCCESS_TITLE": "Hoş geldiniz!",
-"SIGNUP_SUCCESS_DESCRIPTION": "Hesabınız başarıyla oluşturuldu."
+"SIGNUP_SUCCESS_DESCRIPTION": "Hesabınız başarıyla oluşturuldu.",
+"EUROPE_BUNDLE_ATTENTION": "*Dikkat: Avrupa paketi Birleşik Krallık'ı içermez.",
+"topup_not_allowed": "Maalesef, bu eSIM'i dolduramazsınız. <br> Lütfen yeni bir paket satın alın",
+"BUY_NOW" : "Şimdi Satın Al"
 }
 
   

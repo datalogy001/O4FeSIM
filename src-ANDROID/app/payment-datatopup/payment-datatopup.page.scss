@@ -197,8 +197,6 @@ ion-radio{
 ion-button{
   &.btn-payment{
     margin:10px 0px 15px;
-    --color:var(--theme-color-2);
-
     &.button-outline{
     --color: var(--theme-color-1);
     --border-color: var(--theme-color-1);
@@ -329,7 +327,7 @@ ion-row{
 }
 
 .buynewplan{
-  border: 1px solid #fff;
+  border: 1px solid #000;
   margin: 15px 0 0;
   border-radius: 8px;
   padding: 12px 12px;

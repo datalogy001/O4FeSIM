@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { LoadingScreenAppPage } from '../loading-screen-app/loading-screen-app.page';
 import { InAppBrowser, InAppBrowserEvent, InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { TranslateService } from '@ngx-translate/core';
+import { TopupNotAppliedModalPage } from '../topup-not-applied-modal/topup-not-applied-modal.page';
 
 @Component({
   selector: 'app-your-plan',
@@ -17,7 +18,7 @@ export class YourPlanPage implements OnInit {
   mergedAssignments: any = [];
   bundleDatas: any = [];
   statusOrder: any;
-  constructor(private translate: TranslateService,private iab: InAppBrowser,private loadingScreen: LoadingScreenAppPage, private renderer: Renderer2, private el: ElementRef, private service: ServicesService, private navController: NavController, private Router: Router) { }
+  constructor(private modalController: ModalController,private translate: TranslateService,private iab: InAppBrowser,private loadingScreen: LoadingScreenAppPage, private renderer: Renderer2, private el: ElementRef, private service: ServicesService, private navController: NavController, private Router: Router) { }
   tempBundles: any = [];
   networkImages: any = [];
   isBundleExpired: any = false;
@@ -186,18 +187,52 @@ export class YourPlanPage implements OnInit {
 
   }
 
-  gotoToup() {
-    let navigationExtras: NavigationExtras = {
-        state: {
-            name: this.bundleDatas.country.trim(),
-            iso:  (this.bundleDatas.type == 'region')? this.bundleDatas.short_name_country : this.bundleDatas.short_name_country.toUpperCase(),
-            type: this.bundleDatas.type,
-            iccid: this.bundleDatas.iccid,
-            opt: ''
+    gotoToup() {
+        //Checking for Platinum and Diamond bundles 
+        if (this.bundleDatas.is_bundle_topup_available == 1) {
+            let navigationExtras: NavigationExtras = {
+                state: {
+                    name: this.bundleDatas.country.trim(),
+                    iso: (this.bundleDatas.type == 'region') ? this.bundleDatas.short_name_country : this.bundleDatas.short_name_country.toUpperCase(),
+                    type: this.bundleDatas.type,
+                    iccid: this.bundleDatas.iccid,
+                    opt: ''
+                }
+            };
+            this.Router.navigate(['/bundle-data-topup'], navigationExtras);
+        } else {
+            //Call alert to puchase bundle No -topup 
+            this.topupNotAllowed();
         }
-    };
-    this.Router.navigate(['/bundle-data-topup'], navigationExtras);
-}
+        //End     
+    }
+
+
+    // Error Modal
+    async topupNotAllowed () {
+
+        const modal = await this.modalController.create({
+            component: TopupNotAppliedModalPage,
+        });
+
+        modal.onDidDismiss().then((result: any) => {
+            if (result.data == 1) {
+                let navigationExtras: NavigationExtras = {
+                    state: {
+                        name: this.bundleDatas.country.trim(),
+                        iso: (this.bundleDatas.type == 'region') ? this.bundleDatas.short_name_country : this.bundleDatas.short_name_country.toUpperCase(),
+                        type: this.bundleDatas.type,
+                        iccid: '',
+                        isDestinations: false,
+                        opt: ''
+                    }
+                };
+                this.Router.navigate(['/bundle'], navigationExtras);
+            }
+        });
+        return await modal.present();
+
+    }
 
 
   expiredBundles: any = [];
@@ -281,6 +316,7 @@ gotoMarketPlace()
 {
   this.navController.navigateRoot('marketplace');
 }
+
 
 
   gotoBack() {

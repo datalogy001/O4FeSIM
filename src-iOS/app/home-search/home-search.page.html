@@ -24,10 +24,8 @@
   </div>
 
   <div class="container">
-    <h3 class="text-center">{{ 'WHERE_TO_TRAVELLER' | translate }}</h3>
-   <p class="text-center">
-      {{ 'STEP_AWAY_RATES' | translate }}
-    </p> 
+      <h3 class="text-center" [innerHTML]="'WHERE_TO_TRAVELLER' | translate"></h3>
+      <p class="text-center" [innerHTML]="'STEP_AWAY_RATES' | translate"></p>
 
     <div class="searchdiv" #searchDiv>
       <!-- Flag for main search -->
@@ -40,15 +38,15 @@
              src="assets/flags/{{ isearchIMg | lowercase }}.svg" alt="{{ isearchIMg }} flag">
       </div>
     
-      <!-- Search bar -->
-      <ion-searchbar 
-        (keyup)="onSearch($event)" 
-        (ionClear)="onClearSearch()" 
-        class="homesearch"
-        [placeholder]="'DESTINATION_PLACEHOLDER' | translate" 
-        [(ngModel)]="searchTerm">
-      </ion-searchbar>
-    
+    <!-- Search bar -->
+          <ion-searchbar  (ionFocus)="onFocusSearch()"
+            (keyup)="onSearch($event)"
+            (ionClear)="onClearSearch()"
+            class="homesearch"
+            [placeholder]="'DESTINATION_PLACEHOLDER' | translate"
+            [(ngModel)]="searchTerm">
+          </ion-searchbar>
+          
       <!-- Search results -->
       <div class="searchlist" *ngIf="isSearch && searchData.length > 0">
         <ion-list>

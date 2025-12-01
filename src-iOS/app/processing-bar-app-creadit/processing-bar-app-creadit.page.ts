@@ -56,9 +56,12 @@ export class ProcessingBarAppCreaditPage implements OnInit {
           //End 
        
       } else {
-      this.error = true;
+
+
+
+        this.error = true;
         this.managingAppLogs("From App Step 3: Wallet Pay payment Error:" + JSON.stringify(res),this.value.bundle.extraAmount,this.value.bundle.bundleData.name);
-  
+
       }
     }).catch(err => {
       this.managingAppLogs("From App Step 3: Wallet pay payment Error from API:" + JSON.stringify(err),this.value.bundle.extraAmount,this.value.bundle.bundleData.name);

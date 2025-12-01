@@ -23,6 +23,7 @@ import { ModalCouponaddedPage } from '../modal-couponadded/modal-couponadded.pag
 import { ModalCodenotworkPage } from '../modal-codenotwork/modal-codenotwork.page';
 import { DelModelCoupenPage } from '../del-model-coupen/del-model-coupen.page';
 import { SplitPaymentPage } from '../split-payment/split-payment.page';
+
 //declare var sgap: any;
 declare var customStripePlugin: any;
 
@@ -70,7 +71,7 @@ export class PaymentDatatopupPage implements OnInit {
 
   creditDebitType: any = '';
   googlePayType: any = '';
-
+paymentIntentApplePayObj: any = { 'amount': '', 'currency': '', 'plan': '' };
 
   @ViewChild(IonContent, { static: false }) content?: IonContent;
   constructor(private zone: NgZone,private keyboard: Keyboard, private translate: TranslateService, private popoverController: PopoverController, private loadingScreen: LoadingScreenAppPage, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private navController: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) {
@@ -399,16 +400,88 @@ export class PaymentDatatopupPage implements OnInit {
         //For Split Google pay functionality 
         if (data.splitDatas.selected_payment_method == 'apple-pay') {
           this.appleAmt = this.stripeCardObj.amt_from_other_payment;
-          this.managingAppLogs("From App Step 1 eSIM Top-up Purchase: Split Payment Apple Pay Checkout Started", this.currencyCode, this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
-          customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": "Or4 eSIM - Global Travel Plan", "plan": this.stripeCardObj.bundle.bundleData.name, "token": this.accessToken, "ApplePayErrorMSG": this.applePayErrorMSG, "NosetupApplePay": this.noApplePaySetup }, (success: any) => {
-            // API calls 
-            this.managingAppLogs("From App Step 2 eSIM Top-up Purchase: Split Payment Apple Pay Success FROM Native SDK: " + JSON.stringify(success), this.currencyCode, this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
-            this.successApplePay(success.clientSecret);
-          }, (error: any) => {
-            this.managingAppLogs("From App Step 2  eSIM Top-up Purchase: Split Payment Apple Pay Error FROM Native SDK: " + JSON.stringify(error), this.currencyCode, this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
-            this.errorMSGModal(this.translate.instant('ERROR_TRY_AGAIN'), this.translate.instant(error.message));
-          });
+          
+           this.managingAppLogs(
+                  "Step 1: Apple Pay Checkout Started- Split Payment - eSIM TOP-UP",
+                  this.currencyCode,
+                  this.appleAmt,
+                  this.stripeCardObj.bundle.bundleData.name
+                );
 
+            // Calling Intent API for Apple pay - NEW code started 
+            await this.loadingScreen.presentLoading();
+            this.paymentIntentApplePayObj.amount = parseFloat(this.appleAmt);
+            this.paymentIntentApplePayObj.currency = this.stripeCardObj.currency,
+            this.paymentIntentApplePayObj.plan = this.stripeCardObj.bundle.bundleData.name;
+
+          // NEW CREATE INTENT API STARTED
+          this.service.createIntentFromBackend(this.paymentIntentApplePayObj, this.accessToken).then((res: any) => {
+            if (res.code == 200) {
+             
+              this.loadingScreen.dismissLoading();
+              const clientSecret = res.data[0].client_secret;
+              const paymentIntentId = res.data[0].id;
+
+                      this.managingAppLogs(
+                `Apple Pay Intent Created  Split Payment - eSIM TOP-UP => Client Secret: ${clientSecret}, Intent ID: ${paymentIntentId}`,
+                this.currencyCode,
+                this.appleAmt,
+                this.stripeCardObj.bundle.bundleData.name
+              );
+
+              // Apple pay plugin native code started 
+              customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": this.stripeCardObj.bundle.bundleData.name, "NosetupApplePay": this.noApplePaySetup, "api_key": this.service.stripePubliserKey, "client_secret": clientSecret, "payment_intent_id": paymentIntentId }, 
+              async (successResponse: any) => {
+               //Success call back
+                this.managingAppLogs(
+                "Step 2: Apple Pay Native Success - Split Payment - eSIM TOP-UP => " + JSON.stringify(successResponse),
+                this.currencyCode,
+                this.appleAmt,
+                this.stripeCardObj.bundle.bundleData.name
+              );
+
+              await this.verifyAndHandle(successResponse);
+          
+              }, 
+              async (error: any) => {
+                 // Error callback / User cancellation
+                    this.managingAppLogs(
+                    "Step 2: Apple Pay Native Error - Split Payment - eSIM TOP-UP => " + JSON.stringify(error),
+                    this.currencyCode,
+                    this.appleAmt,
+                    this.stripeCardObj.bundle.bundleData.name
+                  );
+
+                  await this.verifyAndHandle(error);
+              });
+
+            } else {
+                this.managingAppLogs(
+              "Apple Pay Intent Creation Error - Split Payment - eSIM TOP-UP =>"+ JSON.stringify(res),
+              this.currencyCode,
+              this.appleAmt,
+              this.stripeCardObj.bundle.bundleData.name
+            );
+
+            this.errorMSGModal(
+              this.translate.instant('ERROR_TRY_AGAIN'),
+              this.translate.instant('ERROR_MESSAGE_INTENT')
+            );
+            }
+          }).catch(err => {
+             this.loadingScreen.dismissLoading();
+            this.managingAppLogs(
+              "Apple Pay Intent Creation Error- Split Payment - eSIM TOP-UP Catch Block=> " + JSON.stringify(err),
+              this.currencyCode,
+              this.appleAmt,
+              this.stripeCardObj.bundle.bundleData.name
+            );
+
+            this.errorMSGModal(
+              this.translate.instant('ERROR_TRY_AGAIN'),
+              this.translate.instant('ERROR_MESSAGE_INTENT')
+            );
+          })
         } else {
           console.log("Card payments with Add card");
 
@@ -464,20 +537,27 @@ export class PaymentDatatopupPage implements OnInit {
     }
   }
 
+    // AFter Response from Apple pay Native code 
 
-  async successApplePay(payId: any) {
-    this.loadingScreen.dismissLoading();
+  async handleApplePaySuccess(obj: any) {
+    await this.loadingScreen.dismissLoading();
     this.stripeCardObj.status = 'success';
-    this.stripeCardObj.bundle.paymentId = payId;
-    console.log("Im In Apple Ids" + this.stripeCardObj.bundle.paymentId);
+    this.stripeCardObj.bundle.paymentId = obj.payment_intent_id;
 
-    const modalFirstOpt = await this.modalController.create({
-      component: ProcessingBarApplepayPage,
-      componentProps: { value: this.stripeCardObj, value1: this.accessToken, value2: this.checkoutObj.iccid, value3: this.cashBackRes },
-    });
-    modalFirstOpt.onDidDismiss();
-    return await modalFirstOpt.present();
+     console.log("Payment Intent ID =>", this.stripeCardObj.bundle.paymentId);
+
+        const modal = await this.modalController.create({
+        component: ProcessingBarApplepayPage,
+        componentProps: {
+          value: this.stripeCardObj,
+          value1: this.accessToken,
+          value2: this.checkoutObj.iccid,
+          value3: this.cashBackRes
+        }
+      });
+      await modal.present();
   }
+
   appleAmt: any;
 
   // Common functions for Logs 
@@ -522,6 +602,57 @@ export class PaymentDatatopupPage implements OnInit {
   }
 
   // End of Common functions for Logs 
+
+  
+// Native plugin returns success | error | cancellation
+async verifyAndHandle(nativeResponse: any) {
+  await this.loadingScreen.presentLoading();
+
+  try {
+    const res: any = await this.service.verifyPaymentIntent(nativeResponse, this.accessToken);
+    this.loadingScreen.dismissLoading();
+
+    if (res.code === 200) {
+      this.handleApplePaySuccess(nativeResponse);
+
+      this.managingAppLogs(
+        "Apple Pay Payment Verification Success - eSIM Topup => " + JSON.stringify(res),
+        this.currencyCode,
+        this.appleAmt,
+        this.stripeCardObj.bundle.bundleData.name
+      );
+    } else {
+      this.managingAppLogs(
+        "Apple Pay Payment Verification Failed  - eSIM Topup => " + JSON.stringify(res),
+        this.currencyCode,
+        this.appleAmt,
+        this.stripeCardObj.bundle.bundleData.name
+      );
+
+      this.errorMSGModal(
+        this.translate.instant('ERROR_TRY_AGAIN'),
+        res.message
+      );
+    }
+
+  } catch (err) {
+    this.loadingScreen.dismissLoading();
+
+    this.managingAppLogs(
+      "Apple Pay Verify Payment CATCH - eSIM Topup => " + JSON.stringify(err),
+      this.currencyCode,
+      this.appleAmt,
+      this.stripeCardObj.bundle.bundleData.name
+    );
+
+    this.errorMSGModal(
+      this.translate.instant('ERROR_TRY_AGAIN'),
+      JSON.stringify(err)
+    );
+  }
+}
+
+
   async proceedForPayment() {
 
     if (this.selectedPaymentType == 'wallet-pay') {
@@ -560,16 +691,88 @@ export class PaymentDatatopupPage implements OnInit {
       }
     } else if (this.selectedPaymentType == 'apple-pay') {
       this.appleAmt = this.stripeCardObj.is_couped_applied == 0 ? this.stripeCardObj.bundle.extraAmount : this.stripeCardObj.original_amount;
-      this.managingAppLogs("From App Step 1  eSIM Top-up Purchase: Apple Pay Checkout Started", this.currencyCode, this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
-      customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": "Or4 eSIM - Global Travel Plan", "plan": this.stripeCardObj.bundle.bundleData.name, "token": this.accessToken, "ApplePayErrorMSG": this.applePayErrorMSG, "NosetupApplePay": this.noApplePaySetup }, (success: any) => {
-        // API calls 
-        this.managingAppLogs("From App Step 2  eSIM Top-up Purchase: Apple Pay Success FROM Native SDK: " + JSON.stringify(success), this.currencyCode, this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
-        this.successApplePay(success.clientSecret);
-      }, (error: any) => {
-        this.managingAppLogs("From App Step 2 eSIM Top-up Purchase: Apple Pay Error FROM Native SDK: " + JSON.stringify(error), this.currencyCode, this.appleAmt, this.stripeCardObj.bundle.bundleData.name);
+     
+     this.managingAppLogs(
+            "Step 1: Apple Pay Checkout Started - eSIM Top-up Purchase",
+            this.currencyCode,
+            this.appleAmt,
+            this.stripeCardObj.bundle.bundleData.name
+          );
 
-        this.errorMSGModal(this.translate.instant('ERROR_TRY_AGAIN'), this.translate.instant(error.message));
-      });
+            // Calling Intent API for Apple pay - NEW code started 
+            await this.loadingScreen.presentLoading();
+            this.paymentIntentApplePayObj.amount = parseFloat(this.appleAmt);
+            this.paymentIntentApplePayObj.currency = this.stripeCardObj.currency,
+            this.paymentIntentApplePayObj.plan = this.stripeCardObj.bundle.bundleData.name;
+
+          // NEW CREATE INTENT API STARTED
+          this.service.createIntentFromBackend(this.paymentIntentApplePayObj, this.accessToken).then((res: any) => {
+            if (res.code == 200) {
+             
+              this.loadingScreen.dismissLoading();
+              const clientSecret = res.data[0].client_secret;
+              const paymentIntentId = res.data[0].id;
+
+                      this.managingAppLogs(
+                `Apple Pay Intent Created  eSIM Top-up Purchase => Client Secret: ${clientSecret}, Intent ID: ${paymentIntentId}`,
+                this.currencyCode,
+                this.appleAmt,
+                this.stripeCardObj.bundle.bundleData.name
+              );
+
+              // Apple pay plugin native code started 
+              customStripePlugin.makePayment({ "amount": parseFloat(this.appleAmt), "countryCode": this.countryCode, "currency": this.stripeCardObj.currency, "description": this.stripeCardObj.bundle.bundleData.name, "NosetupApplePay": this.noApplePaySetup, "api_key": this.service.stripePubliserKey, "client_secret": clientSecret, "payment_intent_id": paymentIntentId }, 
+              async (successResponse: any) => {
+               //Success call back
+                this.managingAppLogs(
+                "Step 2: Apple Pay Native Success eSIM Top-up Purchase => " + JSON.stringify(successResponse),
+                this.currencyCode,
+                this.appleAmt,
+                this.stripeCardObj.bundle.bundleData.name
+              );
+
+              await this.verifyAndHandle(successResponse);
+          
+              }, 
+              async (error: any) => {
+                 // Error callback / User cancellation
+                    this.managingAppLogs(
+                    "Step 2: Apple Pay Native Error  eSIM Top-up Purchase => " + JSON.stringify(error),
+                    this.currencyCode,
+                    this.appleAmt,
+                    this.stripeCardObj.bundle.bundleData.name
+                  );
+
+                  await this.verifyAndHandle(error);
+              });
+
+            } else {
+                this.managingAppLogs(
+              "Apple Pay Intent Creation Error - eSIM Top-up Purchase  =>"+ JSON.stringify(res),
+              this.currencyCode,
+              this.appleAmt,
+              this.stripeCardObj.bundle.bundleData.name
+            );
+
+            this.errorMSGModal(
+              this.translate.instant('ERROR_TRY_AGAIN'),
+              this.translate.instant('ERROR_MESSAGE_INTENT')
+            );
+            }
+          }).catch(err => {
+             this.loadingScreen.dismissLoading();
+            this.managingAppLogs(
+              "Apple Pay Intent Creation Error - eSIM Top-up Purchase Catch Block=> " + JSON.stringify(err),
+              this.currencyCode,
+              this.appleAmt,
+              this.stripeCardObj.bundle.bundleData.name
+            );
+
+            this.errorMSGModal(
+              this.translate.instant('ERROR_TRY_AGAIN'),
+              this.translate.instant('ERROR_MESSAGE_INTENT')
+            );
+          })
     } else {
 
       if (this.cardList.length > 0 && this.isCardSelected == false) {

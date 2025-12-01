@@ -23,6 +23,7 @@ import { ModalCouponaddedPage } from '../modal-couponadded/modal-couponadded.pag
 import { ModalCodenotworkPage } from '../modal-codenotwork/modal-codenotwork.page';
 import { DelModelCoupenPage } from '../del-model-coupen/del-model-coupen.page';
 import { SplitPaymentPage } from '../split-payment/split-payment.page';
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 declare var sgap: any;
 
 
@@ -72,7 +73,7 @@ export class PaymentDatatopupPage implements OnInit {
 
 
   @ViewChild(IonContent, { static: false }) content?: IonContent;
-  constructor(private zone: NgZone,private keyboard: Keyboard,private translate: TranslateService, private popoverController: PopoverController, private loadingScreen: LoadingScreenAppPage, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private navController: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) {
+  constructor(private firebaseAnalytics: FirebaseAnalytics,private zone: NgZone,private keyboard: Keyboard,private translate: TranslateService, private popoverController: PopoverController, private loadingScreen: LoadingScreenAppPage, private platform: Platform, private loadCtr: LoadingController, private service: ServicesService, private navController: NavController, private toastController: ToastController, private Router: Router, private modalController: ModalController) {
     this.platform.ready().then(() => {
   if ((this.platform.is('android') || this.platform.is('ios')) && typeof sgap !== 'undefined') {
     sgap.setKey(this.service.stripePubliserKey);
@@ -218,6 +219,7 @@ selectedLang:any;
     this.paymentMethod = [{ 'type': 1, 'text': 'Credit/Debit', 'img': 'assets/img/credit-card.png' }, { 'type': 2, 'text': 'Google Pay', 'img': 'assets/img/googlepay.png' }];
     this.tempDetails = this.Router.getCurrentNavigation()?.extras.state;
     this.checkoutObj = this.tempDetails.checkoutData;
+    this.firebaseAnalytics.logEvent('started_checkout', { plan_id:  this.checkoutObj.bundleData.name});
     this.checkBrowsingData(this.checkoutObj.bundleData.dataAmount);
 
     if (this.checkoutObj.types == 'country')

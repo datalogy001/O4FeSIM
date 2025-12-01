@@ -313,48 +313,52 @@ async submit() {
   }
 
   async signInWithAppleFun() {
-    this.signInWithApple1
-      .signin({
-        requestedScopes: [
-          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
-          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
-        ]
-      })
-      .then((res: AppleSignInResponse) => {
-        this.signInWithAppleFunSuccess(res);
-      })
-      .catch((error: AppleSignInErrorResponse) => {
-        // this.presentToast(JSON.stringify(error), 'Error')
-      });
-  }
 
-  async signInWithAppleFunSuccess(appleRes: any) {
+    this.signInWithApple1
+        .signin({
+            requestedScopes: [
+                ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+                ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
+            ]
+        })
+        .then((res: AppleSignInResponse) => {
+            this.signInWithAppleFunSuccess(res);
+        })
+        .catch((error: AppleSignInErrorResponse) => {
+            // this.presentToast(JSON.stringify(error), 'Error')
+        });
+}
+
+ 
+async signInWithAppleFunSuccess(appleRes: any) {
     //API call for Login section
     await this.loadingScreen.presentLoading();
     this.appleLoginObj.apple_id = appleRes.user;
     this.appleLoginObj.first_name = appleRes.fullName.givenName;
     this.appleLoginObj.email = appleRes.email;
     this.service.appleSignIn(this.appleLoginObj).then((resNew: any) => {
-      this.loadingScreen.dismissLoading();
-      if (resNew['code'] == 200) {
+        this.loadingScreen.dismissLoading();
+        if (resNew['code'] == 200) {
 
-        const authToken = resNew.data['token'];
-        this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'tu';
-        this.updateUserLanguage(authToken);
-        window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(resNew.data['data']));
-        window.localStorage.setItem('Or4esim_auth_token', resNew.data['token']);
-        window.localStorage.setItem('Or4esim_loginType', "apple");
-        window.localStorage.setItem('Or4esim_emailSettings', resNew.data['promotion_email']);
-        window.localStorage.setItem('Or4esim_promoSettings', resNew.data['app_promotions']);
-        window.localStorage.setItem('Or4esim_paymentSettings', resNew.data['app_payment']);
-        window.localStorage.setItem('Or4esim_serviceSettings', resNew.data['app_service']);
-        window.localStorage.setItem('Or4esim_user_wallets', resNew.data['data']['user_wallet']);
-        window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
-        window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
-        //Already registered  
-        if (resNew.data['is_register'] == false) {
-          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
-          if (this.isLogin == true) {
+          const authToken = resNew.data['token'];
+          this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'tu';
+          this.updateUserLanguage(authToken);
+            window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(resNew.data['data']));
+            window.localStorage.setItem('Or4esim_auth_token', resNew.data['token']);
+            window.localStorage.setItem('Or4esim_loginType', "apple");
+            window.localStorage.setItem('Or4esim_emailSettings', resNew.data['promotion_email']);
+            window.localStorage.setItem('Or4esim_promoSettings', resNew.data['app_promotions']);
+            window.localStorage.setItem('Or4esim_paymentSettings', resNew.data['app_payment']);
+            window.localStorage.setItem('Or4esim_serviceSettings', resNew.data['app_service']);
+
+            window.localStorage.setItem('Or4esim_user_wallets', resNew.data['data']['user_wallet']);
+            window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
+            window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
+                 //Already registered  
+         if(resNew.data['is_register'] == false)
+         {
+        this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
+         if (this.isLogin == true) {
             const loginPageUrl = this.Router.url;
             this.checkoutObj.id = resNew.data['id'];
             let navigationExtras: NavigationExtras = {
@@ -367,70 +371,62 @@ async submit() {
             this.Router.navigate(['/payment-days'], navigationExtras);
           } else {
             this.Router.navigate(['home-search']);
-          }
+          } 
+         }else{
+     //First time -SIGNUP- Google 
+      //Socail Media Country Model STARTED 
+     this.modelSocailCountry( resNew.data['id'],this.Router.url );
+         }
+  
         } else {
-          //First time -SIGNUP- Google 
-          //Socail Media Country Model STARTED 
-          this.modelSocailCountry(resNew.data['id'], this.Router.url);
-             if (this.platform.is('android') || this.platform.is('ios')) {
-        //For users who haven't signed up yet, this tag will simply not exist.
-        OneSignalPlugin.sendTag("signed_up", "true");
-          }
+          this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
         }
-
-      } else {
-        this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
-      }
     }).catch(err => {
-      this.loadingScreen.dismissLoading();
-      this.callModalForApple(this.appleLoginObj);
-      //   this.presentToast("Something went wrong", "Error");
+        this.loadingScreen.dismissLoading();
+        this.callModalForApple(this.appleLoginObj);
+        //   this.presentToast("Something went wrong", "Error");
     })
-  }
+}
 
 
-
-  async callModalForApple(appleData: any) {
+async callModalForApple(appleData: any) {
     const modal = await this.modalController.create({
-      component: AppleModelPage,
-      componentProps: { value: appleData.apple_id }
+        component: AppleModelPage,
+        componentProps: { value: appleData.apple_id }
     });
     modal.onDidDismiss().then((result: any) => {
-      if (result.data.isDone == true) {
-        this.callAppleAPI(result.data.data);
-      }
+        if (result.data.isDone == true) {
+            this.callAppleAPI(result.data.data);
+        }
     });
     return await modal.present();
-  }
+}
 
-  async callAppleAPI(appleItem: any) {
+async callAppleAPI(appleItem: any) {
     //API call for Login section
     await this.loadingScreen.presentLoading();
     this.service.appleSignIn(appleItem).then((resNew: any) => {
-      this.loadingScreen.dismissLoading();
-      if (resNew['code'] == 200) {
-        const authToken = resNew.data['token'];
-        // Fetch and store bundles after login
+        this.loadingScreen.dismissLoading();
+        if (resNew['code'] == 200) {
+          const authToken = resNew.data['token'];
+          this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'tu';
+          this.updateUserLanguage(authToken);
+            window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(resNew.data['data']));
+            window.localStorage.setItem('Or4esim_auth_token', resNew.data['token']);
+            window.localStorage.setItem('Or4esim_loginType', "apple");
+            window.localStorage.setItem('Or4esim_emailSettings', resNew.data['promotion_email']);
+            window.localStorage.setItem('Or4esim_promoSettings', resNew.data['app_promotions']);
+            window.localStorage.setItem('Or4esim_paymentSettings', resNew.data['app_payment']);
+            window.localStorage.setItem('Or4esim_serviceSettings', resNew.data['app_service']);
 
-        this.userLanguage.language = window.localStorage.getItem("Or4esim_language") || 'en';
-        this.updateUserLanguage(authToken);
-
-
-        window.localStorage.setItem('Or4esim_userDetails', JSON.stringify(resNew.data['data']));
-        window.localStorage.setItem('Or4esim_auth_token', resNew.data['token']);
-        window.localStorage.setItem('Or4esim_loginType', "apple");
-        window.localStorage.setItem('Or4esim_emailSettings', resNew.data['promotion_email']);
-        window.localStorage.setItem('Or4esim_promoSettings', resNew.data['app_promotions']);
-        window.localStorage.setItem('Or4esim_paymentSettings', resNew.data['app_payment']);
-        window.localStorage.setItem('Or4esim_serviceSettings', resNew.data['app_service']);
-        window.localStorage.setItem('Or4esim_user_wallets', resNew.data['data']['user_wallet']);
-        window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
-        window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
-
-        //Already registered  
-        if (resNew.data['is_register'] == false) {
-          this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
-          if (this.isLogin == true) {
+            window.localStorage.setItem('Or4esim_user_wallets', resNew.data['data']['user_wallet']);
+            window.localStorage.setItem('Or4esim_refer_balance', resNew.data['data']['referal_wallet']);
+            window.localStorage.setItem('Or4esim_refer_code', resNew.data['data']['referal_code']);
+              //Already registered  
+         if(resNew.data['is_register'] == false)
+         {
+        this.successMSGModal(this.translate.instant('SUCCESS_MSG_BUTTON'), this.translate.instant('SUCCESS_MSG_TEXT'), "2000");
+         if (this.isLogin == true) {
             const loginPageUrl = this.Router.url;
             this.checkoutObj.id = resNew.data['id'];
             let navigationExtras: NavigationExtras = {
@@ -443,25 +439,21 @@ async submit() {
             this.Router.navigate(['/payment-days'], navigationExtras);
           } else {
             this.Router.navigate(['home-search']);
-          }
+          } 
+         }else{
+     //First time -SIGNUP- Google 
+      //Socail Media Country Model STARTED 
+     this.modelSocailCountry( resNew.data['id'],this.Router.url );
+         }
+  
         } else {
-          //First time -SIGNUP- Google 
-          //Socail Media Country Model STARTED 
-          this.modelSocailCountry(resNew.data['id'], this.Router.url);
-             if (this.platform.is('android') || this.platform.is('ios')) {
-        //For users who haven't signed up yet, this tag will simply not exist.
-        OneSignalPlugin.sendTag("signed_up", "true");
-          }
+          this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
         }
-
-      } else {
-        this.errorMSGModal(this.translate.instant('ERROR_MSG_BUTTON'), this.translate.instant('ERROR_MSG_TEXT'));
-      }
     }).catch(err => {
-      this.loadingScreen.dismissLoading();
-      this.errorMSGModal(this.translate.instant('ERROR_MSG_TEXT'), this.translate.instant('ERROR_MSG_BUTTON'));
+        this.loadingScreen.dismissLoading();
+        this.errorMSGModal(this.translate.instant('ERROR_MSG_TEXT'), this.translate.instant('ERROR_MSG_BUTTON'));
     })
-  }
+}
    /* SIgn in with google  */
    async loginWithGoogle() {
    // this.googleSuccess()

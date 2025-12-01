@@ -20,7 +20,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="ion-padding">
+  <div class="ion-padding" *ngIf="!isData">
 
     <ion-list>
 
@@ -53,7 +53,7 @@
           placeholder="{{ 'EMAIL_ADDRESS' | translate }}"></ion-input>
       </ion-item>
 
-        <ion-item lines="none" *ngIf="profileObj.country_name != null && profileObj.country_name != ''">
+          <ion-item lines="none" *ngIf="profileObj.country_name != null && profileObj.country_name != ''">
         <ion-input readonly type="text" [(ngModel)]="profileObj.country_name"
           placeholder="{{ 'Country_residence' | translate }}"></ion-input>
       </ion-item>

@@ -27,12 +27,22 @@ export class InstallEsimDownloadPage implements OnInit {
   iccid: any;
   private longPressTimeout: any;
   private longPressTriggered: boolean = false;
-
+userDetails:any=[];
   constructor(private fileOpener: FileOpener, private fileTransfer: FileTransfer, private file: File, private translate: TranslateService, private qrCodeService: QrCodeService, private iab: InAppBrowser, private clipboard: Clipboard, private Router: Router, private navController: NavController, private modalCtrl: ModalController, private emailComposer: EmailComposer, private socialSharing: SocialSharing) { }
-
+  txt:any;
   ngOnInit() {
     this.tempDetails = this.Router.getCurrentNavigation()?.extras.state;
     this.sharingData = this.tempDetails.sharingData;
+     this.userDetails = window.localStorage.getItem('Or4esim_userDetails');
+    this.userDetails = JSON.parse(this.userDetails);
+
+      if (this.sharingData.isUnlimited == false) {
+      this.txt = this.sharingData.country + ": " + this.sharingData.dataamount + this.translate.instant('GB_for') + this.sharingData.days;
+    } else {
+      this.txt = this.sharingData.country + ":" + this.translate.instant('UNLIMITED_DAILY_PASS_FOR') + this.sharingData.days;
+    }
+ 
+    console.log(this.txt);
     this.iccid = this.tempDetails.iccid;
     this.generateQRCode();
   }
@@ -82,8 +92,8 @@ export class InstallEsimDownloadPage implements OnInit {
   async shareQRCode() {
     // Translate the email subject message and replace placeholders
     this.translate.get('EMAIL_SUBJECT', {
-      email: this.tempDetails.email,
-      orderSummary: this.sharingData.country + ": " + this.sharingData.dataamount + " • " + this.sharingData.days,
+      email: this.userDetails.email,
+       orderSummary: this.txt,
       iccid: this.sharingData.iccid,
       url: this.sharingData.qr_img_link// <== include URL here
     }).subscribe((translatedMessage: string) => {

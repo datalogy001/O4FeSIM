@@ -521,6 +521,7 @@
     "Europe": "Europe",
     "EUROPE": "Europe",
     "Europe+": "Europe+",
+      "Europe Lite": "Europe Lite",
     "FO": "Faroe Islands",
     "FJ": "Fiji",
     "FI": "Finland",
@@ -564,6 +565,8 @@
     "KW": "Kuwait",
     "KG": "Kyrgyzstan",
     "LATAM": "LATAM",
+    "PR" : "Puerto Rico",
+    "BM" : "Bermuda",
     "LA": "Lao People`s Democratic Republic",
     "LV": "Latvia",
     "LS": "Lesotho",
@@ -599,8 +602,6 @@
     "NI": "Nicaragua",
     "NE": "Niger",
     "NG": "Nigeria",
-    "CU": "Cuba",
-    "ET": "Ethiopia",
     "MK": "North Macedonia (Republic of North Macedonia)",
     "CYP": "Northern Cyprus",
     "NO": "Norway",
@@ -838,7 +839,7 @@
   "earn_extra_credit": "Get free credit when you share Or4 eSIM Travel App",
 "Share_with_friend_code": "Share with friends or family. It's easy, just click below!",
 "Referral_code": "Referral code",
-"code_didn't_work" : "Hmm, that code didn't seem to work.Double check and try again?",
+"code_didn't_work" : "Hmm, that code didn't seem to work. <br>Double check and try again?",
 "enter_code" : "Enter code",
 "validate_referral_code" : "Please enter Referral code",
 "refer_code_added":  "Referral code added!",
@@ -941,12 +942,19 @@
 "VALIDATION_MSG_ENTER_MOBILE_NUMBER": "Please enter your mobile number.",
 "VALIDATION_MSG_ENTER_VALID_MOBILE_NUMBER": "Please enter a valid mobile number.",
 "SELECT_COUNTRY_CODE": "Select country code",
-"SEARCH_COUNTRY_CODE": "Search by country code or country name",
+"SEARCH_COUNTRY_CODE": "Search by country name",
 "VALIDATION_MSG_FIRST_NAME_MIN_LENGTH": "First name must be at least 3 characters long.",
 "VALIDATION_MSG_SURNAME_MIN_LENGTH": "Last name must be at least 3 characters long.",
 "VERIFY_TITLE_CONTINUE_SIGNUP": "Continue with Sign Up",
 "VERIFY_SUBTITLE_ENTER_NUMBER": "Please select your country of residence from the list below and enter your contact number in the field.",
 "SIGNUP_SUCCESS_TITLE": "Welcome aboard!",
-"SIGNUP_SUCCESS_DESCRIPTION": "Your account has been successfully created."
+"SIGNUP_SUCCESS_DESCRIPTION": "Your account has been successfully created.",
+"EUROPE_BUNDLE_ATTENTION": "*Attention: the Europe bundle does not include UK.",
+"ERROR_MESSAGE_INTENT": "Payment could not be initiated due to a technical issue.",
+"topup_not_allowed": "Unfortunately, you cannot top up this eSIM. <br> Please purchase a new bundle.",
+"BUY_NOW" : "Buy Now"
+
+
+
 
 }

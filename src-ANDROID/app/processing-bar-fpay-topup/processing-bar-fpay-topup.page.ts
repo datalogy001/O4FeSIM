@@ -3,7 +3,7 @@ import { NavController,ModalController, Platform } from '@ionic/angular';
 import { ServicesService } from '../api/services.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-
+import {FirebaseAnalytics} from '@ionic-native/firebase-analytics/ngx';
 
 
 
@@ -26,7 +26,7 @@ export class ProcessingBarFpayTopupPage implements OnInit, OnDestroy {
   resValue:any=''; 
     accessToken:any;
   userDetails:any=[]; 
-  constructor(private platform: Platform,private translate: TranslateService,private Router: Router, private service: ServicesService,private modalController: ModalController, private renderer: Renderer2, private el: ElementRef) {}
+  constructor(private firebaseAnalytics: FirebaseAnalytics,private platform: Platform,private translate: TranslateService,private Router: Router, private service: ServicesService,private modalController: ModalController, private renderer: Renderer2, private el: ElementRef) {}
   
   ngOnInit() {
         this.accessToken = window.localStorage.getItem('Or4esim_auth_token');
@@ -43,6 +43,12 @@ export class ProcessingBarFpayTopupPage implements OnInit, OnDestroy {
         window.localStorage.setItem('Or4esim_user_result',  "true");
         window.localStorage.setItem('Or4esim_user_wallets',  res.data['user_wallet']);
       this.managingAppLogs("From App Step 5 Credit Top-up: Card payment Success:",this.value.amount, "Credit Top-up");
+//Purchase callback
+          if (this.platform.is('android') || this.platform.is('ios')) { 
+             this.firebaseAnalytics.logEvent('completed_top_up', { amount: this.value.bundle.extraAmount , currency:this.value.currency });
+            }
+            //End 
+
       } else {
       this.managingAppLogs("From App Step 5 Credit Top-up: Card payment Error:" + JSON.stringify(res),this.value.amount, "Credit Top-up");
       }

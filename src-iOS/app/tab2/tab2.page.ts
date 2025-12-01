@@ -9,8 +9,6 @@ import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 
-
-
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -30,7 +28,7 @@ export class Tab2Page {
   currentPage: number = 1;
   recordsPerPage: number = 20;
   mainObj: any = [];
-  currencyCode: any = 'USD';
+  currencyCode: any = 'EUR';
   countryParam: any = { 'to_currency': '' };
   isSearch: any = false;
   searchData: any = [];
@@ -46,7 +44,7 @@ export class Tab2Page {
   popularCountriesList: any = [];
   zoneList: any = [];
 
-  constructor( private translate: TranslateService, private toastController: ToastController, private platform: Platform, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
+  constructor(private translate: TranslateService, private toastController: ToastController, private platform: Platform, private loadingScreen: LoadingScreenAppPage, private http: HttpClient, private navController: NavController, private modalController: ModalController, private apiService: ServicesService, private Router: Router, private elementRef: ElementRef) {
   }
 
   isDeletedObj: any = { 'user_id': '' };
@@ -57,8 +55,6 @@ export class Tab2Page {
   //Init function 
   langDefault: any;
   ngOnInit() {
-
-
     this.mainObj = [];
     this.langDefault = window.localStorage.getItem('Or4esim_language');
     this.translate.use(this.langDefault).subscribe(() => {
@@ -72,13 +68,9 @@ export class Tab2Page {
   }
 
 
-  multipleSearchObj:any=[]; 
+
   destinations:any =[]; 
   //After Init 
-  VIEW_INFO_LABEL:any;
-  FROM_LABEL:any;
-  DAY_LABEL:any;
-
   async ionViewDidEnter() {
     //this.isUserDeleted();
     this.mainObj = [];
@@ -92,10 +84,6 @@ export class Tab2Page {
     this.destinations = JSON.parse(this.destinations);
     this.allCountriesList = JSON.parse(this.allCountriesList);
     this.translate.use(this.langDefault).subscribe(() => {
-     this.VIEW_INFO_LABEL = this.translate.instant("VIEW_INFO_LABEL");
-     this.FROM_LABEL = this.translate.instant("FROM_LABEL");
-     this.DAY_LABEL = this.translate.instant("DAY_LABEL");
-    
       this.allCountriesList = this.allCountriesList.map((country: any) => ({
         name: this.translate.instant(`COUNTRIES.${country.iso}`),
         region: country.region,
@@ -121,45 +109,9 @@ export class Tab2Page {
     this.tempAllCountry = this.allCountriesList;
     this.mainObj = this.allCountriesList;
 
-    const languages = ['en', 'tu'];
-  
-Promise.all(languages.map(lang => this.translate.getTranslation(lang).toPromise()))
-  .then((translationsArray) => {
-    const translationMap: { [lang: string]: { [iso: string]: string } } = {};
-
-    languages.forEach((lang, index) => {
-      const countries = (translationsArray[index] as { COUNTRIES?: { [iso: string]: string } })?.COUNTRIES || {};
-      translationMap[lang] = countries;
-    });
-
-    // Activate selected language
-    this.translate.use(this.langDefault).subscribe(() => {
-      const currentLang = this.langDefault;
-
-      this.multipleSearchObj = this.tempAllCountry.map((country: any) => {
-        const iso = country.iso;
-
-        const obj: any = {
-          iso: iso,
-          region: country.region,
-          name: translationMap[currentLang]?.[iso] || iso
-        };
-
-        languages.forEach(lang => {
-          obj[`country_${lang}_name`] = translationMap[lang]?.[iso] || iso;
-        });
-
-        return obj;
-      });
-
-      // ✅ Moved inside so it logs correct output
-      console.log(JSON.stringify(this.mainObj));
-    });
-  });
-
     //Current currency 
     if (window.localStorage.getItem("Or4esim_currency") == null) {
-      this.currencyCode = 'USD';
+      this.currencyCode = 'EUR';
     } else {
       this.currencyCode = window.localStorage.getItem("Or4esim_currency");
     }
@@ -205,7 +157,7 @@ Promise.all(languages.map(lang => this.translate.getTranslation(lang).toPromise(
     this.searchData = this.tempAllCountry;
 
     if (searchTerm) {
-      this.searchData = this.findMatchingItems(searchTerm);
+      this.searchData = this.findMatchingItems(searchTerm, this.langDefault);
       this.isSearch = true;
     } else {
       this.isSearch = false;
@@ -218,76 +170,86 @@ Promise.all(languages.map(lang => this.translate.getTranslation(lang).toPromise(
     this.searchData = this.tempAllCountry;
   }
 
- findMatchingItems(searchTerm: string): any[] {
-  if (!searchTerm || searchTerm.trim().length < 2) return [];
-
-  const normalize = (text: string) =>
-    text.toLowerCase().trim().replace(/\s+/g, ' ');
+  findMatchingItems(searchTerm: string, language: string): any[] {
+  const normalize = (str: string) =>
+    str?.toLowerCase().trim().replace(/\s+/g, ''); // remove all extra spaces
 
   const normalizedSearch = normalize(searchTerm);
-  const languageFields = ['city_en_name', 'city_tu_name'];
-  const appLang = this.langDefault;
-  const displayField = `city_${appLang}_name`;
+  const languageField = `city_${language}_name`;
+  const matchedKeys = new Set<string>();
 
-  const matchedItems: any[] = [];
-  const seenKeys = new Set<string>();
+  // 1️⃣ Search in `mainObj`
+  const matchingMainObjItems = this.mainObj
+    .filter((item: any) => {
+      const name = normalize(item.name);
+      return name && name.startsWith(normalizedSearch);
+    })
+    .map((item: any) => {
+      const key = normalize(item.name);
+      matchedKeys.add(key);
+      return {
+        ...item,
+        is_destination: false,
+        country_name: item.name
+      };
+    });
 
-  // ✅ 1. Match cities
-  if (Array.isArray(this.destinations)) {
-    for (const item of this.destinations) {
-      for (const field of languageFields) {
-        const value = item[field];
-        if (value && normalize(value).startsWith(normalizedSearch)) {
-          const displayName = item[displayField] || item['city_en_name'];
-          const key = `${displayName.toLowerCase()}-${item.iso}`;
-          if (!seenKeys.has(key)) {
-            matchedItems.push({
-              ...item,
-              cityName: displayName,
-              is_destination: true,
-              country_name: this.translate.instant(`COUNTRIES.${item.iso}`)
-            });
-            seenKeys.add(key);
-          }
-          break;
-        }
-      }
+  // 2️⃣ Search in `destinations`
+  const matchingDestinationItems = Array.isArray(this.destinations)
+    ? this.destinations
+        .map((item: any) => {
+          const cityName = item[languageField];
+          return {
+            ...item,
+            cityName,
+            is_destination: true,
+            country_name: this.translate.instant(`COUNTRIES.${item.iso}`)
+          };
+        })
+        .filter((item: any) => {
+          const cityKey = normalize(item.cityName);
+          return cityKey && cityKey.startsWith(normalizedSearch) && !matchedKeys.has(cityKey);
+        })
+        .map((item: any) => {
+          matchedKeys.add(normalize(item.cityName));
+          return item;
+        })
+    : [];
+
+  // 3️⃣ Search in `zoneList`
+  const matchingZoneListItems = this.zoneList
+    .filter((item: any) => {
+      const name = normalize(item.name);
+      return name && name.startsWith(normalizedSearch);
+    })
+    .map((item: any) => {
+      const key = normalize(item.name);
+      matchedKeys.add(key);
+      return {
+        ...item,
+        is_destination: false,
+        country_name: item.name
+      };
+    });
+
+  const combinedResults = [
+    ...matchingMainObjItems,
+    ...matchingDestinationItems,
+    ...matchingZoneListItems
+  ];
+  
+
+  // 🧹 Remove duplicates
+  const uniqueItemsMap = new Map<string, any>();
+  combinedResults.forEach((item: any) => {
+    const key = normalize(item.name || item.cityName);
+    if (key && !uniqueItemsMap.has(key)) {
+      uniqueItemsMap.set(key, item);
     }
-  }
+  });
 
-  // ✅ 2. Match countries
-  if (Array.isArray(this.multipleSearchObj)) {
-    for (const country of this.multipleSearchObj) {
-      let matchFound = false;
-
-      for (const lang of ['en', 'tu']) {
-        const name = country[`country_${lang}_name`];
-        if (name && normalize(name).startsWith(normalizedSearch)) {
-          matchFound = true;
-          break;
-        }
-      }
-
-      if (matchFound) {
-        const displayName = country[`country_${appLang}_name`] || country.name;
-        const key = `${country.iso}-${displayName.toLowerCase()}`;
-        if (!seenKeys.has(key)) {
-          matchedItems.push({
-            is_destination: false,
-            iso: country.iso,
-            name: displayName,
-            region: country.region || ''
-          });
-          seenKeys.add(key);
-        }
-      }
-    }
-  }
-
-  console.log('Matched Items:', matchedItems);
-  return matchedItems;
+  return Array.from(uniqueItemsMap.values());
 }
-
 
   gotoHomeSearch() {
     this.navController.navigateRoot('home-search');
@@ -332,6 +294,7 @@ Promise.all(languages.map(lang => this.translate.getTranslation(lang).toPromise(
    
 
   gotoBundlesSearch(name: any, iso: any, type: any, zoneCountries: any, isDestinations:any, country_name:any) {
+        
     this.isDestinations =isDestinations;
     this.country_name = country_name;
 
@@ -370,10 +333,8 @@ Promise.all(languages.map(lang => this.translate.getTranslation(lang).toPromise(
 
   //Goto Bundle details
   gotoBundles(name: any, iso: any, type: any, zoneCountries: any, isDestinations:any, country_name:any) {
-  
-  
+ 
     this.isDestinations =isDestinations;
-
 
     this.country_name = country_name;
 
