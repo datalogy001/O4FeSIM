@@ -1,0 +1,11 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <p> {{ deleteMessage }}</p>
+  <div class="btn-div">
+    <ion-button class="btn-delete" (click)="deletPhoto()">
+      {{'YES' | translate}}
+    </ion-button> 
+    <ion-button fill="outline" class="" (click)="goBack()">
+      {{'NO' | translate}}
+    </ion-button>   
+  </div>
+</ion-content>
